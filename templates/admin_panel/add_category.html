@@ -1,0 +1,27 @@
+{% extends 'admin_panel/index.html' %}
+{% block content %}
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title fw-semibold mb-4">Add Category</h5>
+      
+      <form method="post" action="{% url 'add_category' %}">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+          <label for="categoryName" class="form-label">Category Name</label>
+          <input type="text" class="form-control" id="categoryName" name="name" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="categoryDescription" class="form-label">Description</label>
+          <textarea class="form-control" id="categoryDescription" name="description" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Category</button>
+        {% comment %} <a href="{% url 'manage_items' %}" class="btn btn-secondary">Cancel</a> {% endcomment %}
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

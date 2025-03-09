@@ -1,0 +1,221 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('https://5.imimg.com/data5/SELLER/Default/2024/1/379133840/UO/JM/OL/136190013/portable-rapid-lift-model-prl-3500-500x500.png');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-end">
+        <div class="col-md-9 ftco-animate pb-5">
+          <p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'home' %}">Home <i class="fa fa-chevron-right"></i></a></span> <span>Products <i class="fa fa-chevron-right"></i></span></p>
+          <h1 class="mb-0 bread">Products</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+<div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <div class="row justify-content-center pb-5 mb-3">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <span class="subheading">Product Details</span>
+                <h2>{{ product.name }}</h2>
+                <a href="{% url 'home' %}" class="btn btn-primary mt-3">Back to Products</a>
+            </div>
+        </div>
+        <div class="row d-flex">
+            <!-- Main Image Section -->
+            <div class="col-md-6 ftco-animate">
+                <div class="blog-entry align-self-stretch">
+                    <img id="mainImage" src="{{ product.images.url }}" alt="{{ product.name }}" class="img-fluid main-product-image">
+                </div>
+        
+                <!-- Additional Images (Thumbnails) -->
+                <div class="row mt-3 justify-content-center">
+                    {% if product.images %}
+                        <div class="col-3">
+                            <img src="{{ product.images.url }}" class="img-fluid thumbnail-image active-thumbnail" onclick="changeImage(this)">
+                        </div>
+                    {% endif %}
+                    {% if product.image_1 %}
+                        <div class="col-3">
+                            <img src="{{ product.image_1.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
+                        </div>
+                    {% endif %}
+                    {% if product.image_2 %}
+                        <div class="col-3">
+                            <img src="{{ product.image_2.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
+                        </div>
+                    {% endif %}
+                    {% if product.image_3 %}
+                        <div class="col-3">
+                            <img src="{{ product.image_3.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        
+            <!-- Product Details Section -->
+            <div class="col-md-6 ftco-animate">
+                <div class="text mt-3">
+                    <h3 class="heading">{{ product.name }}</h3>
+                    <h5 class="heading"><p>Price:<strong> &nbsp; {{ product.price }} </strong></p></h5>
+                    <p><strong>Category:</strong> {{ product.category.name }}</p>
+                    {% if product.subcategory %}
+                        <p><strong>Subcategory:</strong> {{ product.subcategory.name }}</p>
+                    {% endif %}
+                    <p><strong>Description:</strong> {{ product.description }}</p>
+                    <p><strong>Specifications:</strong> {{ product.specifications }}</p>
+        
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">Add Enquiry</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- JavaScript for Image Switching -->
+        <script>
+            function changeImage(element) {
+                var mainImage = document.getElementById("mainImage");
+                mainImage.src = element.src;
+        
+                // Remove active class from all thumbnails
+                document.querySelectorAll(".thumbnail-image").forEach(img => {
+                    img.classList.remove("active-thumbnail");
+                });
+        
+                // Add active class to clicked thumbnail
+                element.classList.add("active-thumbnail");
+            }
+        </script>
+        
+        <!-- CSS for Styling -->
+        <style>
+            .main-product-image {
+                width: 100%;
+                height: 400px; /* Fixed height for uniform display */
+                object-fit: cover;
+                border-radius: 10px;
+            }
+        
+            .thumbnail-image {
+                width: 100%;
+                height: 100px; /* Consistent thumbnail size */
+                object-fit: cover;
+                cursor: pointer;
+                border: 2px solid transparent;
+                transition: border-color 0.3s, transform 0.3s ease;
+                border-radius: 5px;
+            }
+        
+            .thumbnail-image:hover {
+                border-color: #007bff;
+                transform: scale(1.05);
+            }
+        
+            .active-thumbnail {
+                border: 2px solid #007bff;
+            }
+        </style>
+        
+        <!-- Same Category Products -->
+        <div class="row mt-5 pt-5">
+            <div class="col-md-12 heading-section text-center ftco-animate">
+                <h3>More from {{ product.category.name }}</h3>
+            </div>
+            <div class="product-grid">
+                {% for item in same_category_products %}
+                    <div class="blog-entry">
+                        <a href="{% url 'product_detail' item.id %}" class="block-20">
+                            <img src="{{ item.images.url|default:'/static/images/placeholder.jpg' }}" class="product-image">
+                        </a>
+                        <div class="text">
+                            <h3 class="heading"><a href="{% url 'product_detail' item.id %}">{{ item.name }}</a></h3>
+                            <p><strong>Price:</strong> ₹{{ item.price }}</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-center">No similar products available.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Same Subcategory Products -->
+        {% if same_subcategory_products %}
+        <div class="row">
+            <div class="col-md-12 heading-section text-center ftco-animate">
+                <h3>Related Products</h3>
+            </div>
+            <div class="product-grid">
+                {% for item in same_subcategory_products %}
+                    <div class="blog-entry">
+                        <a href="{% url 'product_detail' item.id %}" class="block-20">
+                            <img src="{{ item.images.url|default:'/static/images/placeholder.jpg' }}" class="product-image">
+                        </a>
+                        <div class="text">
+                            <h3 class="heading"><a href="{% url 'product_detail' item.id %}">{{ item.name }}</a></h3>
+                            <p><strong>Price:</strong> ₹{{ item.price }}</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-center">No similar products available.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+</div>
+
+</section>
+
+<style>
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    @media (min-width: 992px) {
+        .product-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (max-width: 991px) {
+        .product-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .product-grid {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+
+    {% comment %} .blog-entry {
+        max-width: 280px;
+        background: #fff;
+        text-align: center;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+    } {% endcomment %}
+
+    .product-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .text {
+        padding: 15px;
+        min-height: 100px;
+    }
+</style>
+
+{% endblock %}
