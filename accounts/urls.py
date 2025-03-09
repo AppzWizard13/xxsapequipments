@@ -17,6 +17,7 @@ urlpatterns = [
 
     path('services/', views.services_view, name='services'),
     path('about/', views.about_view, name='about'),
+    path('download-db/', views.download_database, name='download_database'),
 
 
 

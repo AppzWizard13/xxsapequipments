@@ -125,3 +125,16 @@ def services_view(request):
 
 def about_view(request):
     return render(request, 'about.html')
+
+
+import os
+from django.http import FileResponse
+from django.conf import settings
+
+def download_database(request):
+    db_path = os.path.join(settings.BASE_DIR, 'db.sqlite3')  # Path to SQLite DB
+    if os.path.exists(db_path):
+        response = FileResponse(open(db_path, 'rb'), as_attachment=True, filename="database.sqlite3")
+        return response
+    else:
+        return HttpResponse("Database file not found.", status=404)
