@@ -162,4 +162,4 @@ CLOUDINARY_STORAGE = {
 # CLOUDINARY_URL=cloudinary://CLOUDINARY_API_KEY:CLOUDINARY_API_SECRET@dmwtvzith
 
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
