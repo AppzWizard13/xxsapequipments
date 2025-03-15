@@ -544,10 +544,9 @@
     	</div>
     </section> {% endcomment %}
 
-
 	<section class="ftco-section custom-product-section">
 		<div class="container">
-			<div class="row justify-content-center pb-3 pb-md-5 mb-3">
+			<div class="row justify-content-center pb-5 mb-3">
 				<div class="col-md-7 heading-section text-center ftco-animate">
 					<span class="subheading">Our Products</span>
 					<h2>Check our Products here</h2>
@@ -577,6 +576,7 @@
 		</div>
 	</section>
 	
+	<!-- CSS for Styling -->
 	<style>
 		/* Scoped Styles - Only Applies to .custom-product-section */
 		.custom-product-section .product-grid {
@@ -610,13 +610,18 @@
 	
 		/* Product Card */
 		.custom-product-section .blog-entry {
-			max-width: 280px;
 			background: #fff;
 			text-align: center;
 			border-radius: 10px;
 			overflow: hidden;
 			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 			padding: 15px;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+	
+		.custom-product-section .blog-entry:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 		}
 	
 		/* Square Product Image */
@@ -632,8 +637,26 @@
 			padding: 15px;
 			min-height: 120px;
 		}
-	</style>
 	
+		.custom-product-section .text h3 {
+			font-size: 1.2rem;
+			margin-bottom: 10px;
+		}
+	
+		.custom-product-section .text p {
+			font-size: 0.9rem;
+			color: #555;
+		}
+	
+		.custom-product-section .text a {
+			color: #333;
+			text-decoration: none;
+		}
+	
+		.custom-product-section .text a:hover {
+			color: #007bff;
+		}
+	</style>
 	
 	
 		
