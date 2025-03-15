@@ -13,86 +13,97 @@
       </div>
     </div>
   </section>
-<div class="container-fluid">
-    <div class="card">
-      <div class="card-body mt-5">
-        <div class="row justify-content-center pb-5 mb-3 mx-5 px-5">
-            <div class="col-md-7 heading-section text-center ftco-animate">
-                <span class="subheading">Product Details</span>
-                <h2>{{ product.name }}</h2>
+    <div class="container-fluid">
+        <div class="card">
+        <div class="card-body mt-5">
+            <div class="row justify-content-center pb-5 mb-3 mx-5 px-5">
+                <div class="col-md-7 heading-section text-center ftco-animate">
+                    <span class="subheading">Product Details</span>
+                    <h2>{{ product.name }}</h2>
+                </div>
             </div>
-        </div>
-        
-        <div class="container-fluid mx-5">
-        <div class="row d-flex">
+            
+            <div class="container-fluid mx-5">
+            <div class="row d-flex">
+                <!-- Main Image Section -->
             <!-- Main Image Section -->
-        <!-- Main Image Section -->
-        <div class="col-md-6 ftco-animate">
-            <div class="blog-entry align-self-stretch">
-                <!-- Main Image with Click Event -->
-                <img id="mainImage" src="{{ product.images.url }}" alt="{{ product.name }}" class="img-fluid main-product-image" data-toggle="modal" data-target="#imageModal" onclick="updateModalImage(this.src)">
-            </div>
-
-            <!-- Additional Images (Thumbnails) -->
-            <div class="row mt-3 justify-content-center">
-                {% if product.images %}
-                    <div class="col-3">
-                        <img src="{{ product.images.url }}" class="img-fluid thumbnail-image active-thumbnail" onclick="changeImage(this)">
-                    </div>
-                {% endif %}
-                {% if product.image_1 %}
-                    <div class="col-3">
-                        <img src="{{ product.image_1.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
-                    </div>
-                {% endif %}
-                {% if product.image_2 %}
-                    <div class="col-3">
-                        <img src="{{ product.image_2.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
-                    </div>
-                {% endif %}
-                {% if product.image_3 %}
-                    <div class="col-3">
-                        <img src="{{ product.image_3.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <!-- Modal for Displaying Larger Image -->
-        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <img id="modalImage" src="" alt="Enlarged Product Image" class="img-fluid">
-                    </div>
-                </div>
-            </div>
-        </div>
-                
-            <!-- Product Details Section -->
             <div class="col-md-6 ftco-animate">
-                <div class="text mt-3">
-                    <h3 class="heading">{{ product.name }}</h3>
-                    <h5 class="heading"><p>Price:<strong> &nbsp; {{ product.price }} </strong></p></h5>
-                    <p><strong>Category:</strong> {{ product.category.name }}</p>
-                    {% if product.SubCategory %}
-                        <p><strong>Subcategory:</strong> {{ product.SubCategory.name }}</p>
+                <div class="blog-entry align-self-stretch">
+                    <!-- Main Image with Click Event -->
+                    <img id="mainImage" src="{{ product.images.url }}" alt="{{ product.name }}" class="img-fluid main-product-image" data-toggle="modal" data-target="#imageModal" onclick="updateModalImage(this.src)">
+                </div>
+
+                <!-- Additional Images (Thumbnails) -->
+                <div class="row mt-3 justify-content-center">
+                    {% if product.images %}
+                        <div class="col-3">
+                            <img src="{{ product.images.url }}" class="img-fluid thumbnail-image active-thumbnail" onclick="changeImage(this)">
+                        </div>
                     {% endif %}
-        
-                    <p><strong>Additional Information:</strong> {{ product.additional_information }}</p>
-                    <p><strong>Catalogue:</strong> 
-                        {% if product.catalogues %}
-                            <a href="{{ product.catalogues }}" target="_blank">View Catalogue</a>
-                        {% else %}
-                            No Catalogue Available
-                        {% endif %}
-                    </p>
+                    {% if product.image_1 %}
+                        <div class="col-3">
+                            <img src="{{ product.image_1.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
+                        </div>
+                    {% endif %}
+                    {% if product.image_2 %}
+                        <div class="col-3">
+                            <img src="{{ product.image_2.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
+                        </div>
+                    {% endif %}
+                    {% if product.image_3 %}
+                        <div class="col-3">
+                            <img src="{{ product.image_3.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Modal for Displaying Larger Image -->
+            <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <img id="modalImage" src="" alt="Enlarged Product Image" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
                     
-                    <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">Add Enquiry</a>
+                <!-- Product Details Section -->
+                <div class="col-md-6 ftco-animate">
+                    <div class="text mt-3">
+                        <h3 class="heading">{{ product.name }}</h3>
+                        <h5 class="heading"><p>Price:<strong> &nbsp; {{ product.price }} </strong></p></h5>
+                        <p><strong>Category:</strong> {{ product.category.name }}</p>
+                        {% if product.SubCategory %}
+                            <p><strong>Subcategory:</strong> {{ product.SubCategory.name }}</p>
+                        {% endif %}
+            
+                        <p><strong>Additional Information:</strong> {{ product.additional_information }}</p>
+                        <p><strong>Catalogue:</strong> 
+                            {% if product.catalogues %}
+                                <a href="{{ product.catalogues }}" target="_blank">View Catalogue</a>
+                            {% else %}
+                                No Catalogue Available
+                            {% endif %}
+                        </p>
+                        
+                        {% comment %} <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">Add Enquiry</a> {% endcomment %}
+                        <a href="https://wa.me/917736500760?text=Hi, I am interested in your product: {{ product.name }}. Price: {{ product.price }}, Category: {{ product.category.name }}{% if product.SubCategory %}, Subcategory: {{ product.SubCategory.name }}{% endif %}. Additional Information: {{ product.additional_information }}. Product UID: {{ product.product_uid }}" 
+                        class="btn btn-primary mt-3" 
+                        style="
+                            background: green; 
+                            border: 1px solid #2cf724; 
+                            color: white; 
+                            --bs-btn-hover-bg: green; 
+                            --bs-btn-hover-border-color: #2cf724; 
+                            --bs-btn-hover-color: white;
+                        ">
+                        Contact Supplier via WhatsApp
+                     </a>
                 </div>
             </div>
         </div>
-    </div>
         
         <!-- JavaScript for Image Switching -->
         <script>
@@ -209,10 +220,6 @@
                     </div>
                 </div>
         
-                <!-- Add Enquiry Button -->
-                <div class="col-12">
-                    <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3 w-100 w-md-auto">Add Enquiry</a>
-                </div>
             </div>
         </div>
     
@@ -336,11 +343,6 @@
         height: 250px;
         object-fit: cover;
         border-radius: 10px;
-    }
-
-    .text {
-        padding: 15px;
-        min-height: 100px;
     }
 </style>
 

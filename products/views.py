@@ -165,6 +165,7 @@ def product_list(request):
 
 
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from .models import Product, Category, SubCategory
 
 # Product Grid View (Renamed)
@@ -178,7 +179,7 @@ def product_grid_view(request):
     subcategories = SubCategory.objects.all()
 
     if query:
-        products = products.filter(name__icontains=query)  # Filter by product name
+        products = products.filter( Q(name__icontains=query) | Q(product_uid__icontains=query))  # Filter by product name
     if category_id:
         products = products.filter(category_id=category_id)  # Filter by category
     if subcategory_id:
