@@ -5,27 +5,28 @@
 <section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
-      <div class="row no-gutters slider-text align-items-end">
-        <div class="col-md-9 ftco-animate pb-5">
-          <p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'home' %}">Home <i class="fa fa-chevron-right"></i></a></span> <span>Products <i class="fa fa-chevron-right"></i></span></p>
-          <h1 class="mb-0 bread">Products</h1>
-        </div>
-      </div>
-    </div>
-  </section>
-    <div class="container-fluid">
-        <div class="card">
-        <div class="card-body mt-5">
-            <div class="row justify-content-center pb-5 mb-3 mx-5 px-5">
-                <div class="col-md-7 heading-section text-center ftco-animate">
-                    <span class="subheading">Product Details</span>
-                    <h2>{{ product.name }}</h2>
-                </div>
+        <div class="row no-gutters slider-text align-items-end">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs mb-2">
+                    <span class="mr-2"><a href="{% url 'home' %}">Home <i class="fa fa-chevron-right"></i></a></span>
+                    <span>Products <i class="fa fa-chevron-right"></i></span>
+                </p>
+                <h1 class="mb-0 bread">Products</h1>
             </div>
-            
-            <div class="container-fluid mx-5">
-            <div class="row d-flex">
-                <!-- Main Image Section -->
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section mb-5" style="padding: 3rem;">
+    <div class="container">
+        <div class="row justify-content-center pb-5 mb-3">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <span class="subheading">Product Details</span>
+                <h2>{{ product.name }}</h2>
+            </div>
+        </div>
+
+        <div class="row">
             <!-- Main Image Section -->
             <div class="col-md-6 ftco-animate">
                 <div class="blog-entry align-self-stretch">
@@ -58,210 +59,73 @@
                 </div>
             </div>
 
-            <!-- Modal for Displaying Larger Image -->
-            <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body text-center">
-                            <img id="modalImage" src="" alt="Enlarged Product Image" class="img-fluid">
-                        </div>
-                    </div>
-                </div>
-            </div>
-                    
-                <!-- Product Details Section -->
-                <div class="col-md-6 ftco-animate">
-                    <div class="text mt-3">
-                        <h3 class="heading">{{ product.name }}</h3>
-                        <h5 class="heading"><p>Price:<strong> &nbsp; {{ product.price }} </strong></p></h5>
-                        <p><strong>Category:</strong> {{ product.category.name }}</p>
-                        {% if product.SubCategory %}
-                            <p><strong>Subcategory:</strong> {{ product.SubCategory.name }}</p>
+            <!-- Product Details Section -->
+            <div class="col-md-6 ftco-animate">
+                <div class="text mt-3">
+                    <h3 class="heading">{{ product.name }}</h3>
+                    <h5 class="heading"><p>Price:<strong> &nbsp; {{ product.price }}</strong></p></h5>
+                    <p><strong>Category:</strong> {{ product.category.name }}</p>
+                    {% if product.SubCategory %}
+                        <p><strong>Subcategory:</strong> {{ product.SubCategory.name }}</p>
+                    {% endif %}
+                    <p><strong>Additional Information:</strong> {{ product.additional_information }}</p>
+                    <p><strong>Catalogue:</strong>
+                        {% if product.catalogues %}
+                            <a href="{{ product.catalogues }}" target="_blank">View Catalogue</a>
+                        {% else %}
+                            No Catalogue Available
                         {% endif %}
-            
-                        <p><strong>Additional Information:</strong> {{ product.additional_information }}</p>
-                        <p><strong>Catalogue:</strong> 
-                            {% if product.catalogues %}
-                                <a href="{{ product.catalogues }}" target="_blank">View Catalogue</a>
-                            {% else %}
-                                No Catalogue Available
-                            {% endif %}
-                        </p>
-                        
-                        {% comment %} <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">Add Enquiry</a> {% endcomment %}
-                        <a href="https://wa.me/9940100506?text=Hi, I am interested in your product: {{ product.name }}. Price: {{ product.price }}, Category: {{ product.category.name }}{% if product.SubCategory %}, Subcategory: {{ product.SubCategory.name }}{% endif %}. Additional Information: {{ product.additional_information }}. Product UID: {{ product.product_uid }}" 
-                        class="btn btn-primary mt-3" 
-                        style="
-                            background: green; 
-                            border: 1px solid #2cf724; 
-                            color: white; 
-                            --bs-btn-hover-bg: green; 
-                            --bs-btn-hover-border-color: #2cf724; 
-                            --bs-btn-hover-color: white;
-                        ">
-                        Contact Supplier via WhatsApp
-                     </a>
+                    </p>
+
+                    <!-- WhatsApp Button -->
+                    <a href="https://wa.me/+919940100506?text=Hi, I am interested in your product: {{ product.name }}. Price: {{ product.price }}, Category: {{ product.category.name }}{% if product.SubCategory %}, Subcategory: {{ product.SubCategory.name }}{% endif %}. Additional Information: {{ product.additional_information }}. Product UID: {{ product.product_uid }}" 
+                       class="btn btn-primary mt-3" 
+                       style="background: green; border: 1px solid #2cf724; color: white; --bs-btn-hover-bg: green; --bs-btn-hover-border-color: #2cf724; --bs-btn-hover-color: white;">
+                       Contact Supplier via WhatsApp
+                    </a>
                 </div>
             </div>
         </div>
-        
-        <!-- JavaScript for Image Switching -->
-        <script>
-            // Function to update the modal image source
-            function updateModalImage(imageSrc) {
-                document.getElementById('modalImage').src = imageSrc;
-            }
-        
-            // Function to change the main image and update the modal image
-            function changeImage(element) {
-                var mainImage = document.getElementById("mainImage");
-                mainImage.src = element.src;
-        
-                // Update the modal image source as well
-                updateModalImage(element.src);
-        
-                // Remove active class from all thumbnails
-                document.querySelectorAll(".thumbnail-image").forEach(img => {
-                    img.classList.remove("active-thumbnail");
-                });
-        
-                // Add active class to clicked thumbnail
-                element.classList.add("active-thumbnail");
-            }
-        </script>
-        <script>
-            function changeImage(element) {
-                var mainImage = document.getElementById("mainImage");
-                mainImage.src = element.src;
-        
-                // Remove active class from all thumbnails
-                document.querySelectorAll(".thumbnail-image").forEach(img => {
-                    img.classList.remove("active-thumbnail");
-                });
-        
-                // Add active class to clicked thumbnail
-                element.classList.add("active-thumbnail");
-            }
-        </script>
-        
-        <!-- CSS for Styling -->
-        <style>
-            .main-product-image {
-                width: 100%;
-                height: 400px; /* Fixed height for uniform display */
-                object-fit: cover;
-                border-radius: 10px;
-            }
-        
-            .thumbnail-image {
-                width: 100%;
-                height: 100px; /* Consistent thumbnail size */
-                object-fit: cover;
-                cursor: pointer;
-                border: 2px solid transparent;
-                transition: border-color 0.3s, transform 0.3s ease;
-                border-radius: 5px;
-            }
-        
-            .thumbnail-image:hover {
-                border-color: #007bff;
-                transform: scale(1.05);
-            }
-        
-            .active-thumbnail {
-                border: 2px solid #007bff;
-            }
-            #modalImage {
-                max-width: 100%;
-                max-height: 80vh; /* Adjust based on your needs */
-                margin: 0 auto;
-                display: block;
-            }
-        </style>
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-            }
-            table, th, td {
-                border: 1px solid black;
-            }
-            th, td {
-                padding: 10px;
-                text-align: left;
-            }
-            .specifications-table {
-                margin-top: 20px;
-            }
-        </style>
-        <div class="container mt-5 pt-5">
-            <div class="row">
-                <!-- Description Section -->
-                <div class="col-12 mb-3">
-                    <p><strong>Description:</strong> {{ product.description }}</p>
-                </div>
-    
-                <!-- Specifications Section (This will be dynamically populated) -->
-                <div class="col-12 mb-3">
-                    <div id="specifications-table" class="specifications-table">
-                        <!-- Table to display specifications -->
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Specification</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Table rows will be dynamically populated -->
-                            </tbody>
-                        </table>
+
+        <!-- Modal for Displaying Larger Image -->
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <img id="modalImage" src="" alt="Enlarged Product Image" class="img-fluid">
                     </div>
                 </div>
-        
             </div>
         </div>
-    
-        <script>
-            // Get the dynamic product specifications from Django template variable
-            const specificationsText = "{{ product.specifications|escapejs }}";  // Escape for safe usage in JS
-    
-            // Function to parse the specifications text into key-value pairs
-            function parseSpecifications(specificationsText) {
-                const specificationRegex = /([A-Za-z\s/]+):\s([A-Za-z0-9\s/]+(?:\s[A-Za-z0-9]+)?)/g;
-                let result = [];
-                let match;
-                while ((match = specificationRegex.exec(specificationsText)) !== null) {
-                    const name = match[1].trim();
-                    const value = match[2].trim();
-                    result.push({ name, value });
-                }
-                return result;
-            }
-    
-            // Function to dynamically display the specifications as a table
-            function displaySpecificationsAsTable(specifications) {
-                const tableBody = document.querySelector('#specifications-table tbody');
-                specifications.forEach(spec => {
-                    const row = document.createElement('tr');
-                    const nameCell = document.createElement('td');
-                    nameCell.textContent = spec.name;
-                    const valueCell = document.createElement('td');
-                    valueCell.textContent = spec.value;
-                    row.appendChild(nameCell);
-                    row.appendChild(valueCell);
-                    tableBody.appendChild(row);
-                });
-            }
-    
-            // Parse and display the specifications
-            const specifications = parseSpecifications(specificationsText);
-            displaySpecificationsAsTable(specifications);
-        </script>
-        
+
+        <!-- Description Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <p><strong>Description:</strong> {{ product.description }}</p>
+            </div>
+        </div>
+
+        <!-- Specifications Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div id="specifications-table" class="specifications-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Specification</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table rows will be dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- Same Category Products -->
-        <div class="row mt-5 pt-5">
+        <div class="row mt-5">
             <div class="col-md-12 heading-section text-center ftco-animate">
                 <h3>More from {{ product.category.name }}</h3>
             </div>
@@ -284,7 +148,7 @@
 
         <!-- Same Subcategory Products -->
         {% if same_subcategory_products %}
-        <div class="row">
+        <div class="row mt-5">
             <div class="col-md-12 heading-section text-center ftco-animate">
                 <h3>Related Products</h3>
             </div>
@@ -306,12 +170,62 @@
         </div>
         {% endif %}
     </div>
-</div>
-</div>
-
 </section>
 
+<!-- JavaScript for Image Switching -->
+<script>
+    function updateModalImage(imageSrc) {
+        document.getElementById('modalImage').src = imageSrc;
+    }
+
+    function changeImage(element) {
+        var mainImage = document.getElementById("mainImage");
+        mainImage.src = element.src;
+
+        // Remove active class from all thumbnails
+        document.querySelectorAll(".thumbnail-image").forEach(img => {
+            img.classList.remove("active-thumbnail");
+        });
+
+        // Add active class to clicked thumbnail
+        element.classList.add("active-thumbnail");
+    }
+</script>
+
+<!-- CSS for Styling -->
 <style>
+    .main-product-image {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .thumbnail-image {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        cursor: pointer;
+        transition: border-color 0.3s, transform 0.3s ease;
+        border-radius: 5px;
+    }
+
+    .thumbnail-image:hover {
+        border-color: #007bff;
+        transform: scale(1.05);
+    }
+
+    .active-thumbnail {
+        border: 2px solid #007bff;
+    }
+
+    #modalImage {
+        max-width: 100%;
+        max-height: 80vh;
+        margin: 0 auto;
+        display: block;
+    }
+
     .product-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
