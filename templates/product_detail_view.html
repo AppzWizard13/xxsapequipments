@@ -51,8 +51,8 @@
       </form>
 
       <!-- Product Grid -->
-      <section class="custom-product-section">
-        <div class="container">
+      <section class="custom-product-section mx-5">
+        <div class="container-fluid">
           <div class="row justify-content-center  mx-5 pt-5">
             <div class="col-md-7 heading-section text-center">
               <h2>Check our Products here</h2>
@@ -70,7 +70,8 @@
                 <h3 class="heading">
                   <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
                 </h3>
-                <p class="m-0">{{ product.description|truncatewords:15 }}</p>
+                <p class="m-0">{{ product.category|truncatewords:15 }}</p>
+                <p class="m-0">{{ product.SubCategory|truncatewords:15 }}</p>
                 <p class="m-0"><strong>Price:</strong> ₹{{ product.price }}</p>
               </div>
             </div>
@@ -96,7 +97,7 @@
 
   @media (min-width: 992px) { 
     .custom-product-section .product-grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
     }
   }
 
@@ -113,7 +114,7 @@
   }
 
   .custom-product-section .blog-entry {
-    max-width: 280px;
+    {% comment %} max-width: 280px; {% endcomment %}
     background: #fff;
     text-align: center;
     border-radius: 10px;

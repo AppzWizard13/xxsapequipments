@@ -19,8 +19,8 @@
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="./index.html" class="text-nowrap logo-img">
-            <img src="{% static 'admin_panel/images/logos/dark-logo.svg' %}" width="180" alt="" />
+          <a href="{% url 'dashboard' %}" class="text-nowrap logo-img">
+            <h5 class="hide-menu fw-bold ml-4">SAP ADMIN PANEL</h5>
           </a>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-8"></i>
@@ -112,10 +112,10 @@
             </li> {% endcomment %}
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">Employee Managemnt</span>
+              <span class="hide-menu">Employee Management</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
+              <a class="sidebar-link" href="{% url 'user_list' %}" aria-expanded="false">
                 <span>
                   <i class="ti ti-mood-happy"></i>
                 </span>
@@ -176,14 +176,14 @@
                       <i class="ti ti-user fs-6"></i>
                       <p class="mb-0 fs-3">Go to Home</p>
                     </a>
-                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                    {% comment %} <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                       <i class="ti ti-mail fs-6"></i>
                       <p class="mb-0 fs-3">My Account</p>
                     </a>
                     <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                       <i class="ti ti-list-check fs-6"></i>
                       <p class="mb-0 fs-3">My Task</p>
-                    </a>
+                    </a> {% endcomment %}
                     <a href="{% url 'logout' %}" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                   </div>
                 </div>
@@ -194,146 +194,82 @@
       </header>
       <!--  Header End -->
         {% block content %}
-      <div class="container-fluid">
+        <div class="container-fluid" style="max-width: none;">
         <!--  Row 1 -->
         <div class="row">
-          <div class="col-lg-6">
-            <div class="row">
-              <div class="col-lg-12">
-                <!-- Yearly Breakup -->
-                <div class="card overflow-hidden">
-                  <div class="card-body p-4">
-                    <h5 class="card-title mb-9 fw-semibold">Enquiries</h5>
-                    <div class="row align-items-center">
-                      <div class="col-8">
-                        <h4 class="fw-semibold mb-3">$36,358</h4>
-                        <div class="d-flex align-items-center mb-3">
-                          <span
-                            class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-arrow-up-left text-success"></i>
-                          </span>
-                          <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                          <p class="fs-3 mb-0">last year</p>
-                        </div>
-                        <div class="d-flex align-items-center">
-                          <div class="me-4">
-                            <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
-                            <span class="fs-2">2023</span>
-                          </div>
-                          <div>
-                            <span class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
-                            <span class="fs-2">2023</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-4">
-                        <div class="d-flex justify-content-center">
-                        </div>
-                      </div>
+          <div class="col-lg-3 col-md-6">
+            <!-- Enquiries Card -->
+            <div class="card overflow-hidden">
+              <div class="card-body p-4">
+                <h5 class="card-title mb-9 fw-semibold">Enquiries</h5>
+                <div class="row align-items-center">
+                  <div class="col-8">
+                    <h4 class="fw-semibold mb-3">$36,358</h4>
+                    <div class="d-flex align-items-center mb-3">
+                      <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                        <i class="ti ti-arrow-up-left text-success"></i>
+                      </span>
+                      <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                      <p class="fs-3 mb-0">last year</p>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <!-- Monthly Earnings -->
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row alig n-items-start">
-                      <div class="col-8">
-                        <h5 class="card-title mb-9 fw-semibold">Categories</h5>
-                        <h4 class="fw-semibold mb-3">$6,820</h4>
-                        <div class="d-flex align-items-center pb-1">
-                          <span
-                            class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-arrow-down-right text-danger"></i>
-                          </span>
-                          <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                          <p class="fs-3 mb-0">last year</p>
-                        </div>
-                      </div>
-                      <div class="col-4">
-                        <div class="d-flex justify-content-end">
-                          <div
-                            class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-currency-dollar fs-6"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {% comment %} <div id="earning"></div> {% endcomment %}
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-6">
-            <div class="row">
-              <div class="col-lg-12">
-                <!-- Yearly Breakup -->
-                <div class="card overflow-hidden">
-                  <div class="card-body p-4">
-                    <h5 class="card-title mb-9 fw-semibold">Total Products</h5>
-                    <div class="row align-items-center">
-                      <div class="col-8">
-                        <h4 class="fw-semibold mb-3">$36,358</h4>
-                        <div class="d-flex align-items-center mb-3">
-                          <span
-                            class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-arrow-up-left text-success"></i>
-                          </span>
-                          <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                          <p class="fs-3 mb-0">last year</p>
-                        </div>
-                        <div class="d-flex align-items-center">
-                          <div class="me-4">
-                            <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
-                            <span class="fs-2">2023</span>
-                          </div>
-                          <div>
-                            <span class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
-                            <span class="fs-2">2023</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-4">
-                      </div>
-                    </div>
-                  </div>
+        
+          <div class="col-lg-3 col-md-6">
+            <!-- Categories Card -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-9 fw-semibold">Categories</h5>
+                <h4 class="fw-semibold mb-3">$6,820</h4>
+                <div class="d-flex align-items-center pb-1">
+                  <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-arrow-down-right text-danger"></i>
+                  </span>
+                  <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                  <p class="fs-3 mb-0">last year</p>
                 </div>
               </div>
-              <div class="col-lg-12">
-                <!-- Monthly Earnings -->
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row alig n-items-start">
-                      <div class="col-8">
-                        <h5 class="card-title mb-9 fw-semibold">Sub Categories </h5>
-                        <h4 class="fw-semibold mb-3">$6,820</h4>
-                        <div class="d-flex align-items-center pb-1">
-                          <span
-                            class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-arrow-down-right text-danger"></i>
-                          </span>
-                          <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                          <p class="fs-3 mb-0">last year</p>
-                        </div>
-                      </div>
-                      <div class="col-4">
-                        <div class="d-flex justify-content-end">
-                          <div
-                            class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-currency-dollar fs-6"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {% comment %} <div id="earning"></div> {% endcomment %}
+            </div>
+          </div>
+        
+          <div class="col-lg-3 col-md-6">
+            <!-- Total Products Card -->
+            <div class="card overflow-hidden">
+              <div class="card-body p-4">
+                <h5 class="card-title mb-9 fw-semibold">Total Products</h5>
+                <h4 class="fw-semibold mb-3">$36,358</h4>
+                <div class="d-flex align-items-center mb-3">
+                  <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-arrow-up-left text-success"></i>
+                  </span>
+                  <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                  <p class="fs-3 mb-0">last year</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-lg-3 col-md-6">
+            <!-- Sub Categories Card -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-9 fw-semibold">Sub Categories</h5>
+                <h4 class="fw-semibold mb-3">$6,820</h4>
+                <div class="d-flex align-items-center pb-1">
+                  <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-arrow-down-right text-danger"></i>
+                  </span>
+                  <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                  <p class="fs-3 mb-0">last year</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        
         <div class="row">
           <div class="container-fluid">
             <div class="card">

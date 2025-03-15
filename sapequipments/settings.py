@@ -161,5 +161,7 @@ CLOUDINARY_STORAGE = {
 # CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@dmwtvzith
 # CLOUDINARY_URL=cloudinary://CLOUDINARY_API_KEY:CLOUDINARY_API_SECRET@dmwtvzith
 
+USERNAME_PREFIX = "EMP"
+
 
 STATICFILES_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

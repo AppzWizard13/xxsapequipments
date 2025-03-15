@@ -7,6 +7,7 @@ from products.models import Product  # Ensure you import the Product model
 from django.views.generic import DetailView
 from products.models import Product, Category, SubCategory  # Ensure ProductEnquiry is the correct model for inquiries
 from enquiry.models import Enquiry
+from django.conf import settings
 
 class HomePageView(TemplateView):
     template_name = "index.html"
@@ -24,6 +25,77 @@ class HomePageView(TemplateView):
         return context
 
 
+import logging
+from django.conf import settings
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView
+from django.db.models import Max
+from .models import CustomUser
+from .forms import CustomUserForm
+
+logger = logging.getLogger(__name__)  # Setup logger
+
+# Auto-generate username based on employee_id
+def generate_username():
+    try:
+        max_id = CustomUser.objects.aggregate(Max('employee_id'))['employee_id__max'] or 0  # Get max ID safely
+        next_id = max_id + 1  # Increment last ID
+        username_prefix = getattr(settings, 'USERNAME_PREFIX', 'EMP')  # Fallback to 'EMP'
+        return f"{username_prefix}{next_id:05d}"  # Format: EMP00001, EMP00002
+    except Exception as e:
+        logger.exception("Error generating username")
+        return "EMP00001"  # Default fallback
+
+# List Users (Read)
+class UserListView(ListView):
+    model = CustomUser
+    template_name = 'admin_panel/user_crud.html'
+    context_object_name = 'users'
+
+# Add User (Create)
+class UserCreateView(CreateView):
+    model = CustomUser
+    form_class = CustomUserForm
+    template_name = 'admin_panel/user_crud.html'
+    success_url = reverse_lazy('user_list')  # Redirect after successful creation
+
+    def form_valid(self, form):
+        try:
+            user = form.save(commit=False)
+
+            # Get next employee ID in one query
+            max_employee_id = CustomUser.objects.aggregate(Max('employee_id'))['employee_id__max'] or 0
+            user.employee_id = max_employee_id + 1  # Assign next employee ID
+
+            user.username = generate_username()  # Assign generated username
+            user.save()
+            
+            return super().form_valid(form)
+        except Exception as e:
+            logger.exception("Error adding user")
+            return self.form_invalid(form)
+
+
+# Edit User (Update)
+class UserUpdateView(UpdateView):
+    model = CustomUser
+    form_class = CustomUserForm
+    template_name = 'admin_panel/user_crud.html'
+    success_url = reverse_lazy('user_list')  # Redirect after update
+    slug_field = "username"
+    slug_url_kwarg = "username"
+
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View
+from django.shortcuts import get_object_or_404, redirect
+from .models import CustomUser
+
+class UserDeleteView(LoginRequiredMixin, View):
+    def get(self, request, username):
+        user = get_object_or_404(CustomUser, username=username)
+        user.delete()
+        return redirect('user_list')  # Redirect after deletion
 
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout
@@ -138,3 +210,5 @@ def download_database(request):
         return response
     else:
         return HttpResponse("Database file not found.", status=404)
+
+

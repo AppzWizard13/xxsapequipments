@@ -15,64 +15,109 @@
   </section>
 <div class="container-fluid">
     <div class="card">
-      <div class="card-body">
-        <div class="row justify-content-center pb-5 mb-3">
+      <div class="card-body mt-5">
+        <div class="row justify-content-center pb-5 mb-3 mx-5 px-5">
             <div class="col-md-7 heading-section text-center ftco-animate">
                 <span class="subheading">Product Details</span>
                 <h2>{{ product.name }}</h2>
-                <a href="{% url 'home' %}" class="btn btn-primary mt-3">Back to Products</a>
             </div>
         </div>
+        
+        <div class="container-fluid mx-5">
         <div class="row d-flex">
             <!-- Main Image Section -->
-            <div class="col-md-6 ftco-animate">
-                <div class="blog-entry align-self-stretch">
-                    <img id="mainImage" src="{{ product.images.url }}" alt="{{ product.name }}" class="img-fluid main-product-image">
-                </div>
-        
-                <!-- Additional Images (Thumbnails) -->
-                <div class="row mt-3 justify-content-center">
-                    {% if product.images %}
-                        <div class="col-3">
-                            <img src="{{ product.images.url }}" class="img-fluid thumbnail-image active-thumbnail" onclick="changeImage(this)">
-                        </div>
-                    {% endif %}
-                    {% if product.image_1 %}
-                        <div class="col-3">
-                            <img src="{{ product.image_1.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
-                        </div>
-                    {% endif %}
-                    {% if product.image_2 %}
-                        <div class="col-3">
-                            <img src="{{ product.image_2.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
-                        </div>
-                    {% endif %}
-                    {% if product.image_3 %}
-                        <div class="col-3">
-                            <img src="{{ product.image_3.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
-                        </div>
-                    {% endif %}
+        <!-- Main Image Section -->
+        <div class="col-md-6 ftco-animate">
+            <div class="blog-entry align-self-stretch">
+                <!-- Main Image with Click Event -->
+                <img id="mainImage" src="{{ product.images.url }}" alt="{{ product.name }}" class="img-fluid main-product-image" data-toggle="modal" data-target="#imageModal" onclick="updateModalImage(this.src)">
+            </div>
+
+            <!-- Additional Images (Thumbnails) -->
+            <div class="row mt-3 justify-content-center">
+                {% if product.images %}
+                    <div class="col-3">
+                        <img src="{{ product.images.url }}" class="img-fluid thumbnail-image active-thumbnail" onclick="changeImage(this)">
+                    </div>
+                {% endif %}
+                {% if product.image_1 %}
+                    <div class="col-3">
+                        <img src="{{ product.image_1.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
+                    </div>
+                {% endif %}
+                {% if product.image_2 %}
+                    <div class="col-3">
+                        <img src="{{ product.image_2.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
+                    </div>
+                {% endif %}
+                {% if product.image_3 %}
+                    <div class="col-3">
+                        <img src="{{ product.image_3.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Modal for Displaying Larger Image -->
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <img id="modalImage" src="" alt="Enlarged Product Image" class="img-fluid">
+                    </div>
                 </div>
             </div>
-        
+        </div>
+                
             <!-- Product Details Section -->
             <div class="col-md-6 ftco-animate">
                 <div class="text mt-3">
                     <h3 class="heading">{{ product.name }}</h3>
                     <h5 class="heading"><p>Price:<strong> &nbsp; {{ product.price }} </strong></p></h5>
                     <p><strong>Category:</strong> {{ product.category.name }}</p>
-                    {% if product.subcategory %}
-                        <p><strong>Subcategory:</strong> {{ product.subcategory.name }}</p>
+                    {% if product.SubCategory %}
+                        <p><strong>Subcategory:</strong> {{ product.SubCategory.name }}</p>
                     {% endif %}
-                    <p><strong>Description:</strong> {{ product.description }}</p>
-                    <p><strong>Specifications:</strong> {{ product.specifications }}</p>
         
+                    <p><strong>Additional Information:</strong> {{ product.additional_information }}</p>
+                    <p><strong>Catalogue:</strong> 
+                        {% if product.catalogues %}
+                            <a href="{{ product.catalogues }}" target="_blank">View Catalogue</a>
+                        {% else %}
+                            No Catalogue Available
+                        {% endif %}
+                    </p>
+                    
                     <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">Add Enquiry</a>
                 </div>
             </div>
         </div>
+    </div>
         
         <!-- JavaScript for Image Switching -->
+        <script>
+            // Function to update the modal image source
+            function updateModalImage(imageSrc) {
+                document.getElementById('modalImage').src = imageSrc;
+            }
+        
+            // Function to change the main image and update the modal image
+            function changeImage(element) {
+                var mainImage = document.getElementById("mainImage");
+                mainImage.src = element.src;
+        
+                // Update the modal image source as well
+                updateModalImage(element.src);
+        
+                // Remove active class from all thumbnails
+                document.querySelectorAll(".thumbnail-image").forEach(img => {
+                    img.classList.remove("active-thumbnail");
+                });
+        
+                // Add active class to clicked thumbnail
+                element.classList.add("active-thumbnail");
+            }
+        </script>
         <script>
             function changeImage(element) {
                 var mainImage = document.getElementById("mainImage");
@@ -115,7 +160,98 @@
             .active-thumbnail {
                 border: 2px solid #007bff;
             }
+            #modalImage {
+                max-width: 100%;
+                max-height: 80vh; /* Adjust based on your needs */
+                margin: 0 auto;
+                display: block;
+            }
         </style>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            table, th, td {
+                border: 1px solid black;
+            }
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+            .specifications-table {
+                margin-top: 20px;
+            }
+        </style>
+        <div class="container mt-5 pt-5">
+            <div class="row">
+                <!-- Description Section -->
+                <div class="col-12 mb-3">
+                    <p><strong>Description:</strong> {{ product.description }}</p>
+                </div>
+    
+                <!-- Specifications Section (This will be dynamically populated) -->
+                <div class="col-12 mb-3">
+                    <div id="specifications-table" class="specifications-table">
+                        <!-- Table to display specifications -->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Specification</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Table rows will be dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        
+                <!-- Add Enquiry Button -->
+                <div class="col-12">
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3 w-100 w-md-auto">Add Enquiry</a>
+                </div>
+            </div>
+        </div>
+    
+        <script>
+            // Get the dynamic product specifications from Django template variable
+            const specificationsText = "{{ product.specifications|escapejs }}";  // Escape for safe usage in JS
+    
+            // Function to parse the specifications text into key-value pairs
+            function parseSpecifications(specificationsText) {
+                const specificationRegex = /([A-Za-z\s/]+):\s([A-Za-z0-9\s/]+(?:\s[A-Za-z0-9]+)?)/g;
+                let result = [];
+                let match;
+                while ((match = specificationRegex.exec(specificationsText)) !== null) {
+                    const name = match[1].trim();
+                    const value = match[2].trim();
+                    result.push({ name, value });
+                }
+                return result;
+            }
+    
+            // Function to dynamically display the specifications as a table
+            function displaySpecificationsAsTable(specifications) {
+                const tableBody = document.querySelector('#specifications-table tbody');
+                specifications.forEach(spec => {
+                    const row = document.createElement('tr');
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = spec.name;
+                    const valueCell = document.createElement('td');
+                    valueCell.textContent = spec.value;
+                    row.appendChild(nameCell);
+                    row.appendChild(valueCell);
+                    tableBody.appendChild(row);
+                });
+            }
+    
+            // Parse and display the specifications
+            const specifications = parseSpecifications(specificationsText);
+            displaySpecificationsAsTable(specifications);
+        </script>
         
         <!-- Same Category Products -->
         <div class="row mt-5 pt-5">
@@ -179,7 +315,7 @@
 
     @media (min-width: 992px) {
         .product-grid {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
         }
     }
 
@@ -194,16 +330,6 @@
             grid-template-columns: repeat(1, 1fr);
         }
     }
-
-    {% comment %} .blog-entry {
-        max-width: 280px;
-        background: #fff;
-        text-align: center;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-    } {% endcomment %}
 
     .product-image {
         width: 100%;
