@@ -1,6 +1,23 @@
 {% extends 'admin_panel/index.html' %}
 
 {% block content %}
+
+<!-- Toast Messages -->
+{% if messages %}
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050">
+    {% for message in messages %}
+    <div class="toast align-items-center text-bg-{% if message.tags == 'error' %}danger{% else %}success{% endif %} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          {{ message }}
+        </div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
 <div class="container-fluid" style="max-width: none;">
   <div class="card">
     <div class="card-body">
@@ -21,6 +38,9 @@
           <div class="col-md-6">
             <label>{{ field.label }}:</label>
             {{ field }}
+            {% if field.errors %}
+              <div class="text-danger">{{ field.errors.0 }}</div>
+            {% endif %}
           </div>
           {% endfor %}
         </div>
@@ -102,4 +122,16 @@
     </div>
   </div>
 </div>
+
+<!-- Enable Bootstrap Toasts -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElList.map(function(toastEl) {
+      return new bootstrap.Toast(toastEl)
+    });
+    toastList.forEach(toast => toast.show());
+  });
+</script>
+
 {% endblock %}

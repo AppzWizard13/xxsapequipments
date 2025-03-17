@@ -201,16 +201,16 @@
             <!-- Enquiries Card -->
             <div class="card overflow-hidden">
               <div class="card-body p-4">
-                <h5 class="card-title mb-9 fw-semibold">Enquiries</h5>
+                <h5 class="card-title mb-9 fw-semibold">Enquiries Count</h5>
                 <div class="row align-items-center">
                   <div class="col-8">
-                    <h4 class="fw-semibold mb-3">$36,358</h4>
+                    <h4 class="fw-semibold mb-3">{{total_enquiries}}</h4>
                     <div class="d-flex align-items-center mb-3">
-                      <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                      {% comment %} <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
                         <i class="ti ti-arrow-up-left text-success"></i>
-                      </span>
-                      <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                      <p class="fs-3 mb-0">last year</p>
+                      </span> {% endcomment %}
+                      {% comment %} <p class="text-dark me-1 fs-3 mb-0">+9%</p> {% endcomment %}
+                      {% comment %} <p class="fs-3 mb-0">last year</p> {% endcomment %}
                     </div>
                   </div>
                 </div>
@@ -223,52 +223,55 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title mb-9 fw-semibold">Categories</h5>
-                <h4 class="fw-semibold mb-3">$6,820</h4>
+                <h4 class="fw-semibold mb-3">{{total_cat_count}}</h4>
                 <div class="d-flex align-items-center pb-1">
-                  <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                  {% comment %} <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
                     <i class="ti ti-arrow-down-right text-danger"></i>
-                  </span>
-                  <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                  <p class="fs-3 mb-0">last year</p>
+                  </span> {% endcomment %}
+                  {% comment %} <p class="text-dark me-1 fs-3 mb-0">+9%</p> {% endcomment %}
+                  {% comment %} <p class="fs-3 mb-0">last year</p> {% endcomment %}
                 </div>
               </div>
             </div>
           </div>
         
-          <div class="col-lg-3 col-md-6">
-            <!-- Total Products Card -->
-            <div class="card overflow-hidden">
-              <div class="card-body p-4">
-                <h5 class="card-title mb-9 fw-semibold">Total Products</h5>
-                <h4 class="fw-semibold mb-3">$36,358</h4>
-                <div class="d-flex align-items-center mb-3">
-                  <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
-                    <i class="ti ti-arrow-up-left text-success"></i>
-                  </span>
-                  <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                  <p class="fs-3 mb-0">last year</p>
-                </div>
-              </div>
-            </div>
-          </div>
+
         
           <div class="col-lg-3 col-md-6">
             <!-- Sub Categories Card -->
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title mb-9 fw-semibold">Sub Categories</h5>
-                <h4 class="fw-semibold mb-3">$6,820</h4>
+                <h4 class="fw-semibold mb-3">{{total_subcat_count}}</h4>
                 <div class="d-flex align-items-center pb-1">
-                  <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                  {% comment %} <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
                     <i class="ti ti-arrow-down-right text-danger"></i>
-                  </span>
-                  <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                  <p class="fs-3 mb-0">last year</p>
+                  </span> {% endcomment %}
+                  {% comment %} <p class="text-dark me-1 fs-3 mb-0">+9%</p> {% endcomment %}
+                  {% comment %} <p class="fs-3 mb-0">last year</p> {% endcomment %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <!-- Total Products Card -->
+            <div class="card overflow-hidden">
+              <div class="card-body p-4">
+                <h5 class="card-title mb-9 fw-semibold">Total Products</h5>
+                <h4 class="fw-semibold mb-3">{{total_products_count}}</h4>
+                <div class="d-flex align-items-center mb-3">
+                  {% comment %} <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-arrow-up-left text-success"></i>
+                  </span> {% endcomment %}
+                  {% comment %} <p class="text-dark me-1 fs-3 mb-0">+9%</p> {% endcomment %}
+                  {% comment %} <p class="fs-3 mb-0">last year</p> {% endcomment %}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        
         
         <div class="row">
           <div class="container-fluid">

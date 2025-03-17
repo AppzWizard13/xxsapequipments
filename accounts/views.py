@@ -52,29 +52,42 @@ class UserListView(ListView):
     template_name = 'admin_panel/user_crud.html'
     context_object_name = 'users'
 
-# Add User (Create)
+from django.contrib import messages
+
 class UserCreateView(CreateView):
     model = CustomUser
     form_class = CustomUserForm
-    template_name = 'admin_panel/user_crud.html'
-    success_url = reverse_lazy('user_list')  # Redirect after successful creation
+    template_name = 'admin_panel/add_user.html'
+    success_url = reverse_lazy('user_list')
 
     def form_valid(self, form):
         try:
             user = form.save(commit=False)
-
-            # Get next employee ID in one query
             max_employee_id = CustomUser.objects.aggregate(Max('employee_id'))['employee_id__max'] or 0
-            user.employee_id = max_employee_id + 1  # Assign next employee ID
-
-            user.username = generate_username()  # Assign generated username
+            user.employee_id = max_employee_id + 1
+            user.username = generate_username()
             user.save()
-            
+            messages.success(self.request, "User added successfully.")
             return super().form_valid(form)
         except Exception as e:
-            logger.exception("Error adding user")
+            messages.error(self.request, f"An error occurred: {str(e)}")
             return self.form_invalid(form)
 
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{form[field].label}: {error}")
+        return super().form_invalid(form)
+
+
+
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View, UpdateView
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from .models import CustomUser
+from .forms import CustomUserForm
 
 # Edit User (Update)
 class UserUpdateView(UpdateView):
@@ -85,17 +98,23 @@ class UserUpdateView(UpdateView):
     slug_field = "username"
     slug_url_kwarg = "username"
 
+    def form_valid(self, form):
+        messages.success(self.request, "User updated successfully.")
+        return super().form_valid(form)
 
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import View
-from django.shortcuts import get_object_or_404, redirect
-from .models import CustomUser
+    def form_invalid(self, form):
+        messages.error(self.request, "Error updating user. Please check the form.")
+        return super().form_invalid(form)
 
+
+# Delete User
 class UserDeleteView(LoginRequiredMixin, View):
     def get(self, request, username):
         user = get_object_or_404(CustomUser, username=username)
         user.delete()
+        messages.success(request, f'User "{user.username}" has been deleted successfully.')
         return redirect('user_list')  # Redirect after deletion
+
 
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout
@@ -115,16 +134,22 @@ def dashboard_view(request):
     # Get counts
     total_products = Product.objects.all()
     total_categories = Category.objects.all()
+    print("total_categoriestotal_categories", total_categories)
     total_subcategories = SubCategory.objects.all()
-    # total_enquiries = Enquiry.objects.count()
+    total_enquiries = Enquiry.objects.count()
+    total_cat_count = total_categories.count()
+    total_subcat_count = total_subcategories.count()
     # unread_enquiries = Enquiry.objects.filter(is_read=False).count()
     # read_enquiries = Enquiry.objects.filter(is_read=True).count()
 
     context = {
         'total_products': total_products,
+        'total_products_count' : total_products.count(),
         'total_categories': total_categories,
         'total_subcategories': total_subcategories,
-        # 'total_enquiries': total_enquiries,
+        'total_enquiries': total_enquiries,
+        'total_cat_count': total_cat_count,
+        'total_subcat_count': total_subcat_count
         # 'unread_enquiries': unread_enquiries,
         # 'read_enquiries': read_enquiries,
     }

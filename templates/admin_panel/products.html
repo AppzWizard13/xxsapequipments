@@ -1,11 +1,8 @@
 {% extends 'admin_panel/index.html' %}
 {% block content %}
-<div class="container-fluid" style="max-width: none;">
+<div class="container-fluid px-3 px-md-4" style="max-width: none;">
   <div class="card">
     <div class="card-body">
-    
-
-
       <h5 class="card-title fw-semibold mb-4">Manage Products</h5>
       <!-- Add Product Button -->
       <div class="mb-3 text-end">
@@ -13,14 +10,14 @@
       </div>
       <!-- Filter & Search Form -->
       <form method="GET" action="{% url 'product_list' %}" class="mb-3">
-        <div class="row">
+        <div class="row g-2">
           <!-- Search Input -->
-          <div class="col-md-4">
+          <div class="col-12 col-md-4">
             <input type="text" name="search" class="form-control" placeholder="Search product..." value="{{ query }}">
           </div>
 
           <!-- Category Filter -->
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
             <select name="category" class="form-control" onchange="this.form.submit()">
               <option value="">Filter by Category</option>
               {% for category in categories %}
@@ -30,7 +27,7 @@
           </div>
 
           <!-- Subcategory Filter -->
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
             <select name="subcategory" class="form-control" onchange="this.form.submit()">
               <option value="">Filter by SubCategory</option>
               {% for subcategory in subcategories %}
@@ -40,52 +37,54 @@
           </div>
 
           <!-- Search Button -->
-          <div class="col-md-2">
+          <div class="col-12 col-md-2">
             <button type="submit" class="btn btn-primary w-100">Search</button>
           </div>
         </div>
       </form>
 
       <!-- Product Table -->
-      <table class="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th>SubCategory</th>
-            <th>Image</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for product in products %}
-          <tr>
-            <td>{{ product.id }}</td>
-            <td>{{ product.name }}</td>
-            <td>₹{{ product.price }}</td>
-            <td>{{ product.category.name }}</td>
-            <td>{{ product.SubCategory.name }}</td>
-            <td>
-              {% if product.images %}
-                <img src="{{ product.images.url }}" alt="Product Image" class="img-thumbnail" width="50">
-              {% else %}
-                No Image
-              {% endif %}
-            </td>
-            <td>
-              <a href="{% url 'edit_product' product.id %}" class="btn btn-warning btn-sm">Edit</a>
-              <a href="{% url 'delete_product' product.id %}" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="7" class="text-center">No products found</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>SubCategory</th>
+              <th>Image</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in products %}
+            <tr>
+              <td>{{ product.id }}</td>
+              <td>{{ product.name }}</td>
+              <td>₹{{ product.price }}</td>
+              <td>{{ product.category.name }}</td>
+              <td>{{ product.SubCategory.name }}</td>
+              <td>
+                {% if product.images %}
+                  <img src="{{ product.images.url }}" alt="Product Image" class="img-thumbnail" width="50">
+                {% else %}
+                  No Image
+                {% endif %}
+              </td>
+              <td>
+                <a href="{% url 'edit_product' product.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'delete_product' product.id %}" class="btn btn-danger btn-sm">Delete</a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="7" class="text-center">No products found</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
