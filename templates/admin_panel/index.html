@@ -225,9 +225,9 @@
                 <h5 class="card-title mb-9 fw-semibold">Categories</h5>
                 <h4 class="fw-semibold mb-3">{{total_cat_count}}</h4>
                 <div class="d-flex align-items-center pb-1">
-                  {% comment %} <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                  <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
                     <i class="ti ti-arrow-down-right text-danger"></i>
-                  </span> {% endcomment %}
+                  </span>
                   {% comment %} <p class="text-dark me-1 fs-3 mb-0">+9%</p> {% endcomment %}
                   {% comment %} <p class="fs-3 mb-0">last year</p> {% endcomment %}
                 </div>
@@ -274,138 +274,136 @@
         
         
         <div class="row">
-          <div class="container-fluid">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">Find Products</h5>
+          <div class="row">
+            <div class="container-fluid">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title fw-semibold mb-4">Find Products</h5>
           
-                <!-- Filter & Search Form -->
-                <form method="GET" action="{% url 'dashboard_search_list' %}" class="mb-3">
-                  <div class="row">
-                    <!-- Search Input -->
-                    <div class="col-md-4">
-                      <input type="text" name="search" class="form-control" placeholder="Search product..." value="{{ query }}">
+                  <!-- Filter & Search Form -->
+                  <form method="GET" action="{% url 'dashboard_search_list' %}" class="mb-3">
+                    <div class="row g-2">
+                      <div class="col-12 col-md-4">
+                        <input type="text" name="search" class="form-control" placeholder="Search product..." value="{{ query }}">
+                      </div>
+                      <div class="col-6 col-md-3">
+                        <select name="category" class="form-control" onchange="this.form.submit()">
+                          <option value="">Filter by Category</option>
+                          {% for category in total_categories %}
+                          <option value="{{ category.id }}" {% if category.id|stringformat:"s" == selected_category %}selected{% endif %}>{{ category.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="col-6 col-md-3">
+                        <select name="subcategory" class="form-control" onchange="this.form.submit()">
+                          <option value="">Filter by SubCategory</option>
+                          {% for subcategory in total_subcategories %}
+                          <option value="{{ subcategory.id }}" {% if subcategory.id|stringformat:"s" == selected_subcategory %}selected{% endif %}>{{ subcategory.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="col-12 col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                      </div>
                     </div>
-                    <!-- Category Filter -->
-                    <div class="col-md-3">
-                      <select name="category" class="form-control" onchange="this.form.submit()">
-                        <option value="">Filter by Category</option>
-                        {% for category in total_categories %}
-                        <option value="{{ category.id }}" {% if category.id|stringformat:"s" == selected_category %}selected{% endif %}>{{ category.name }}</option>
+                  </form>
+          
+                  <!-- Product Table -->
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Price</th>
+                          <th>Category</th>
+                          <th>SubCategory</th>
+                          <th>Image</th>
+                          <th>Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for product in products %}
+                        <tr>
+                          <td>{{ product.id }}</td>
+                          <td>{{ product.name }}</td>
+                          <td>₹{{ product.price }}</td>
+                          <td>{{ product.category.name }}</td>
+                          <td>{{ product.SubCategory.name }}</td>
+                          <td>
+                            {% if product.images %}
+                              <img src="{{ product.images.url }}" alt="Product Image" class="img-thumbnail" width="50">
+                            {% else %}
+                              No Image
+                            {% endif %}
+                          </td>
+                          <td>{{ product.description }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="7" class="text-center">No products found</td>
+                        </tr>
                         {% endfor %}
-                      </select>
-                    </div>
-          
-                    <!-- Subcategory Filter -->
-                    <div class="col-md-3">
-                      <select name="subcategory" class="form-control" onchange="this.form.submit()">
-                        <option value="">Filter by SubCategory</option>
-                        {% for subcategory in total_subcategories %}
-                        <option value="{{ subcategory.id }}" {% if subcategory.id|stringformat:"s" == selected_subcategory %}selected{% endif %}>{{ subcategory.name }}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
-          
-                    <!-- Search Button -->
-                    <div class="col-md-2">
-                      <button type="submit" class="btn btn-primary w-100">Search</button>
-                    </div>
+                      </tbody>
+                    </table>
                   </div>
-                </form>
-          
-                <!-- Product Table -->
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th>Category</th>
-                      <th>SubCategory</th>
-                      <th>Image</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for product in products %}
-                    <tr>
-                      <td>{{ product.id }}</td>
-                      <td>{{ product.name }}</td>
-                      <td>₹{{ product.price }}</td>
-                      <td>{{ product.category.name }}</td>
-                      <td>{{ product.SubCategory.name }}</td>
-                      <td>
-                        {% if product.images %}
-                          <img src="{{ product.images.url }}" alt="Product Image" class="img-thumbnail" width="50">
-                        {% else %}
-                          No Image
-                        {% endif %}
-                      </td>
-                      <td>{{ product.description }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                      <td colspan="7" class="text-center">No products found</td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+                </div>
               </div>
             </div>
           </div>
-
+          
           <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
           <script>
             $(document).ready(function () {
               function fetchProducts() {
-                  var searchQuery = $('input[name="search"]').val();
-                  var category = $('select[name="category"]').val();
-                  var subcategory = $('select[name="subcategory"]').val();
+                var searchQuery = $('input[name="search"]').val();
+                var category = $('select[name="category"]').val();
+                var subcategory = $('select[name="subcategory"]').val();
           
-                  $.ajax({
-                      url: searchUrl, // Passed from template
-                      type: "GET",
-                      data: {
-                          search: searchQuery,
-                          category: category,
-                          subcategory: subcategory
-                      },
-                      dataType: "json",
-                      success: function (response) {
-                          var productTable = $("table tbody");
-                          productTable.empty(); // Clear previous results
+                $.ajax({
+                  url: searchUrl, // Passed from template
+                  type: "GET",
+                  data: {
+                    search: searchQuery,
+                    category: category,
+                    subcategory: subcategory
+                  },
+                  dataType: "json",
+                  success: function (response) {
+                    var productTable = $("table tbody");
+                    productTable.empty();
           
-                          if (response.products.length > 0) {
-                              $.each(response.products, function (index, product) {
-                                  var imageTag = product.images ? `<img src="${product.images}" width="50" class="img-thumbnail">` : "No Image";
-                                  var row = `
-                                      <tr>
-                                          <td>${product.id}</td>
-                                          <td>${product.name}</td>
-                                          <td>₹${product.price}</td>
-                                          <td>${product.category__name}</td>
-                                          <td>${product.SubCategory__name}</td> <!-- Fixed case issue -->
-                                          <td>${imageTag}</td>
-                                          <td>${product.description}</td>
-                                      </tr>
-                                  `;
-                                  productTable.append(row);
-                              });
-                          } else {
-                              productTable.append('<tr><td colspan="7" class="text-center">No products found</td></tr>');
-                          }
-                      },
-                      error: function () {
-                          alert("Error fetching data. Please try again.");
-                      }
-                  });
+                    if (response.products.length > 0) {
+                      $.each(response.products, function (index, product) {
+                        var imageTag = product.images ? `<img src="${product.images}" width="50" class="img-thumbnail">` : "No Image";
+                        var row = `
+                          <tr>
+                            <td>${product.id}</td>
+                            <td>${product.name}</td>
+                            <td>₹${product.price}</td>
+                            <td>${product.category__name}</td>
+                            <td>${product.SubCategory__name}</td>
+                            <td>${imageTag}</td>
+                            <td>${product.description}</td>
+                          </tr>
+                        `;
+                        productTable.append(row);
+                      });
+                    } else {
+                      productTable.append('<tr><td colspan="7" class="text-center">No products found</td></tr>');
+                    }
+                  },
+                  error: function () {
+                    alert("Error fetching data. Please try again.");
+                  }
+                });
               }
           
-              // Event listeners
               $('input[name="search"]').on("keyup", fetchProducts);
               $('select[name="category"], select[name="subcategory"]').on("change", fetchProducts);
-          });
+            });
           </script>
+          
           
           {% endblock %}
         </div>
