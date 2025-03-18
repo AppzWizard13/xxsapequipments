@@ -98,16 +98,17 @@
             </div>
         </div>
 
-        <!-- Description Section -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <p><strong>Description:</strong> {{ product.description }}</p>
-            </div>
-        </div>
+        <!-- Description & Specifications Section -->
+        <div class="row mt-5 ">
 
-        <!-- Specifications Section -->
-        <div class="row mt-5">
-            <div class="col-12">
+            <!-- Description Section -->
+            <div class="col-md-6">
+                <p><strong>Description:</strong> </br>{{ product.description }}</p>
+                <p><strong>Additional Information:</strong> </br>{{ product.additional_information }}</p>
+            </div>
+
+            <!-- Specifications Section -->
+            <div class="col-md-5">
                 <div id="specifications-table" class="specifications-table">
                     <table>
                         <thead>
@@ -124,13 +125,14 @@
             </div>
         </div>
 
+
         <!-- Same Category Products -->
         <div class="row mt-5">
             <div class="col-md-12 heading-section text-center ftco-animate">
                 <h3>More from {{ product.category.name }}</h3>
             </div>
             <div class="product-grid">
-                {% for item in same_category_products %}
+                {% for item in  same_subcategory_products %}
                     <div class="blog-entry">
                         <a href="{% url 'product_detail' item.id %}" class="block-20">
                             <img src="{{ item.images.url|default:'/static/images/placeholder.jpg' }}" class="product-image">
@@ -153,7 +155,7 @@
                 <h3>Related Products</h3>
             </div>
             <div class="product-grid">
-                {% for item in same_subcategory_products %}
+                {% for item in same_category_products %}
                     <div class="blog-entry">
                         <a href="{% url 'product_detail' item.id %}" class="block-20">
                             <img src="{{ item.images.url|default:'/static/images/placeholder.jpg' }}" class="product-image">
@@ -174,6 +176,28 @@
 
 <!-- JavaScript for Image Switching -->
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+    
+        const specificationsText = "{{ product.specifications|escapejs }}";
+        console.log("specificationsText:", specificationsText); 
+        
+        // Split the specifications into key-value pairs
+        const specificationsArray = specificationsText.split(", ");
+        
+        // Get the table body
+        const tableBody = document.querySelector("#specifications-table tbody");
+        
+        // Loop through the specifications and add rows to the table
+        specificationsArray.forEach(spec => {
+            const [key, value] = spec.split(/:(.+)/); // Split only on the first occurrence of ':'
+            if (key && value) {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${key.trim()}</td><td>${value.trim()}</td>`;
+                tableBody.appendChild(row);
+            }
+        });
+    });
     function updateModalImage(imageSrc) {
         document.getElementById('modalImage').src = imageSrc;
     }
@@ -194,6 +218,21 @@
 
 <!-- CSS for Styling -->
 <style>
+    .specifications-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .specifications-table th, 
+    .specifications-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    
+    .specifications-table th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }
     .main-product-image {
         width: 100%;
         height: 400px;

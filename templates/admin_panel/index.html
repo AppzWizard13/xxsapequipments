@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Modernize Free</title>
-  <link rel="shortcut icon" type="image/png" href="{% static 'admin_panel/images/logos/favicon.png' %}" />
+  <title>SAP ADMIN PANEL</title>
+  {% comment %} <link rel="shortcut icon" type="image/png" href="{% static 'admin_panel/images/logos/favicon.png' %}" /> {% endcomment %}
   <link rel="stylesheet" href="{% static 'admin_panel/css/styles.min.css' %}" />
 </head>
 
@@ -157,9 +157,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-icon-hover" href="javascript:void(0)">
-                <i class="ti ti-bell-ringing"></i>
-                <div class="notification bg-primary rounded-circle"></div>
+              <a class="nav-link nav-icon-hover" href="{% url 'home' %}">
+                <i class="ti ti-home"></i>
+                {% comment %} <div class="notification bg-primary rounded-circle"></div> {% endcomment %}
               </a>
             </li>
           </ul>
@@ -225,9 +225,9 @@
                 <h5 class="card-title mb-9 fw-semibold">Categories</h5>
                 <h4 class="fw-semibold mb-3">{{total_cat_count}}</h4>
                 <div class="d-flex align-items-center pb-1">
-                  <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                  {% comment %} <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
                     <i class="ti ti-arrow-down-right text-danger"></i>
-                  </span>
+                  </span> {% endcomment %}
                   {% comment %} <p class="text-dark me-1 fs-3 mb-0">+9%</p> {% endcomment %}
                   {% comment %} <p class="fs-3 mb-0">last year</p> {% endcomment %}
                 </div>

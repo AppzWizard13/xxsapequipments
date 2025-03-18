@@ -202,7 +202,7 @@ def product_detail_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
     # Fetch products from the same category (excluding current product)
-    same_category_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:4]
+    same_category_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:8]
 
     # Fetch products from the same subcategory (excluding current product)
     same_subcategory_products = Product.objects.filter(SubCategory=product.SubCategory).exclude(id=product.id)[:8] if product.SubCategory else []

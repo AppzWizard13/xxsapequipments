@@ -116,18 +116,48 @@ class UserDeleteView(LoginRequiredMixin, View):
         return redirect('user_list')  # Redirect after deletion
 
 
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView
-from django.contrib.auth import logout
-from django.shortcuts import redirect, render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.contrib import messages
+from accounts.models import CustomUser  # Import your custom user model
 
 class CustomLoginView(LoginView):
     template_name = "admin_panel/authentication-login.html"
 
     def form_valid(self, form):
-        """Ensure user authentication before redirecting."""
-        response = super().form_valid(form)  # Calls Django's built-in login process
-        return redirect('dashboard')  # Redirects to dashboard after successful login
+        """Authenticate user against both User and CustomUser models."""
+        username = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password")
+
+        print(f"Attempting login for username: {username}")  # Debugging print
+
+        # Try authenticating against the default User model
+        user = authenticate(self.request, username=username, password=password)
+
+        if user:
+            print("User authenticated via Django default User model.")
+            login(self.request, user)
+            return redirect("dashboard")
+        else:
+            print("User not found in default User model.")
+
+        # Try authenticating against CustomUser model
+        try:
+            custom_user = CustomUser.objects.get(username=username)
+            if custom_user.check_password(password):
+                print("User authenticated via CustomUser model.")
+                login(self.request, custom_user)
+                return redirect("dashboard")
+            else:
+                print("Password incorrect for CustomUser.")
+        except CustomUser.DoesNotExist:
+            print(f"CustomUser with username '{username}' does not exist.")
+
+        # If both fail, show error message
+        messages.error(self.request, "Invalid username or password.")
+        print("Login failed: Invalid username or password.")
+        return self.form_invalid(form)
 
 @login_required
 def dashboard_view(request):
@@ -199,6 +229,8 @@ def dashboard_search_list(request):
     })
 
 
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 
 def logout_view(request):

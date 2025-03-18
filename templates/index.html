@@ -86,6 +86,11 @@
 				<li class="nav-item {% if request.resolver_match.url_name == 'product_grid_view' %}active{% endif %}">
 					<a href="{% url 'product_grid_view' %}" class="nav-link">Products</a>
 				</li>
+				{% if request.user.is_authenticated %}
+				<li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+					<a href="{% url 'dashboard' %}" class="nav-link">Admin Panel</a>
+				</li>
+				{% endif %}
 				</ul>
 			</div>
 	    </div>
