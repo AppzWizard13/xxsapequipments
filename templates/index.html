@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
  
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     
     <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
@@ -22,7 +24,23 @@
     <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<style>
+		
 		/* Define Theme Variables */
+		body {
+		font-family: 'Poppins', sans-serif !important;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+		font-family: 'Poppins', sans-serif;
+		font-weight: 600;
+		}
+		
+		p, span, a, button {
+		font-family: 'Poppins', sans-serif;
+		font-weight: 400;
+		}
+		/* Apply Poppins globally */
+
 		:root {
 			--primary-red: #dd1010; /* Power Red */
 			--light-gray: #a3a3a3; /* Light metallic gray */
@@ -33,8 +51,8 @@
 		
 		/* Global Background */
 		body {
-			background: linear-gradient(to right, var(--light-gray), var(--charcoal-dark));
-			color: var(--text-light);
+			{% comment %} background: linear-gradient(to right, var(--light-gray), var(--charcoal-dark)); {% endcomment %}
+			color: var(--charcoal-dark);
 			font-family: 'Poppins', sans-serif;
 		}
 		
@@ -51,6 +69,10 @@
 			color: var(--primary-red); !important;
 			font-size: 18px;
 		}
+		.heading{
+			color: #dd1010 !important;
+		}
+
 		
 		/* Navbar */
 		.navbar {
@@ -133,11 +155,17 @@
 			background: var(--charcoal-dark) !important;
 		}
 
-		.bg-primary {
-			background: var(--light-gray) !important;
+		.bg-catelogue {
+			background: var(--primary-red) !important;
 			border: none;
 			color: white !important;
 		}
+		.bg-catelogue:hover {
+			background: var(--primary-red) !important;
+			border: none;
+			color: white !important;
+		}
+		
 		
 		.btn-primary:hover {
 			background: var(--button-hover-red) !important;
@@ -175,7 +203,7 @@
 		}
 		/* Product Section Background */
 		.custom-product-section {
-			background: linear-gradient(to right, #818285, #6e6e6e) !important; /* Dark metallic look */
+			{% comment %} background: linear-gradient(to right, #818285, #6e6e6e) !important; /* Dark metallic look */ {% endcomment %}
 			padding: 50px 0 !important;
 		}
 
@@ -189,8 +217,8 @@
 
 		/* Product Card */
 		.blog-entry {
-			background: #2a2a2a !important; /* Dark charcoal background */
-			color: white !important;
+			{% comment %} background: #2a2a2a !important; /* Dark charcoal background */ {% endcomment %}
+			color: var(--charcoal-dark);
 			border-radius: 5px !important;
 			overflow: hidden !important;
 			transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out !important;
@@ -222,13 +250,13 @@
 		.blog-entry .text {
 			padding: 15px !important;
 			text-align: left !important;
+			color: black !important;
 		}
 
 		/* Product Title */
 		.blog-entry .heading a {
-			font-size: 18px !important;
+			font-size: 15px !important;
 			font-weight: bold !important;
-			color: white !important;
 			text-transform: uppercase !important;
 			transition: color 0.3s ease-in-out !important;
 		}
@@ -240,7 +268,7 @@
 		/* Product Description */
 		.blog-entry p {
 			font-size: 14px !important;
-			color: #d1d1d1 !important;
+			{% comment %} color: #d1d1d1 !important; {% endcomment %}
 			margin-bottom: 10px !important;
 		}
 
@@ -340,7 +368,7 @@
 		.nav-pills .nav-link {
 			font-size: 16px !important;
 			font-weight: bold !important;
-			color: white !important;
+			{% comment %} color: white !important; {% endcomment %}
 			text-transform: uppercase !important;
 			background-color: var(--primary-dark) !important;
 			transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out !important;
@@ -384,6 +412,60 @@
 		.tab-content-inner p.text-secondary {
 			font-style: italic !important;
 			color: #999 !important;
+		}
+		.blog-entry {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			background: #fff;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+			transition: transform 0.3s ease-in-out;
+		}
+		
+		.blog-entry:hover {
+			transform: translateY(-5px);
+			box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+		}
+		
+		.blog-entry .text {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding: 15px;
+		}
+		
+		.blog-entry .heading a {
+			font-size: 18px;
+			font-weight: bold;
+			color: black;
+			text-transform: uppercase;
+			text-align: center;
+			transition: color 0.3s ease-in-out;
+		}
+		
+		.blog-entry .heading a:hover {
+			color: var(--primary-red);
+		}
+		
+		.blog-entry p {
+			font-size: 14px;
+			color: #555;
+			margin-bottom: 10px;
+			text-align: center;
+		}
+		
+		.blog-entry p strong {
+			color: var(--primary-red);
+			font-weight: bold;
+		}
+		.ftco-counter{
+			background: var(--charcoal-dark) !important;
+		}
+		.wrap .top-wrap .text{
+			color: lightgrey;
+			font-weight:bolder !important;
 		}
 		
 	
@@ -600,13 +682,13 @@
 			<div class="container intro-wrap">
 				<div class="row no-gutters">
 					<div class="col-md-12 col-lg-9 bg-intro d-sm-flex align-items-center align-items-stretch">
-						<div class="intro-box d-flex align-items-center">
+						<div class="intro-box d-flex align-items-center" style="color:grey;">
 							<div class="icon d-flex align-items-center justify-content-center">
 								<i class="flaticon-repair"></i>
 							</div>
-							<h2 class="mb-0 ">Are you ready? <span style="color:red;"> &nbsp;Let's repair it now!</span></h2>
+							<h2 class="mb-0" style="color:grey !important;">Are you ready? <span style="color:red;"> &nbsp;Let's repair it now!</span></h2>
 						</div>
-						<a href="https://pdf.indiamart.com/impdf/23953284097/136190013/sapet-tyre-changer.pdf" class="bg-primary btn-custom d-flex align-items-center"><span>Get Our Catelogue</span></a>
+						<a href="https://pdf.indiamart.com/impdf/23953284097/136190013/sapet-tyre-changer.pdf" class="bg-catelogue btn-custom d-flex align-items-center"><span>Get Our Catelogue</span></a>
 					</div>
 				</div>
 			</div>	
@@ -616,8 +698,9 @@
 			/* Round design for the icon container */
 			/* Make the icon white using CSS filter */
 			.white-icon {
-			  filter: brightness(0) invert(1); /* Converts icon to white */
+			  filter: brightness(100) invert(1); /* Converts icon to white */
 			}
+
 			
 			/* Round design for the icon container */
 			.icon {
@@ -628,18 +711,20 @@
 			  display: flex;
 			  justify-content: center;
 			  align-items: center;
+			  
 			}
 			
 			/* Smaller icon size */
 			.icon-img {
-			  width: 30px; /* Adjust icon size */
-			  height: 30px; /* Adjust icon size */
+			  width: 15px; /* Adjust icon size */
+			  height: 15px; /* Adjust icon size */
 			  transition: transform 0.3s ease; /* Smooth hover effect */
+			  padding: 5px;
 			}
 			
 			/* Hover effect for the icon */
 			.icon:hover .icon-img {
-			  transform: scale(1.1); /* Slightly enlarge on hover */
+			  transform: scale(1.03); /* Slightly enlarge on hover */
 			}
 
 			
@@ -666,7 +751,7 @@
 
 		</style>
 
-		  <section class="ftco-section" style="padding:3rem;">
+		<section class="ftco-section testimony-section bg-light" style="padding:3rem;">
 			<div class="container">
 			  <div class="row justify-content-center pb-2 mb-5">
 				<div class="col-md-7 heading-section text-center ftco-animate">
@@ -676,18 +761,26 @@
 			  </div>
 			  <div class="row">
 				{% for category in total_categories %}
-				<div class="col-md-4 services ftco-animate">
-				  <div class="d-block d-flex">
-					<div class="icon d-flex justify-content-center align-items-center">
+				<div class="col-md-4 services ftco-animate" style="min-height: 250px;">
+				  <div class="d-block d-flex align-items-center">
+					<div class="icon d-flex justify-content-center align-items-center" style="min-width: 50px; min-height: 50px;">
 					  {% if category.image %}
-						<img src="{{ category.image.url }}" alt="{{ category.name }}" class="icon-img white-icon" style="width: 45px; height: 45px; object-fit: cover; border-radius: None;">
+						<img src="{{ category.image.url }}" 
+							 alt="{{ category.name }}" 
+							 class="icon-img white-icon" 
+							 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" 
+							 loading="lazy">
 					  {% else %}
-						<img src="{% static 'icons/category.png' %}" alt="Category Icon" class="icon-img white-icon">
+						<img src="{% static 'icons/category.png' %}" 
+							 alt="Category Icon" 
+							 class="icon-img white-icon" 
+							 style="width: 50px; height: 50px;" 
+							 loading="lazy">
 					  {% endif %}
 					</div>
 					<div class="media-body pl-3">
 					  <h3 class="heading">{{ category.name }}</h3>
-					  <p>{{ category.description }}</p>
+					  <p style="margin-bottom: 0;">{{ category.description }}</p>
 					</div>
 				  </div>
 				</div>
@@ -696,8 +789,9 @@
 			</div>
 		  </section>
 		  
+		  
    	
-    <section class="ftco-section ftco-no-pt ftco-no-pb ">
+    <section class="ftco-section ftco-no-pt ftco-no-pb mt-5 pt-5 ">
     	<div class="container">
     		<div class="row d-flex no-gutters">
     			<div class="col-md-6 d-flex">
@@ -711,48 +805,12 @@
     				<div class="row justify-content-start py-5">
 		          <div class="col-md-12 heading-section ftco-animate">
 					<span class="subheading">Welcome to SAP EQUIPMENTS & TOOLS</span>
-		            <h2 class="heading mb-4">SAP EQUIPMENTS & TOOLS: Your Trusted Partner for Garage Equipment in India</h2>
+		            <h2 class="mb-4">SAP EQUIPMENTS & TOOLS: Your Trusted Partner for Garage Equipment in India</h2>
 		            <p>At SAP EQUIPMENTS & TOOLS, we take pride in being India’s trusted leader in automotive service equipment. As pioneers in manufacturing, exporting, wholesaling, and supplying premium garage solutions, we are your ultimate one-stop-shop for all garage equipment needs.
 
 						Backed by the legacy of Elgi Equipments Ltd, we’ve earned our reputation through decades of innovation, quality, and affordability. Our curated range of 35+ advanced garage equipment and 150+ specialized tools and accessories empowers garage owners to operate efficiently while minimizing costs.
 
 					</p>
-					<div class="tabulation-2 mt-4">
-						<ul class="nav nav-pills nav-fill d-md-flex d-block rounded shadow-sm">
-							<li class="nav-item mb-md-0 mb-2">
-								<a class="nav-link active py-2 text-dark fw-bold" data-toggle="tab" href="#home1">Why Partner With Us?</a>
-							</li>
-							<li class="nav-item mb-md-0 mb-2">
-								<a class="nav-link py-2 text-dark fw-bold" data-toggle="tab" href="#home2">SAP EQUIPMENTS & TOOLS – World Class Products</a>
-							</li>
-						</ul>
-						<div class="tab-content rounded bg-white shadow mt-2 p-3">
-							<div class="tab-pane container p-0 active" id="home1">
-								<div class="tab-content-inner">
-									<p class="fw-bold text-primary">Why Choose SAP EQUIPMENTS & TOOLS?</p>
-									<ul class="list-unstyled">
-										<li> <strong>Unmatched Quality & Reliability:</strong> Every product is engineered for durability and performance.</li>
-										<li> <strong>Cost-Effective Ownership:</strong> Solutions designed to reduce long-term expenses.</li>
-										<li> <strong>Pan-India & Global Reach:</strong> Serving customers across India and international markets via a trusted network of channel partners.</li>
-									</ul>
-									<p class="text-muted">
-										Join thousands of satisfied customers who trust SAP EQUIPMENTS & TOOLS to power their success. 
-										<strong>Let’s build smarter, more efficient garages together!</strong>
-									</p>
-								</div>
-							</div>
-							<div class="tab-pane container p-0 fade" id="home2">
-								<div class="tab-content-inner">
-									<p class="fw-bold text-primary">Industry-Leading Garage Solutions</p>
-									<p>SAP EQUIPMENTS & TOOLS leads the industry with cutting-edge product innovation, delivering global-quality garage equipment tailored to local conditions. By partnering with global market leaders and leveraging deep domestic expertise, we customize solutions to withstand tough geographic challenges. Our advanced technology ensures zero-failure performance, making us the trusted choice for reliable, durable, and locally-optimized garage tools.</p>
-									<p class="text-secondary fst-italic">
-										"From essential garage tools to cutting-edge equipment, we deliver end-to-end solutions that help garage owners thrive in a competitive market."
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					
 
 		        </div>
 	        </div>
@@ -830,9 +888,9 @@
     	</div>
     </section> {% endcomment %}
 
-	<section class="ftco-section custom-product-section">
+	<section class="ftco-section custom-product-section bg-light mt-5 pt-5">
 		<div class="container">
-			<div class="row justify-content-center pb-5 mb-3">
+			<div class="row justify-content-center mb-4">
 				<div class="col-md-7 heading-section text-center ftco-animate">
 					<span class="subheading">Our Products</span>
 					<h2>Check our Products here</h2>
@@ -842,17 +900,17 @@
 			<!-- Product Grid -->
 			<div class="product-grid">
 				{% for product in products %}
-				<div class="blog-entry">
+				<div class="blog-entry d-flex flex-column">
 					<a href="{% url 'product_detail' product.id %}" class="block-20">
 						<img src="{{ product.images.url|default:'/static/images/placeholder.jpg' }}" 
 							 alt="{{ product.name }}" class="product-image">
 					</a>
-					<div class="text">
-						<h3 class="heading">
+					<div class="text d-flex flex-column flex-grow-1 justify-content-between p-3">
+						<h3 class="heading text-center">
 							<a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
 						</h3>
-						<p class="m-0 text-left">{{ product.description|truncatewords:8 }}</p>
-						<p class="m-0 text-left"><strong>Price:</strong> ₹{{ product.price }}</p>
+						<p class="text-muted text-center flex-grow-1">{{ product.description|truncatewords:8 }}</p>
+						<p class="text-center font-weight-bold mt-auto"><strong>Price:</strong> ₹{{ product.price }}</p>
 					</div>
 				</div>
 				{% empty %}
@@ -942,12 +1000,13 @@
 		.custom-product-section .text a:hover {
 			color: #007bff;
 		}
+
 	</style>
 	
 	
 		
 
-    <section class="ftco-section testimony-section ">
+    <section class="ftco-section testimony-section">
       <div class="container">
         <div class="row justify-content-center pb-5 mb-3">
           <div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
@@ -1158,7 +1217,7 @@
     	</div>
     </section>
 	<section class="ftco-map ftco-no-pb">
-		<div class="container"  style="margin-block: 50px !important;">
+		<div class="container"  style="margin-block: 40px !important;">
 			<div class="row justify-content-center">
 				<div class="col-md-7 heading-section text-center ftco-animate">
 					<span class="subheading">Location</span>
@@ -1253,7 +1312,7 @@
 			</div>
 		</section>	 {% endcomment %}
 	{% endblock %}
-    <footer class="footer ftco-section ">
+    <footer class="footer ftco-section">
       <div class="container mt-5 pt-5">
         <div class="row mb-5">
 		<div class="col-md-6 col-lg">
@@ -1313,7 +1372,7 @@
           <div class="col-md-12 text-center">
 
             <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | codespikestudio.com<i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://codespikestudio.com" target="_blank">codespikestudio</a>
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | codespikestudio.com<i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://codespikestudio.onrender.com/" target="_blank">codespikestudio</a>
   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
           </div>
         </div>

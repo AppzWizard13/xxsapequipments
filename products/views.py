@@ -203,6 +203,7 @@ def product_grid_view(request):
     return render(request, 'product_detail_view.html', {
         'products': products,
         'categories': categories,
+        'total_categories': categories,
         'subcategories': subcategories,
         'query': query,
         'selected_category': category_id,

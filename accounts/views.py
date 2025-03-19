@@ -251,11 +251,17 @@ class ProductDetailView(DetailView):
 
 
 def services_view(request):
-    return render(request, 'services.html')
+    context={}
+    total_categories = Category.objects.all()
+    context['total_categories'] = total_categories 
+    return render(request, 'services.html', context)
 
 
 def about_view(request):
-    return render(request, 'about.html')
+    context={}
+    total_categories = Category.objects.all()
+    context['total_categories'] = total_categories 
+    return render(request, 'about.html', context)
 
 
 import os
