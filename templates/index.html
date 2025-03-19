@@ -4,6 +4,8 @@
   <head>
     <title>SAP Equipments & Tools</title>
     <meta charset="utf-8">
+	<link rel="icon" type="image/png" href="{% static 'images/main_logo.png' %}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
@@ -284,11 +286,7 @@
 			box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3) !important;
 		}
 
-		/* Testimonies Section Background */
-		.testimony-section {
-			{% comment %} background: #f8f9fa !important; /* Keeping a light background */ {% endcomment %}
-			padding: 60px 0 !important;
-		}
+
 
 		/* Section Heading */
 		.heading-section-white h2 {
@@ -468,6 +466,10 @@
 			font-weight:bolder !important;
 		}
 		
+		.logo-img {
+			max-height: 60px; /* Adjust as needed */
+			width: auto;
+		}
 	
 
 	</style> 
@@ -478,8 +480,11 @@
 	    <div class="container">
 				<div class="row justify-content-between">
 					<div class="col-md-3 d-flex align-items-center">
-						<a class="navbar-brand" href="index.html">SAP EQUIPMENTS <span>&</span> TOOLS</a>
+						<a class="navbar-brand" href="index.html">
+							<img src="static/images/main_logo.png" alt="SAP Equipments & Tools" class="logo-img">
+						</a>
 					</div>
+					
 					<div class="col-md-7">
 						<div class="row">
 							<div class="col">
@@ -751,9 +756,9 @@
 
 		</style>
 
-		<section class="ftco-section testimony-section bg-light" style="padding:3rem;">
+		<section class="ftco-section testimony-section bg-light" >
 			<div class="container">
-			  <div class="row justify-content-center pb-2 mb-5">
+			  <div class="row justify-content-center pb-5 ">
 				<div class="col-md-7 heading-section text-center ftco-animate">
 				  <span class="subheading">Premium Automotive Solutions</span>
 				  <h2>Our Services</h2>
@@ -761,7 +766,7 @@
 			  </div>
 			  <div class="row">
 				{% for category in total_categories %}
-				<div class="col-md-4 services ftco-animate" style="min-height: 250px;">
+				<div class="col-md-4 services ftco-animate" style="min-height: 200px;">
 				  <div class="d-block d-flex align-items-center">
 					<div class="icon d-flex justify-content-center align-items-center" style="min-width: 50px; min-height: 50px;">
 					  {% if category.image %}
@@ -791,7 +796,7 @@
 		  
 		  
    	
-    <section class="ftco-section ftco-no-pt ftco-no-pb mt-5 pt-5 ">
+    <section class="ftco-section">
     	<div class="container">
     		<div class="row d-flex no-gutters">
     			<div class="col-md-6 d-flex">
@@ -1317,7 +1322,11 @@
         <div class="row mb-5">
 		<div class="col-md-6 col-lg">
 			<div class="ftco-footer-widget mb-2 text-left">
-				<h2 class="logo"><a href="#">SAP EQUIPMENTS <span>&</span> TOOLS</a></h2>
+				<div class="d-flex align-items-left">
+					<a class="navbar-brand mb-3" href="index.html">
+						<img src="static/images/main_logo.png" alt="SAP Equipments & Tools" class="logo-img">
+					</a>
+				</div>
 				<p><b>Empowering garages with innovative tools, reliability, and global-quality solutions for every need.</b></p>
 				<ul class="ftco-footer-social list-unstyled mt-4 d-flex">
 				<li class="ftco-animate mr-3"><a href="#"><span class="fa fa-twitter"></span></a></li>
