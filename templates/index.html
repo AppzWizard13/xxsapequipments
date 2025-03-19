@@ -21,6 +21,375 @@
 
     <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<style>
+		/* Define Theme Variables */
+		:root {
+			--primary-red: #dd1010; /* Power Red */
+			--light-gray: #a3a3a3; /* Light metallic gray */
+			--text-light: #f2f2f2; /* Near white text */
+			--charcoal-dark: #3d3d3d; /* Dark accent */
+			--button-hover-red: #b80c0c; /* Button hover effect */
+		}
+		
+		/* Global Background */
+		body {
+			background: linear-gradient(to right, var(--light-gray), var(--charcoal-dark));
+			color: var(--text-light);
+			font-family: 'Poppins', sans-serif;
+		}
+		
+		/* Headings */
+		h1, h2, h3 {
+			color: #020101 !important;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+		
+		/* Subheadings */
+		.subheading {
+			color: var(--primary-red); !important;
+			font-size: 18px;
+		}
+		
+		/* Navbar */
+		.navbar {
+			background: var(--charcoal-dark) !important;
+			border-bottom: 3px solid var(--primary-red);
+		}
+		
+		/* Ensures all text inside the navbar is white */
+		.navbar, 
+		.navbar a, 
+		.navbar .nav-link, 
+		.navbar .navbar-brand, 
+		.navbar .navbar-toggler-icon, 
+		.navbar .dropdown-menu, 
+		.navbar .dropdown-item {
+			color: white !important;
+		}
+		
+		/* Ensures navbar brand/logo text is white */
+		.navbar-brand {
+			font-size: 20px;
+			font-weight: bold;
+			color: white !important;
+		}
+		
+		/* Navbar links hover effect */
+		.navbar .nav-link:hover,
+		.navbar .dropdown-item:hover {
+			{% comment %} color: var(--primary-red) !important; {% endcomment %}
+		}
+		
+		/* Active link styling */
+		.navbar .nav-item.active .nav-link {
+			font-weight: bold;
+			{% comment %} color: var(--primary-red) !important; {% endcomment %}
+		}
+		
+		/* Ensures dropdown menu has a dark background */
+		.navbar .dropdown-menu {
+			background: var(--charcoal-dark) !important;
+			border: none;
+		}
+		
+		/* Ensures dropdown items are white */
+		.navbar .dropdown-item {
+			color: white !important;
+		}
+		
+		/* Navbar toggler (mobile menu button) */
+		.navbar-toggler {
+			border: none !important;
+		}
+		
+		/* Navbar toggler icon (hamburger menu) */
+		.navbar-toggler-icon {
+			filter: invert(1); /* Makes it white */
+		}
+		
+		
+		
+		/* Buttons */
+		.btn-primary {
+			background: var(--primary-red) !important;
+			border: none;
+			color: white !important;
+			font-weight: bold;
+			padding: 12px 24px;
+			border-radius: 4px;
+			text-transform: uppercase;
+			transition: all 0.3s ease-in-out;
+			box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+		}
+		.services .icon {
+			background: var(--charcoal-dark) !important;
+		}
+		.bg-intro{
+			background: var(--charcoal-dark) !important;
+		}
+		.bg-intro:after{
+			background: var(--charcoal-dark) !important;
+		}
+
+		.bg-primary {
+			background: var(--light-gray) !important;
+			border: none;
+			color: white !important;
+		}
+		
+		.btn-primary:hover {
+			background: var(--button-hover-red) !important;
+			color: white !important;
+		}
+		
+		/* Secondary Buttons */
+		.btn-secondary {
+			background: var(--light-gray) !important;
+			color: black !important;
+			border: none;
+		}
+		
+		.btn-secondary:hover {
+			background: var(--primary-red) !important;
+			color: white !important;
+		}
+		
+		/* Cards */
+		.card {
+			background: var(--text-light);
+			border: 2px solid var(--charcoal-dark);
+			border-radius: 8px;
+			box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+			color: black;
+			padding: 20px;
+		}
+		
+		/* Footer */
+		.footer {
+			background: var(--charcoal-dark);
+			color: var(--text-light);
+			padding: 20px;
+			text-align: center;
+		}
+		/* Product Section Background */
+		.custom-product-section {
+			background: linear-gradient(to right, #818285, #6e6e6e) !important; /* Dark metallic look */
+			padding: 50px 0 !important;
+		}
+
+		/* Product Grid */
+		.product-grid {
+			display: grid !important;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important; /* Responsive Grid */
+			gap: 20px !important;
+			justify-content: center !important;
+		}
+
+		/* Product Card */
+		.blog-entry {
+			background: #2a2a2a !important; /* Dark charcoal background */
+			color: white !important;
+			border-radius: 5px !important;
+			overflow: hidden !important;
+			transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out !important;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important;
+		}
+
+		/* Product Image */
+		.blog-entry .block-20 {
+			display: block !important;
+			width: 100% !important;
+			height: 220px !important; /* Fixed height for uniformity */
+			overflow: hidden !important;
+			border-bottom: 3px solid var(--primary-red) !important;
+		}
+
+		.blog-entry .block-20 img {
+			width: 100% !important;
+			height: 100% !important;
+			object-fit: cover !important; /* Ensure images maintain aspect ratio */
+			transition: transform 0.3s ease-in-out !important;
+		}
+
+		/* Image Hover Effect */
+		.blog-entry:hover .block-20 img {
+			transform: scale(1.1) !important; /* Zoom effect */
+		}
+
+		/* Product Text */
+		.blog-entry .text {
+			padding: 15px !important;
+			text-align: left !important;
+		}
+
+		/* Product Title */
+		.blog-entry .heading a {
+			font-size: 18px !important;
+			font-weight: bold !important;
+			color: white !important;
+			text-transform: uppercase !important;
+			transition: color 0.3s ease-in-out !important;
+		}
+
+		.blog-entry .heading a:hover {
+			color: var(--primary-red) !important;
+		}
+
+		/* Product Description */
+		.blog-entry p {
+			font-size: 14px !important;
+			color: #d1d1d1 !important;
+			margin-bottom: 10px !important;
+		}
+
+		/* Price */
+		.blog-entry p strong {
+			color: var(--primary-red) !important;
+			font-weight: bold !important;
+		}
+
+		/* Hover Effect */
+		.blog-entry:hover {
+			transform: translateY(-5px) !important;
+			box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3) !important;
+		}
+
+		/* Testimonies Section Background */
+		.testimony-section {
+			{% comment %} background: #f8f9fa !important; /* Keeping a light background */ {% endcomment %}
+			padding: 60px 0 !important;
+		}
+
+		/* Section Heading */
+		.heading-section-white h2 {
+			font-size: 28px !important;
+			font-weight: bold !important;
+			color: #020101 !important;
+		}
+
+		/* Testimonial Card */
+		.testimony-wrap {
+			background: white !important;
+			border-radius: 10px !important;
+			padding: 20px !important;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
+			transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+		}
+
+		/* Quote Icon */
+		.testimony-wrap .icon {
+			font-size: 24px !important;
+			color: var(--primary-red) !important;
+		}
+
+		/* Testimonial Text */
+		.testimony-wrap .text {
+			font-size: 16px !important;
+			color: #555 !important;
+		}
+
+		/* User Image */
+		.testimony-wrap .user-img {
+			width: 50px !important;
+			height: 50px !important;
+			border-radius: 50% !important;
+			background-size: cover !important;
+			background-position: center !important;
+			border: 2px solid var(--primary-red) !important;
+		}
+
+		/* User Name */
+		.testimony-wrap .name {
+			font-size: 18px !important;
+			font-weight: bold !important;
+			color: #222 !important;
+		}
+
+		/* User Position */
+		.testimony-wrap .position {
+			font-size: 14px !important;
+			color: #777 !important;
+		}
+
+		/* Hover Effect */
+		.testimony-wrap:hover {
+			transform: translateY(-3px) !important;
+			box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15) !important;
+		}
+		.ftco-heading-2{
+			color:grey !important;
+		}
+		/* Tab navigation styles */
+		.nav-pills .nav-link {
+			border-radius: 8px;
+			transition: all 0.3s ease;
+		}
+		.nav-pills .nav-link.active {
+			background-color: #d8232a !important;
+			color: #fff !important;
+			box-shadow: 0px 4px 10px rgba(216, 35, 42, 0.3);
+		}
+		.nav-pills .nav-link:hover {
+			background-color: #d8232a !important;
+			color: #fff !important;
+		}
+	
+		/* Tab Navigation */
+		.nav-pills .nav-link {
+			font-size: 16px !important;
+			font-weight: bold !important;
+			color: white !important;
+			text-transform: uppercase !important;
+			background-color: var(--primary-dark) !important;
+			transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out !important;
+			border-radius: 8px !important;
+			padding: 10px 15px !important;
+		}
+		
+		.nav-pills .nav-link.active,
+		.nav-pills .nav-link:hover {
+			background-color: var(--primary-red) !important;
+			color: #fff !important;
+			box-shadow: 0px 4px 10px rgba(216, 35, 42, 0.3) !important;
+		}
+		
+		/* Tab Content */
+		.tab-content {
+			border-radius: 10px !important;
+			background: #181818 !important;
+			color: #d1d1d1 !important;
+			padding: 20px !important;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3) !important;
+		}
+		
+		.tab-content-inner p {
+			font-size: 14px !important;
+			color: #d1d1d1 !important;
+		}
+		
+		.tab-content-inner ul li {
+			font-size: 14px !important;
+			color: #ffffff !important;
+			margin-bottom: 8px !important;
+		}
+		
+		/* Hover Effects */
+		.tab-content-inner p strong,
+		.tab-content-inner ul li strong {
+			color: var(--primary-red) !important;
+		}
+		
+		.tab-content-inner p.text-secondary {
+			font-style: italic !important;
+			color: #999 !important;
+		}
+		
+	
+
+	</style> 
+	
   </head>
   <body>
 		<div class="wrap">
@@ -144,13 +513,13 @@
 		<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg"  role="document">
 			<div class="modal-content">
-				<div class="modal-header" style="background:#f79f24">
-				<h5 class="modal-title" style="background:#f79f24; font-weigth:bolder" id="appointmentModalLabel">Book an Appointment</h5>
+				<div class="modal-header" style="background:#dd1010">
+				<h5 class="modal-title" style="background:#dd1010; font-weigth:bolder" id="appointmentModalLabel">Book an Appointment</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				</div>
-				<div class="modal-body" style="background:#f79f24">
+				<div class="modal-body" style="background:#dd1010">
 				<!-- Appointment Section -->
 				<section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img" style="background-image: url({% static 'images/bg_3.jpg' %});">
 					<div class="overlay"></div>
@@ -235,7 +604,7 @@
 							<div class="icon d-flex align-items-center justify-content-center">
 								<i class="flaticon-repair"></i>
 							</div>
-							<h2 class="mb-0">Are you ready? <span>Let's repair it now!</span></h2>
+							<h2 class="mb-0 ">Are you ready? <span style="color:red;"> &nbsp;Let's repair it now!</span></h2>
 						</div>
 						<a href="https://pdf.indiamart.com/impdf/23953284097/136190013/sapet-tyre-changer.pdf" class="bg-primary btn-custom d-flex align-items-center"><span>Get Our Catelogue</span></a>
 					</div>
@@ -255,12 +624,10 @@
 			  width: 60px; /* Adjust size of the round container */
 			  height: 60px; /* Adjust size of the round container */
 			  border-radius: 50%; /* Makes it round */
-			  {% comment %} background-color: #007bff; /* Blue background for contrast */ {% endcomment %}
 			  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
 			  display: flex;
 			  justify-content: center;
 			  align-items: center;
-			  margin-right: 15px; /* Space between icon and text */
 			}
 			
 			/* Smaller icon size */
@@ -299,118 +666,38 @@
 
 		</style>
 
-		<section class="ftco-section" style="padding:3rem;">
+		  <section class="ftco-section" style="padding:3rem;">
 			<div class="container">
 			  <div class="row justify-content-center pb-2 mb-5">
 				<div class="col-md-7 heading-section text-center ftco-animate">
 				  <span class="subheading">Premium Automotive Solutions</span>
-				  <h2>Our Products</h2>
+				  <h2>Our Services</h2>
 				</div>
 			  </div>
 			  <div class="row">
+				{% for category in total_categories %}
 				<div class="col-md-4 services ftco-animate">
 				  <div class="d-block d-flex">
 					<div class="icon d-flex justify-content-center align-items-center">
-					  <img src="{% static 'icons/car-wash-equipments.png' %}" alt="Washing Equipment Icon" class="icon-img white-icon">
+					  {% if category.image %}
+						<img src="{{ category.image.url }}" alt="{{ category.name }}" class="icon-img white-icon" style="width: 45px; height: 45px; object-fit: cover; border-radius: None;">
+					  {% else %}
+						<img src="{% static 'icons/category.png' %}" alt="Category Icon" class="icon-img white-icon">
+					  {% endif %}
 					</div>
 					<div class="media-body pl-3">
-					  <h3 class="heading">Washing Equipment</h3>
-					  <p>High-performance washing equipment designed for efficient, water-saving, and eco-friendly vehicle cleaning.</p>
-					  <p><a href="#" class="btn-custom">View Catelogue</a></p>
-					</div>
-				  </div>
-				  <div class="d-block d-flex">
-					<div class="icon d-flex justify-content-center align-items-center">
-					  <img src="{% static 'icons/promotion.png' %}" alt="Car Care Products Icon" class="icon-img white-icon">
-					</div>
-					<div class="media-body pl-3">
-					  <h3 class="heading">Car Care Products</h3>
-					  <p>Premium car care solutions, including waxes, polishes, and cleaners, to protect and enhance your vehicle's finish.</p>
-					  <p><a href="#" class="btn-custom">View Catelogue</a></p>
-					</div>
-				  </div>
-				  <div class="d-block d-flex">
-					<div class="icon d-flex justify-content-center align-items-center">
-					  <img src="{% static 'icons/car-lift.png' %}" alt="Washing Lift Icon" class="icon-img white-icon">
-					</div>
-					<div class="media-body pl-3">
-					  <h3 class="heading">Washing Lift</h3>
-					  <p>Heavy-duty washing lifts for safe and efficient vehicle maintenance, designed for garages and workshops.</p>
-					  <p><a href="#" class="btn-custom">View Catelogue</a></p>
+					  <h3 class="heading">{{ category.name }}</h3>
+					  <p>{{ category.description }}</p>
 					</div>
 				  </div>
 				</div>
-		  
-				<div class="col-md-4 services ftco-animate">
-				  <div class="d-block d-flex">
-					<div class="icon d-flex justify-content-center align-items-center">
-					  <img src="{% static 'icons/wheels.png' %}" style="color:white;" alt="Wheel Balancer Icon" class="icon-img white-icon">
-					</div>
-					<div class="media-body pl-3">
-					  <h3 class="heading">Wheel Balancer</h3>
-					  <p>Precision wheel balancers for accurate tire balancing, ensuring smoother rides and extended tire lifespan.</p>
-					  <p><a href="#" class="btn-custom">View Catelogue</a></p>
-					</div>
-				  </div>
-				  <div class="d-block d-flex">
-					<div class="icon d-flex justify-content-center align-items-center">
-					  <img src="{% static 'icons/car-wash.png' %}" alt="Automatic Car Washer Icon" class="icon-img white-icon">
-					</div>
-					<div class="media-body pl-3">
-					  <h3 class="heading">Automatic Car Washer</h3>
-					  <p>Fully automatic car washers with advanced technology for fast, efficient, and scratch-free vehicle cleaning.</p>
-					  <p><a href="#" class="btn-custom">View Catelogue</a></p>
-					</div>
-				  </div>
-				  <div class="d-block d-flex">
-					<div class="icon d-flex justify-content-center align-items-center">
-					  <img src="{% static 'icons/tyre-change.png' %}" alt="Tyre Changer Icon" class="icon-img white-icon">
-					</div>
-					<div class="media-body pl-3">
-					  <h3 class="heading">Tyre Changer</h3>
-					  <p>Robust tyre changers for quick and safe tire replacements, suitable for all vehicle types.</p>
-					  <p><a href="#" class="btn-custom">View Catelogue</a></p>
-					</div>
-				  </div>
-				</div>
-		  
-				<div class="col-md-4 services ftco-animate">
-				  <div class="d-block d-flex mb-5">
-					<div class="icon d-flex justify-content-center align-items-center">
-					  <img src="{% static 'icons/car-washer-1.png' %}" alt="Washing Equipments Icon" class="icon-img white-icon">
-					</div>
-					<div class="media-body pl-3">
-					  <h3 class="heading">Car Washer</h3>
-					  <p>Advanced car washing systems for thorough cleaning, designed for both small and large-scale operations.</p>
-					  <p><a href="#" class="btn-custom">View Catelogue</a></p>
-					</div>
-				  </div>
-				  <div class="d-block d-flex">
-					<div class="icon d-flex justify-content-center align-items-center">
-					  <img src="{% static 'icons/scanner.png' %}" alt="Carman Car Scanner Icon" class="icon-img white-icon">
-					</div>
-					<div class="media-body pl-3">
-					  <h3 class="heading">Carman Car Scanner</h3>
-					  <p>Advanced diagnostic scanners for accurate vehicle health checks, engine diagnostics, and fault detection.</p>
-					  <p><a href="#" class="btn-custom">View Catelogue</a></p>
-					</div>
-				  </div>
-				  <div class="d-block d-flex">
-					<div class="icon d-flex justify-content-center align-items-center">
-					  <img src="{% static 'icons/air-compressor.png' %}" alt="Air Compressor Icon" class="icon-img white-icon">
-					</div>
-					<div class="media-body pl-3">
-					  <h3 class="heading">Air Compressor</h3>
-					  <p>High-efficiency air compressors for tire inflation, painting, and other automotive applications.</p>
-					  <p><a href="#" class="btn-custom">View Catelogue</a></p>
-					</div>
-				  </div>
-				</div>
+				{% endfor %}
 			  </div>
 			</div>
 		  </section>
+		  
    	
-    <section class="ftco-section ftco-no-pt ftco-no-pb bg-light">
+    <section class="ftco-section ftco-no-pt ftco-no-pb ">
     	<div class="container">
     		<div class="row d-flex no-gutters">
     			<div class="col-md-6 d-flex">
@@ -423,56 +710,50 @@
     			<div class="col-md-6 pl-md-5">
     				<div class="row justify-content-start py-5">
 		          <div class="col-md-12 heading-section ftco-animate">
-		          	<span class="subheading">Welcome to SAP EQUIPMENTS & TOOLS</span>
-		            <h2 class="mb-4">SAP EQUIPMENTS & TOOLS: Your Trusted Partner for Garage Equipment in India</h2>
+					<span class="subheading">Welcome to SAP EQUIPMENTS & TOOLS</span>
+		            <h2 class="heading mb-4">SAP EQUIPMENTS & TOOLS: Your Trusted Partner for Garage Equipment in India</h2>
 		            <p>At SAP EQUIPMENTS & TOOLS, we take pride in being India’s trusted leader in automotive service equipment. As pioneers in manufacturing, exporting, wholesaling, and supplying premium garage solutions, we are your ultimate one-stop-shop for all garage equipment needs.
 
 						Backed by the legacy of Elgi Equipments Ltd, we’ve earned our reputation through decades of innovation, quality, and affordability. Our curated range of 35+ advanced garage equipment and 150+ specialized tools and accessories empowers garage owners to operate efficiently while minimizing costs.
 
 					</p>
 					<div class="tabulation-2 mt-4">
-						<ul class="nav nav-pills nav-fill d-md-flex d-block">
+						<ul class="nav nav-pills nav-fill d-md-flex d-block rounded shadow-sm">
 							<li class="nav-item mb-md-0 mb-2">
-								<a class="nav-link active py-2" data-toggle="tab" href="#home1">Why Partner With Us?</a>
+								<a class="nav-link active py-2 text-dark fw-bold" data-toggle="tab" href="#home1">Why Partner With Us?</a>
 							</li>
 							<li class="nav-item mb-md-0 mb-2">
-								<a class="nav-link py-2" data-toggle="tab" href="#home2">SAP EQUIPMENTS & TOOLS – World Class Products</a>
+								<a class="nav-link py-2 text-dark fw-bold" data-toggle="tab" href="#home2">SAP EQUIPMENTS & TOOLS – World Class Products</a>
 							</li>
 						</ul>
-						<div class="tab-content rounded mt-2">
+						<div class="tab-content rounded bg-white shadow mt-2 p-3">
 							<div class="tab-pane container p-0 active" id="home1">
 								<div class="tab-content-inner">
-									<p>
-										<strong>Why Choose SAP EQUIPMENTS & TOOLS?</strong>
-										<ul>
-											<li>✨ <strong>Unmatched Quality & Reliability:</strong> Every product is engineered for durability and performance.</li>
-											<li>✨ <strong>Cost-Effective Ownership:</strong> Solutions designed to reduce long-term expenses.</li>
-											<li>✨ <strong>Pan-India & Global Reach:</strong> Serving customers across India and international markets via a trusted network of channel partners.</li>
-										</ul>
-									</p>
-									<p>
-										Join thousands of satisfied customers who trust SAP EQUIPMENTS & TOOLS to power their success. <strong>Let’s build smarter, more efficient garages together!</strong>
+									<p class="fw-bold text-primary">Why Choose SAP EQUIPMENTS & TOOLS?</p>
+									<ul class="list-unstyled">
+										<li> <strong>Unmatched Quality & Reliability:</strong> Every product is engineered for durability and performance.</li>
+										<li> <strong>Cost-Effective Ownership:</strong> Solutions designed to reduce long-term expenses.</li>
+										<li> <strong>Pan-India & Global Reach:</strong> Serving customers across India and international markets via a trusted network of channel partners.</li>
+									</ul>
+									<p class="text-muted">
+										Join thousands of satisfied customers who trust SAP EQUIPMENTS & TOOLS to power their success. 
+										<strong>Let’s build smarter, more efficient garages together!</strong>
 									</p>
 								</div>
 							</div>
 							<div class="tab-pane container p-0 fade" id="home2">
 								<div class="tab-content-inner">
+									<p class="fw-bold text-primary">Industry-Leading Garage Solutions</p>
 									<p>SAP EQUIPMENTS & TOOLS leads the industry with cutting-edge product innovation, delivering global-quality garage equipment tailored to local conditions. By partnering with global market leaders and leveraging deep domestic expertise, we customize solutions to withstand tough geographic challenges. Our advanced technology ensures zero-failure performance, making us the trusted choice for reliable, durable, and locally-optimized garage tools.</p>
-									<p>
-										<em>"From essential garage tools to cutting-edge equipment, we deliver end-to-end solutions that help garage owners thrive in a competitive market."</em>
+									<p class="text-secondary fst-italic">
+										"From essential garage tools to cutting-edge equipment, we deliver end-to-end solutions that help garage owners thrive in a competitive market."
 									</p>
 								</div>
 							</div>
 						</div>
 					</div>
 					
-					<style>
-						.tab-content-inner {
-							height: 350px; /* Set a fixed height for the content */
-							overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
-							padding: 10px; /* Add some padding for better readability */
-						}
-					</style>
+
 		        </div>
 	        </div>
         </div>
@@ -654,7 +935,7 @@
 		}
 	
 		.custom-product-section .text a {
-			color: #333;
+			color: #020101;
 			text-decoration: none;
 		}
 	
@@ -666,11 +947,11 @@
 	
 		
 
-    <section class="ftco-section testimony-section bg-light">
+    <section class="ftco-section testimony-section ">
       <div class="container">
         <div class="row justify-content-center pb-5 mb-3">
           <div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
-          	<span class="subheading">Testimonies</span>
+          	<span class="subheading"v style="color:red !important;">Testimonies</span>
             <h2>Happy Clients &amp; Feedbacks</h2>
           </div>
         </div>
@@ -975,64 +1256,57 @@
     <footer class="footer ftco-section ">
       <div class="container mt-5 pt-5">
         <div class="row mb-5">
-          <div class="col-md-6 col-lg">
-            <div class="ftco-footer-widget mb-4">
-              <h2 class="logo"><a href="#">SAP EQUIPMENTS <span>&</span> TOOLS</a></h2>
-              <p><b>Empowering garages with innovative tools, reliability, and global-quality solutions for every need.</b></p>
-              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-4">
-                <li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="fa fa-instagram"></span></a></li>
-              </ul>
-            </div>
-          </div>
+		<div class="col-md-6 col-lg">
+			<div class="ftco-footer-widget mb-2 text-left">
+				<h2 class="logo"><a href="#">SAP EQUIPMENTS <span>&</span> TOOLS</a></h2>
+				<p><b>Empowering garages with innovative tools, reliability, and global-quality solutions for every need.</b></p>
+				<ul class="ftco-footer-social list-unstyled mt-4 d-flex">
+				<li class="ftco-animate mr-3"><a href="#"><span class="fa fa-twitter"></span></a></li>
+				<li class="ftco-animate mr-3"><a href="#"><span class="fa fa-facebook"></span></a></li>
+				<li class="ftco-animate"><a href="#"><span class="fa fa-instagram"></span></a></li>
+				</ul>
+			</div>
+		 </div>
 		  <div class="col-md-6 col-lg">
-			<div class="ftco-footer-widget mb-4 ml-md-5">
-			  <h2 class="ftco-heading-2">Our Products</h2>
+			<div class="ftco-footer-widget mb-2 ml-md-5 text-left">
+			  <h2 class="ftco-heading-2 ml-3">Our Services</h2>
 			  <ul class="list-unstyled">
-				<li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Washing Equipment</a></li>
-				<li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Car Care Products</a></li>
-				<li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Washing Lift</a></li>
-				<li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Wheel Balancer</a></li>
-				<li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Automatic Car Washer</a></li>
-				<li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Tyre Changer</a></li>
-				<li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Car Washer</a></li>
-				<li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Washing Equipments</a></li>
-				<li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Carman Car Scanner</a></li>
-				<li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Air Compressor</a></li>
+				{% for category in total_categories %}
+				<li class="text-left"><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>{{ category.name }}</a></li>
+				{% endfor %}
 			  </ul>
 			</div>
 		  </div>
-          <div class="col-md-6 col-lg">
-            <div class="ftco-footer-widget mb-4">
-            	<h2 class="ftco-heading-2">Contact information</h2>
-            	<div class="block-23" style="margin-bottom: 5px !important">
-	              <ul>
-					<li><span class="icon fa fa-user"></span><span class="text">Rajagopal Radhakrishnan</span></li>
-	                <li><span class="icon fa fa-map-marker"></span><span class="text">Neelikonampalayam, Coimbatore, Tamil Nadu 641033, India</span></li>
-					<li><span class="icon fa fa-bank"></span><span class="text">33BHTPR6598F1ZI</span></li>
-	                <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">(+91) 099401 00506</span></a></li>
-	                <li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">info@sapequipments.in</span></a></li>
-	              </ul>
-	            </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg">
-             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Business Hours</h2>
-              <div class="opening-hours">
-              	<h4>Opening Days:</h4>
-              	<p class="pl-3">
-              		<span>Monday – Friday : 9am to 20 pm</span>
-              		<span>Saturday : 9am to 17 pm</span>
-              	</p>
-              	<h4>Vacations:</h4>
-              	<p class="pl-3">
-              		<span>All Sunday Days</span>
-              		<span>All Official Holidays</span>
-              	</p>
-              </div>
-            </div>
+		  <div class="col-md-6 col-lg">
+			<div class="ftco-footer-widget mb-2 text-left">
+			  <h2 class="ftco-heading-2 ml-3">Contact</h2>
+			  <div class="block-23" style="margin-bottom: 5px !important">
+				<ul class="text-left">
+				  <li><span class="icon fa fa-user"></span><span class="text">Rajagopal Radhakrishnan</span></li>
+				  <li><span class="icon fa fa-map-marker"></span><span class="text">Neelikonampalayam, Coimbatore, Tamil Nadu 641033, India</span></li>
+				  <li><span class="icon fa fa-bank"></span><span class="text">33BHTPR6598F1ZI</span></li>
+				  <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">(+91) 099401 00506</span></a></li>
+				  <li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">info@sapequipments.in</span></a></li>
+				</ul>
+			  </div>
+			</div>
+		  </div>
+          <div class="col-md-6 col-lg text-left">
+			<div class="ftco-footer-widget mb-2">
+			 <h2 class="ftco-heading-2 ml-3">Business Hours</h2>
+			 <div class="opening-hours">
+				 <h4>Opening Days:</h4>
+				 <p>
+					 <span>Monday – Friday : 9am to 20 pm</span><br>
+					 <span>Saturday : 9am to 17 pm</span>
+				 </p>
+				 <h4>Vacations:</h4>
+				 <p>
+					 <span>All Sunday Days</span><br>
+					 <span>All Official Holidays</span>
+				 </p>
+			 </div>
+		   </div>
           </div>
         </div>
         <div class="row">

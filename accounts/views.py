@@ -15,6 +15,7 @@ class HomePageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         products = Product.objects.values('category').distinct()
+        total_categories = Category.objects.all()
 
         product_list = []
         for item in products:
@@ -22,6 +23,7 @@ class HomePageView(TemplateView):
             product_list.extend(top_products)
 
         context['products'] = product_list  # Keeping the variable name the same
+        context['total_categories'] = total_categories 
         return context
 
 

@@ -1,10 +1,20 @@
 from django import forms
 from .models import *
 
+from django import forms
+from .models import Category
+
 class CategoryForm(forms.ModelForm):
+    image = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Category
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'image']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+
 
 
 class SubCategoryForm(forms.ModelForm):

@@ -15,31 +15,46 @@ def manage_items(request):
         'products': products
     })
 
-# --- Category Views ---
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages  # Import messages
+from .forms import CategoryForm
+from .models import Category
+
 def add_category(request):
     if request.method == "POST":
-        form = CategoryForm(request.POST)
+        form = CategoryForm(request.POST, request.FILES)  # Include request.FILES for image uploads
         if form.is_valid():
             form.save()
+            messages.success(request, "Category added successfully!")  # Success message
             return redirect('category_list')
+        else:
+            messages.error(request, "There was an error adding the category. Please check the form.")  # Error message
     else:
         form = CategoryForm()
+    
     return render(request, 'admin_panel/add_category.html', {'form': form})
+
 
 def edit_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     
-    print(f"Category ID: {category.id}")  # Debugging
+    print(f"Editing Category ID: {category.id}")  # Debugging
 
     if request.method == "POST":
-        form = CategoryForm(request.POST, instance=category)
+        form = CategoryForm(request.POST, request.FILES, instance=category)  # Include request.FILES
         if form.is_valid():
             form.save()
+            messages.success(request, "Category updated successfully!")  # Success message
             return redirect('category_list')
+        else:
+            messages.error(request, "Error updating category. Please check the form.")  # Error message
     else:
         form = CategoryForm(instance=category)
-    print("categorycategorycategorycategory", category)
+
     return render(request, 'admin_panel/edit_category.html', {'form': form, 'category': category})
+
+
 
 
 def delete_category(request, category_id):
