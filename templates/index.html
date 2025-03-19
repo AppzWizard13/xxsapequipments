@@ -709,10 +709,11 @@
 			
 			/* Round design for the icon container */
 			.icon {
-			  width: 60px; /* Adjust size of the round container */
-			  height: 60px; /* Adjust size of the round container */
+			  {% comment %} width: 50px; /* Adjust size of the round container */
+			  height: 50px; /* Adjust size of the round container */
 			  border-radius: 50%; /* Makes it round */
-			  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+			  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */ {% endcomment %}
+			  padding-inline:5px;
 			  display: flex;
 			  justify-content: center;
 			  align-items: center;
@@ -749,7 +750,7 @@
 			}
 
 			.block-23 ul li, .block-23 ul li > a{
-			display: table;
+			display: block;
 			line-height: 1.5;
 			margin-bottom: 0px !important;
 		}
@@ -1350,11 +1351,11 @@
 			  <h2 class="ftco-heading-2 ml-3">Contact</h2>
 			  <div class="block-23" style="margin-bottom: 5px !important">
 				<ul class="text-left">
-				  <li><span class="icon fa fa-user"></span><span class="text">Rajagopal Radhakrishnan</span></li>
-				  <li><span class="icon fa fa-map-marker"></span><span class="text">Neelikonampalayam, Coimbatore, Tamil Nadu 641033, India</span></li>
-				  <li><span class="icon fa fa-bank"></span><span class="text">33BHTPR6598F1ZI</span></li>
-				  <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">(+91) 099401 00506</span></a></li>
-				  <li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">info@sapequipments.in</span></a></li>
+				  <li class="py-2"><span class="icon fa fa-user"></span><span class="text">Rajagopal Radhakrishnan</span></li>
+				  <li class="py-2"><span class="icon fa fa-map-marker"></span><span class="text">Neelikonampalayam, Coimbatore, Tamil Nadu 641033, India</span></li>
+				  <li class="py-2"><span class="icon fa fa-bank"></span><span class="text">33BHTPR6598F1ZI</span></li>
+				  <li class="py-2"><a href="#"><span class="icon fa fa-phone"></span><span class="text">(+91) 099401 00506</span></a></li>
+				  <li class="py-2"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">info@sapequipments.in</span></a></li>
 				</ul>
 			  </div>
 			</div>
@@ -1368,7 +1369,7 @@
 					 <span>Monday – Friday : 9am to 20 pm</span><br>
 					 <span>Saturday : 9am to 17 pm</span>
 				 </p>
-				 <h4>Vacations:</h4>
+				 <h4>Holiday:</h4>
 				 <p>
 					 <span>All Sunday Days</span><br>
 					 <span>All Official Holidays</span>
