@@ -17,12 +17,12 @@
 
       <!-- Filter & Search Form -->
       <form method="GET" action="{% url 'product_grid_view' %}" class="mb-3">
-        <div class="row mt-5 mx-5 px-5">
-          <div class="searchform  col-md-4 ">
+        <div class="row mt-5">
+          <div class="searchform mb-2 col-md-4 ">
             <input type="text" name="search" class="form-control" placeholder="Search product..." value="{{ query }}">
           </div>
 
-          <div class="searchform  col-md-3">
+          <div class="searchform mb-2 col-md-3">
             <select name="category" class="form-control" onchange="this.form.submit()">
               <option value="">Filter by Category</option>
               {% for category in categories %}
@@ -33,7 +33,7 @@
             </select>
           </div>
 
-          <div class="searchform  col-md-3">
+          <div class="searchform mb-2 col-md-3">
             <select name="subcategory" class="form-control" onchange="this.form.submit()">
               <option value="">Filter by SubCategory</option>
               {% for subcategory in subcategories %}
@@ -51,9 +51,9 @@
       </form>
 
       <!-- Product Grid -->
-      <section class="custom-product-section mx-5">
+      <section class="custom-product-section">
         <div class="container-fluid">
-          <div class="row justify-content-center  mx-5 pt-5">
+          <div class="row justify-content-center pt-5">
             <div class="col-md-7 heading-section text-center">
               <h2>Check our Products here</h2>
             </div>
