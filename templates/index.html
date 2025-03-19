@@ -478,8 +478,8 @@
 	    <div class="container">
 				<div class="row justify-content-between">
 					<div class="col-md-3 d-flex align-items-center">
-						<a class="navbar-brand" href="index.html">
-							<img src="static/images/main_logo.png" alt="SAP Equipments & Tools" class="logo-img">
+						<a class="navbar-brand" href="{% url 'home' %}">
+							<img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
 						</a>
 					</div>
 					
@@ -1324,8 +1324,8 @@
 		<div class="col-md-6 col-lg">
 			<div class="ftco-footer-widget mb-2 text-left">
 				<div class="d-flex align-items-left">
-					<a class="navbar-brand mb-3" href="index.html">
-						<img src="static/images/main_logo.png" alt="SAP Equipments & Tools" class="logo-img">
+					<a class="navbar-brand mb-3" href="{% url 'home' %}">
+						<img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
 					</a>
 				</div>
 				<p><b>Empowering garages with innovative tools, reliability, and global-quality solutions for every need.</b></p>

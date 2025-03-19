@@ -37,7 +37,10 @@
               <td>{{ subcategory.category.name }}</td>
               <td class="text-center">
                 <a href="{% url 'edit_subcategory' subcategory.id %}" class="btn btn-warning btn-sm">Edit</a>
-                <a href="{% url 'delete_subcategory' subcategory.id %}" class="btn btn-danger btn-sm">Delete</a>
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" 
+                  data-subcategory-id="{{ subcategory.id }}" data-subcategory-name="{{ subcategory.name }}">
+                  Delete
+                </button>
               </td>
             </tr>
             {% empty %}
@@ -51,4 +54,39 @@
     </div>
   </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete "<strong id="subcategoryName"></strong>"?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="" id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript for Modal Update -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var deleteModal = document.getElementById('deleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget; // Button that triggered the modal
+      var subcategoryId = button.getAttribute('data-subcategory-id');
+      var subcategoryName = button.getAttribute('data-subcategory-name');
+
+      // Update modal content
+      document.getElementById('subcategoryName').textContent = subcategoryName;
+      document.getElementById('confirmDeleteBtn').href = "/delete-subcategory/" + subcategoryId + "/";
+    });
+  });
+</script>
 {% endblock %}

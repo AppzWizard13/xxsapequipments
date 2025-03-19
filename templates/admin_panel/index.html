@@ -9,6 +9,21 @@
   {% comment %} <link rel="shortcut icon" type="image/png" href="{% static 'admin_panel/images/logos/favicon.png' %}" /> {% endcomment %}
   <link rel="stylesheet" href="{% static 'admin_panel/css/styles.min.css' %}" />
 </head>
+<style>
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Space below logo */
+  }
+
+  .logo-img {
+    max-width: 150px; /* Further reduced size */
+    height: auto; /* Maintain aspect ratio */
+  }
+</style>
+
+
 
 <body>
   <!--  Body Wrapper -->
@@ -18,14 +33,17 @@
     <aside class="left-sidebar">
       <!-- Sidebar scroll-->
       <div>
-        <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="{% url 'dashboard' %}" class="text-nowrap logo-img">
-            <h5 class="hide-menu fw-bold ml-4">SAP ADMIN PANEL</h5>
-          </a>
-          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+        <div class="brand-logo d-flex flex-column align-items-center">
+          <div class="logo-container mt-3">
+            <a class="navbar-brand" href="{% url 'home' %}">
+              <img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
+            </a>
+          </div>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer mt-2" id="sidebarCollapse">
             <i class="ti ti-x fs-8"></i>
           </div>
         </div>
+        
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
           <ul id="sidebarnav">

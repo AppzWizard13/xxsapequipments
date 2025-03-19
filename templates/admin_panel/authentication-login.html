@@ -9,6 +9,20 @@
   <link rel="shortcut icon" type="image/png" href="{% static 'admin_panel/images/logos/favicon.png' %}" />
   <link rel="stylesheet" href="{% static 'admin_panel/css/styles.min.css' %}" />
 </head>
+<style>
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Adds space below the logo */
+  }
+  
+  .logo-img {
+    max-width: 150px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+</style> 
 
 <body>
   <!-- Body Wrapper -->
@@ -20,6 +34,11 @@
           <div class="col-md-8 col-lg-6 col-xxl-3">
             <div class="card mb-0">
               <div class="card-body">
+                <div class="logo-container">
+                  <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
+                  </a>
+                </div>
                   <p class="text-center"><b class="text-center">SAP EQUIPMENTS ADMIN PORTAL</b></p>
                 <p class="text-center">Administration Panel Login</p>
                 <form method="post">

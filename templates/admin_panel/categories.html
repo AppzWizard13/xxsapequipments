@@ -47,7 +47,10 @@
               <td>{{ category.description }}</td>
               <td class="text-center">
                 <a href="{% url 'edit_category' category.id %}" class="btn btn-warning btn-sm">Edit</a>
-                <a href="{% url 'delete_category' category.id %}" class="btn btn-danger btn-sm">Delete</a>
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                        data-category-id="{{ category.id }}" data-category-name="{{ category.name }}">
+                  Delete
+                </button>
               </td>
             </tr>
             {% empty %}
@@ -61,4 +64,42 @@
     </div>
   </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <strong id="categoryName"></strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var deleteModal = document.getElementById('deleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget;  // Button that triggered the modal
+      var categoryId = button.getAttribute('data-category-id');
+      var categoryName = button.getAttribute('data-category-name');
+      
+      // Set the category name in the modal
+      document.getElementById('categoryName').textContent = categoryName;
+
+      // Update the delete button URL
+      var deleteUrl = "{% url 'delete_category' 0 %}".replace('0', categoryId);
+      document.getElementById('confirmDeleteBtn').setAttribute('href', deleteUrl);
+    });
+  });
+</script>
+
 {% endblock %}
