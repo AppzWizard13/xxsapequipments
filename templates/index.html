@@ -154,7 +154,7 @@
 			background: var(--charcoal-dark) !important;
 		}
 		.bg-intro:after{
-			background: var(--charcoal-dark) !important;
+			background: #202020 !important;
 		}
 
 		.bg-catelogue {
@@ -205,21 +205,19 @@
 		}
 		/* Product Section Background */
 		.custom-product-section {
-			{% comment %} background: linear-gradient(to right, #818285, #6e6e6e) !important; /* Dark metallic look */ {% endcomment %}
 			padding: 50px 0 !important;
 		}
 
 		/* Product Grid */
 		.product-grid {
 			display: grid !important;
-			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important; /* Responsive Grid */
+		
 			gap: 20px !important;
 			justify-content: center !important;
 		}
 
 		/* Product Card */
 		.blog-entry {
-			{% comment %} background: #2a2a2a !important; /* Dark charcoal background */ {% endcomment %}
 			color: var(--charcoal-dark);
 			border-radius: 5px !important;
 			overflow: hidden !important;
@@ -459,7 +457,7 @@
 			font-weight: bold;
 		}
 		.ftco-counter{
-			background: var(--charcoal-dark) !important;
+			background: #202020 !important;
 		}
 		.wrap .top-wrap .text{
 			color: lightgrey;
@@ -686,8 +684,8 @@
 		<section class="intro">
 			<div class="container intro-wrap">
 				<div class="row no-gutters">
-					<div class="col-md-12 col-lg-9 bg-intro d-sm-flex align-items-center align-items-stretch">
-						<div class="intro-box d-flex align-items-center" style="color:grey;">
+					<div class="col-md-12 col-lg-9 bg-intro d-sm-flex align-items-center align-items-stretch" >
+						<div class="intro-box d-flex align-items-center" style="color:grey; background: #202020;">
 							<div class="icon d-flex align-items-center justify-content-center">
 								<i class="flaticon-repair"></i>
 							</div>
@@ -979,7 +977,6 @@
 			width: 100%;
 			height: 250px;
 			object-fit: cover;
-			border-radius: 10px;
 		}
 	
 		/* Text Area for Uniform Height */
@@ -1005,6 +1002,9 @@
 	
 		.custom-product-section .text a:hover {
 			color: #007bff;
+		}
+		.intro{
+			background:blue !important;
 		}
 
 	</style>
@@ -1318,7 +1318,7 @@
 			</div>
 		</section>	 {% endcomment %}
 	{% endblock %}
-    <footer class="footer ftco-section">
+    <footer class="footer ftco-section" style="background: #202020 !important;">
       <div class="container mt-5 pt-5">
         <div class="row mb-5">
 		<div class="col-md-6 col-lg">
