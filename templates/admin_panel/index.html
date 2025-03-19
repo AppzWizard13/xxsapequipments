@@ -21,6 +21,28 @@
     max-width: 150px; /* Further reduced size */
     height: auto; /* Maintain aspect ratio */
   }
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    background-color: lightgrey;
+    color: #333;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  }
+
+  .close-btn:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.1);
+  }
+
+  .close-btn i {
+      font-size: 20px; /* Adjust icon size */
+  }
+  .logo-container {
+    gap: 20px; /* Adjust spacing */
+  }
 </style>
 
 
@@ -33,16 +55,19 @@
     <aside class="left-sidebar">
       <!-- Sidebar scroll-->
       <div>
-        <div class="brand-logo d-flex flex-column align-items-center">
-          <div class="logo-container mt-3">
+        <div class="brand-logo d-flex flex-column align-items-center position-relative">
+          <div class="logo-container mt-3 d-flex align-items-center w-100 px-3" style="gap: 20px;">
             <a class="navbar-brand" href="{% url 'home' %}">
-              <img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
+                <img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
             </a>
-          </div>
-          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer mt-2" id="sidebarCollapse">
-            <i class="ti ti-x fs-8"></i>
-          </div>
+            <div class="close-btn d-xl-none d-flex justify-content-center align-items-center cursor-pointer sidebartoggler ms-auto" id="sidebarCollapse">
+                <i class="ti ti-arrow-left fs-5"></i>
+            </div>
         </div>
+        
+
+        </div>
+        
         
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
@@ -419,6 +444,26 @@
           
               $('input[name="search"]').on("keyup", fetchProducts);
               $('select[name="category"], select[name="subcategory"]').on("change", fetchProducts);
+            });
+            
+          </script>
+          <!-- JavaScript -->
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const sidebar = document.getElementById("sidebar");
+                const sidebarCollapse = document.getElementById("sidebarCollapse");
+
+                // Toggle Sidebar
+                sidebarCollapse.addEventListener("click", function () {
+                    sidebar.classList.toggle("active"); // Add your sidebar open/close class
+                });
+
+                // Close Sidebar on Outside Click
+                document.addEventListener("click", function (event) {
+                    if (!sidebar.contains(event.target) && !sidebarCollapse.contains(event.target)) {
+                        sidebar.classList.remove("active");
+                    }
+                });
             });
           </script>
           
