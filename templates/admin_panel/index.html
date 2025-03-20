@@ -339,7 +339,7 @@
                       </div>
                       <div class="col-6 col-md-3">
                         <select name="subcategory" class="form-control" onchange="this.form.submit()">
-                          <option value="">Filter by SubCategory</option>
+                          <option value="">Filter by subcategory</option>
                           {% for subcategory in total_subcategories %}
                           <option value="{{ subcategory.id }}" {% if subcategory.id|stringformat:"s" == selected_subcategory %}selected{% endif %}>{{ subcategory.name }}</option>
                           {% endfor %}
@@ -360,7 +360,7 @@
                           <th>Name</th>
                           <th>Price</th>
                           <th>Category</th>
-                          <th>SubCategory</th>
+                          <th>subcategory</th>
                           <th>Image</th>
                           <th>Description</th>
                         </tr>
@@ -372,7 +372,7 @@
                           <td>{{ product.name }}</td>
                           <td>₹{{ product.price }}</td>
                           <td>{{ product.category.name }}</td>
-                          <td>{{ product.SubCategory.name }}</td>
+                          <td>{{ product.subcategory.name }}</td>
                           <td>
                             {% if product.images %}
                               <img src="{{ product.images.url }}" alt="Product Image" class="img-thumbnail" width="50">
@@ -425,7 +425,7 @@
                             <td>${product.name}</td>
                             <td>₹${product.price}</td>
                             <td>${product.category__name}</td>
-                            <td>${product.SubCategory__name}</td>
+                            <td>${product.subcategory__name}</td>
                             <td>${imageTag}</td>
                             <td>${product.description}</td>
                           </tr>

@@ -65,8 +65,8 @@
                     <h3 class="heading">{{ product.name }}</h3>
                     <h5 class="heading"><p>Price:<strong> &nbsp; {{ product.price }}</strong></p></h5>
                     <p><strong>Category:</strong> {{ product.category.name }}</p>
-                    {% if product.SubCategory %}
-                        <p><strong>Subcategory:</strong> {{ product.SubCategory.name }}</p>
+                    {% if product.subcategory %}
+                        <p><strong>Subcategory:</strong> {{ product.subcategory.name }}</p>
                     {% endif %}
                     <p><strong>Additional Information:</strong> {{ product.additional_information }}</p>
                     <p><strong>Catalogue:</strong>
@@ -78,7 +78,7 @@
                     </p>
 
                     <!-- WhatsApp Button -->
-                    <a href="https://wa.me/+919940100506?text=Hi, I am interested in your product: {{ product.name }}. Price: {{ product.price }}, Category: {{ product.category.name }}{% if product.SubCategory %}, Subcategory: {{ product.SubCategory.name }}{% endif %}. Additional Information: {{ product.additional_information }}. Product UID: {{ product.product_uid }}" 
+                    <a href="https://wa.me/+919940100506?text=Hi, I am interested in your product: {{ product.name }}. Price: {{ product.price }}, Category: {{ product.category.name }}{% if product.subcategory %}, Subcategory: {{ product.subcategory.name }}{% endif %}. Additional Information: {{ product.additional_information }}. Product UID: {{ product.product_uid }}" 
                        class="btn btn-primary mt-3" 
                        style="background: green; border: 1px solid #2cf724; color: white; --bs-btn-hover-bg: green; --bs-btn-hover-border-color: #2cf724; --bs-btn-hover-color: white;">
                        Contact Supplier via WhatsApp

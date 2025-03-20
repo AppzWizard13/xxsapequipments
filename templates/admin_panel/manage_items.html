@@ -71,7 +71,7 @@
         <!-- Subcategories Tab -->
         <div id="subcategories" class="tab-pane fade">
           <div class="d-flex justify-content-end mb-2">
-            <a href="{% url 'add_subcategory' %}" class="btn btn-primary">Add SubCategory</a>
+            <a href="{% url 'add_subcategory' %}" class="btn btn-primary">Add subcategory</a>
           </div>
           <table class="table">
             <thead>
@@ -84,18 +84,18 @@
               </tr>
             </thead>
             <tbody>
-              {% for SubCategory in subcategories %}
+              {% for subcategory in subcategories %}
               <tr>
-                <td>{{ SubCategory.id }}</td>
-                <td>{{ SubCategory.name }}</td>
-                <td>{{ SubCategory.category.name }}</td>
-                <td>{{ SubCategory.description }}</td>
+                <td>{{ subcategory.id }}</td>
+                <td>{{ subcategory.name }}</td>
+                <td>{{ subcategory.category.name }}</td>
+                <td>{{ subcategory.description }}</td>
                 <td>
-                  <a href="{% url 'edit_subcategory' SubCategory.id %}" class="btn btn-warning btn-sm">Edit</a>
-                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteSubCategory{{ SubCategory.id }}">Delete</button>
+                  <a href="{% url 'edit_subcategory' subcategory.id %}" class="btn btn-warning btn-sm">Edit</a>
+                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deletesubcategory{{ subcategory.id }}">Delete</button>
 
                   <!-- Delete Modal -->
-                  <div class="modal fade" id="deleteSubCategory{{ SubCategory.id }}">
+                  <div class="modal fade" id="deletesubcategory{{ subcategory.id }}">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -103,10 +103,10 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                          Are you sure you want to delete "{{ SubCategory.name }}"?
+                          Are you sure you want to delete "{{ subcategory.name }}"?
                         </div>
                         <div class="modal-footer">
-                          <a href="{% url 'delete_subcategory' SubCategory.id %}" class="btn btn-danger">Delete</a>
+                          <a href="{% url 'delete_subcategory' subcategory.id %}" class="btn btn-danger">Delete</a>
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         </div>
                       </div>
@@ -130,7 +130,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Category</th>
-                <th>SubCategory</th>
+                <th>subcategory</th>
                 <th>Active</th>
                 <th>Actions</th>
               </tr>
@@ -141,7 +141,7 @@
                 <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.category.name }}</td>
-                <td>{{ product.SubCategory.name }}</td>
+                <td>{{ product.subcategory.name }}</td>
                 <td>{{ product.is_active|yesno:"Yes,No" }}</td>
                 <td>
                   <a href="{% url 'edit_product' product.id %}" class="btn btn-warning btn-sm">Edit</a>

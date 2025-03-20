@@ -5,15 +5,21 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from products.models import Product  # Ensure you import the Product model
 from django.views.generic import DetailView
-from products.models import Product, Category, SubCategory  # Ensure ProductEnquiry is the correct model for inquiries
+from products.models import Product, Category, subcategory  # Ensure ProductEnquiry is the correct model for inquiries
 from enquiry.models import Enquiry
 from django.conf import settings
+
+from django.http import JsonResponse
+from django.views.generic import TemplateView, View
 
 class HomePageView(TemplateView):
     template_name = "index.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # Fetch categories and products directly without subcategories
+        total_categories = Category.objects.all().prefetch_related('products')
         products = Product.objects.values('category').distinct()
         total_categories = Category.objects.all()
 
@@ -22,9 +28,23 @@ class HomePageView(TemplateView):
             top_products = Product.objects.filter(category=item['category']).order_by('-price')[:4]
             product_list.extend(top_products)
 
-        context['products'] = product_list  # Keeping the variable name the same
-        context['total_categories'] = total_categories 
+        category_data = {}
+        for category in total_categories:
+            products = category.products.filter(is_active=True).values('id', 'name', 'price')[:4]
+            category_data[category.id] = list(products)
+
+        context['total_categories'] = total_categories
+        context['products'] = product_list
+        context['category_data'] = category_data  # New format: category -> products
         return context
+
+
+class FetchProductsView(View):
+    def get(self, request, *args, **kwargs):
+        category_id = self.kwargs['category_id']
+        products = Product.objects.filter(category_id=category_id, is_active=True).values('id', 'name', 'price')
+        return JsonResponse(list(products), safe=False)
+
 
 
 import logging
@@ -167,7 +187,7 @@ def dashboard_view(request):
     total_products = Product.objects.all()
     total_categories = Category.objects.all()
     print("total_categoriestotal_categories", total_categories)
-    total_subcategories = SubCategory.objects.all()
+    total_subcategories = subcategory.objects.all()
     total_enquiries = Enquiry.objects.count()
     total_cat_count = total_categories.count()
     total_subcat_count = total_subcategories.count()
@@ -190,7 +210,7 @@ def dashboard_view(request):
 
 
 from django.shortcuts import render
-from products.models import Product, Category, SubCategory
+from products.models import Product, Category, subcategory
 
 
 def dashboard_search_list(request):
@@ -200,7 +220,7 @@ def dashboard_search_list(request):
 
     total_products = Product.objects.all()
     total_categories = Category.objects.all()
-    total_subcategories = SubCategory.objects.all()
+    total_subcategories = subcategory.objects.all()
 
     products = total_products  # Start with all products
     error_message = None
@@ -211,7 +231,7 @@ def dashboard_search_list(request):
         if category_id:
             products = products.filter(category_id=category_id)  # Filter by category
         if subcategory_id:
-            products = products.filter(SubCategory_id=subcategory_id)  # Filter by subcategory
+            products = products.filter(subcategory_id=subcategory_id)  # Filter by subcategory
     else:
         error_message = "Please provide at least one search parameter."
 

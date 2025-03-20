@@ -35,7 +35,7 @@
 
           <div class="searchform mb-2 col-md-3">
             <select name="subcategory" class="form-control" onchange="this.form.submit()">
-              <option value="">Filter by SubCategory</option>
+              <option value="">Filter by subcategory</option>
               {% for subcategory in subcategories %}
               <option value="{{ subcategory.id }}" {% if subcategory.id|stringformat:"s" == selected_subcategory %}selected{% endif %}>
                 {{ subcategory.name }}

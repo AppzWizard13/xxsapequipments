@@ -9,7 +9,7 @@ class Category(models.Model):
         return self.name
 
 
-class SubCategory(models.Model):
+class subcategory(models.Model):
     name = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories')
     description = models.TextField()
@@ -36,7 +36,7 @@ class Product(models.Model):
 
     catalogues = models.CharField(max_length=255, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
-    SubCategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name='products')
+    subcategory = models.ForeignKey(subcategory, on_delete=models.CASCADE, related_name='products')
 
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Added price field
 

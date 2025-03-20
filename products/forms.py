@@ -17,13 +17,13 @@ class CategoryForm(forms.ModelForm):
 
 
 
-class SubCategoryForm(forms.ModelForm):
+class subcategoryForm(forms.ModelForm):
     class Meta:
-        model = SubCategory
+        model = subcategory
         fields = ['name', 'category', 'description']
 
     def __init__(self, *args, **kwargs):
-        super(SubCategoryForm, self).__init__(*args, **kwargs)
+        super(subcategoryForm, self).__init__(*args, **kwargs)
         categories = Category.objects.all()
 
         if categories.exists():
@@ -48,14 +48,14 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = [
             'name', 'is_active', 'images', 'image_1', 'image_2', 'image_3', 'catalogues',
-            'category', 'price', 'SubCategory', 'specifications', 'description', 'additional_information'
+            'category', 'price', 'subcategory', 'specifications', 'description', 'additional_information'
         ]
         widgets = {
             'specifications': MarkdownxWidget(attrs={'class': 'form-control'}),
             'description': MarkdownxWidget(attrs={'class': 'form-control'}),
             'additional_information': MarkdownxWidget(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
-            'SubCategory': forms.Select(attrs={'class': 'form-control'}),
+            'subcategory': forms.Select(attrs={'class': 'form-control'}),
             'price': forms.TextInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'catalogues': forms.TextInput(attrs={'class': 'form-control'}),

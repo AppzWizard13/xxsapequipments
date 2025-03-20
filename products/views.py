@@ -1,12 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
-from .forms import CategoryForm, SubCategoryForm, ProductForm
-from .models import SubCategory  # Import the model
+from .forms import CategoryForm, subcategoryForm, ProductForm
+from .models import subcategory  # Import the model
 
 
 def manage_items(request):
     categories = Category.objects.all()
-    subcategories = SubCategory.objects.all()
+    subcategories = subcategory.objects.all()
     products = Product.objects.all()
     
     return render(request, 'admin_panel/manage_items.html', {
@@ -72,13 +72,13 @@ def add_subcategory(request):
 
         if category_id:
             category = get_object_or_404(Category, id=category_id)
-            SubCategory.objects.create(name=name, description=description, category=category)
+            subcategory.objects.create(name=name, description=description, category=category)
             return redirect("subcategory_list")
 
-    return render(request, "admin_panel/add_SubCategory.html", {"categories": categories})
+    return render(request, "admin_panel/add_subcategory.html", {"categories": categories})
 
 def edit_subcategory(request, subcategory_id):
-    subcategory = get_object_or_404(SubCategory, id=subcategory_id)
+    subcategory = get_object_or_404(subcategory, id=subcategory_id)
     categories = Category.objects.all()
 
     if request.method == "POST":
@@ -92,18 +92,18 @@ def edit_subcategory(request, subcategory_id):
         subcategory.save()
         return redirect("subcategory_list")
 
-    return render(request, "admin_panel/edit_SubCategory.html", {"subcategory": subcategory, "categories": categories})
+    return render(request, "admin_panel/edit_subcategory.html", {"subcategory": subcategory, "categories": categories})
 
 
 def delete_subcategory(request, subcategory_id):
-    print("Deleting SubCategory ID:", subcategory_id)
-    subcategory = get_object_or_404(SubCategory, id=subcategory_id)  # Renamed to `subcategory`
+    print("Deleting subcategory ID:", subcategory_id)
+    subcategory = get_object_or_404(subcategory, id=subcategory_id)  # Renamed to `subcategory`
     subcategory.delete()
     return redirect('subcategory_list')
 
 
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Category, SubCategory
+from .models import Product, Category, subcategory
 from .forms import ProductForm
 
 # --- Add/Edit Product View ---
@@ -128,7 +128,7 @@ def delete_product(request, product_id):
 
 
 from django.shortcuts import render
-from .models import Category, SubCategory, Product
+from .models import Category, subcategory, Product
 
 def category_list(request):
     query = request.GET.get('search', '')  # Get the search query from the URL parameters
@@ -141,7 +141,7 @@ def category_list(request):
 
 def subcategory_list(request):
     query = request.GET.get('search', '')  # Get search query
-    subcategories = SubCategory.objects.all()
+    subcategories = subcategory.objects.all()
 
     if query:
         subcategories = subcategories.filter(name__icontains=query)  # Filter by name
@@ -152,14 +152,14 @@ def subcategory_list(request):
 
 def product_list(request):
     from django.shortcuts import render
-    from .models import Product, Category, SubCategory
+    from .models import Product, Category, subcategory
     query = request.GET.get('search', '')  # Get search query
     category_id = request.GET.get('category', '')  # Get selected category
     subcategory_id = request.GET.get('subcategory', '')  # Get selected subcategory
 
     products = Product.objects.all()
     categories = Category.objects.all()
-    subcategories = SubCategory.objects.all()
+    subcategories = subcategory.objects.all()
 
     if query:
         products = products.filter(name__icontains=query)  # Filter by product name
@@ -181,7 +181,7 @@ def product_list(request):
 
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
-from .models import Product, Category, SubCategory
+from .models import Product, Category, subcategory
 
 # Product Grid View (Renamed)
 def product_grid_view(request):
@@ -191,14 +191,14 @@ def product_grid_view(request):
 
     products = Product.objects.all()
     categories = Category.objects.all()
-    subcategories = SubCategory.objects.all()
+    subcategories = subcategory.objects.all()
 
     if query:
         products = products.filter( Q(name__icontains=query) | Q(product_uid__icontains=query))  # Filter by product name
     if category_id:
         products = products.filter(category_id=category_id)  # Filter by category
     if subcategory_id:
-        products = products.filter(SubCategory_id=subcategory_id)  # Filter by subcategory
+        products = products.filter(subcategory_id=subcategory_id)  # Filter by subcategory
 
     return render(request, 'product_detail_view.html', {
         'products': products,
@@ -221,7 +221,7 @@ def product_detail_view(request, product_id):
     same_category_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:8]
 
     # Fetch products from the same subcategory (excluding current product)
-    same_subcategory_products = Product.objects.filter(SubCategory=product.SubCategory).exclude(id=product.id)[:8] if product.SubCategory else []
+    same_subcategory_products = Product.objects.filter(subcategory=product.subcategory).exclude(id=product.id)[:8] if product.subcategory else []
 
     return render(request, 'product_detail.html', {
         'product': product,

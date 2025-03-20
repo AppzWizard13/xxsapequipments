@@ -3,12 +3,12 @@
 <div class="container-fluid" style="max-width: none;">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title fw-semibold mb-4">Add SubCategory</h5>
+      <h5 class="card-title fw-semibold mb-4">Add subcategory</h5>
       <form method="POST" action="{% url 'add_subcategory' %}">
         {% csrf_token %}
         
         <div class="mb-3">
-          <label for="name" class="form-label">SubCategory Name</label>
+          <label for="name" class="form-label">subcategory Name</label>
           <input type="text" class="form-control" id="name" name="name" required>
         </div>
         
@@ -30,7 +30,7 @@
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Add SubCategory</button>
+        <button type="submit" class="btn btn-primary">Add subcategory</button>
       </form>
     </div>
   </div>
