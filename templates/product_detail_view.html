@@ -15,41 +15,40 @@
   <div class="card">
     <div class="card-body">
 
-      <!-- Filter & Search Form -->
-      <form method="GET" action="{% url 'product_grid_view' %}" class="mb-3">
-        <div class="row mt-5">
-          <div class="searchform mb-2 col-md-4 ">
-            <input type="text" name="search" class="form-control" placeholder="Search product..." value="{{ query }}">
+    <!-- Filter & Search Form -->
+    <form method="GET" action="{% url 'product_grid_view' %}" class="mb-3">
+      <div class="row mt-5">
+          <div class="searchform mb-2 col-md-4">
+              <input type="text" name="search" class="form-control" placeholder="Search product..." value="{{ query }}">
           </div>
 
           <div class="searchform mb-2 col-md-3">
-            <select name="category" class="form-control" onchange="this.form.submit()">
-              <option value="">Filter by Category</option>
-              {% for category in categories %}
-              <option value="{{ category.id }}" {% if category.id|stringformat:"s" == selected_category %}selected{% endif %}>
-                {{ category.name }}
-              </option>
-              {% endfor %}
-            </select>
+              <select name="category" class="form-control" onchange="this.form.submit()">
+                  <option value="">Filter by Category</option>
+                  {% for category in categories %}
+                  <option value="{{ category.id }}" {% if category.id|stringformat:"s" == selected_category %}selected{% endif %}>
+                      {{ category.name }}
+                  </option>
+                  {% endfor %}
+              </select>
           </div>
 
           <div class="searchform mb-2 col-md-3">
-            <select name="subcategory" class="form-control" onchange="this.form.submit()">
-              <option value="">Filter by subcategory</option>
-              {% for subcategory in subcategories %}
-              <option value="{{ subcategory.id }}" {% if subcategory.id|stringformat:"s" == selected_subcategory %}selected{% endif %}>
-                {{ subcategory.name }}
-              </option>
-              {% endfor %}
-            </select>
+              <select name="subcategory" class="form-control" onchange="this.form.submit()">
+                  <option value="">Filter by Subcategory</option>
+                  {% for subcategory in subcategories %}
+                  <option value="{{ subcategory.id }}" {% if subcategory.id|stringformat:"s" == selected_subcategory %}selected{% endif %}>
+                      {{ subcategory.name }}
+                  </option>
+                  {% endfor %}
+              </select>
           </div>
 
           <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">Search</button>
+              <button type="submit" class="btn btn-primary w-100">Search</button>
           </div>
-        </div>
-      </form>
-
+      </div>
+    </form>
       <!-- Product Grid -->
       <section class="custom-product-section">
         <div class="container-fluid">

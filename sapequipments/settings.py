@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'products',
     'markdownx',
     'cloudinary',
+    'django_user_agents',
     'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'sapequipments.urls'

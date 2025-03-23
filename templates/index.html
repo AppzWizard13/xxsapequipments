@@ -524,7 +524,7 @@
 					    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
 					    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
 					    		</p>
-				        </div>
+				            </div>
 							</div>
 						</div>
 					</div>
@@ -532,17 +532,11 @@
 			</div>
 		</div>
 		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-	    <div class="container">
-	    
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="fa fa-bars"></span> Menu
-	      </button>
-				<form action="#" class="searchform order-lg-last">
-          {% comment %} <div class="form-group d-flex">
-            <input type="text" class="form-control pl-3" placeholder="Search">
-            <button type="submit" placeholder="" class="form-control search"><span class="fa fa-search"></span></button>
-          </div> {% endcomment %}
-        </form>
+	    	<div class="container">
+			
+			<button class="navbar-toggler" type="button" >
+				<span class="fa fa-bars"></span> Menu
+			</button>
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
@@ -551,27 +545,32 @@
 					<li class="nav-item {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
 						<a href="{% url 'about' %}" class="nav-link">About</a>
 					</li>
-					{% comment %} <li class="nav-item {% if request.resolver_match.url_name == 'services' %}active{% endif %}">
-						<a href="{% url 'services' %}" class="nav-link">Services</a>
-					</li> {% endcomment %}
 					{% if total_categories %}
+					<!-- Updated Category Dropdown Markup -->
 					<li class="nav-item dropdown">
 						<a href="#" class="nav-link dropdown-toggle" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Products
 						</a>
 						<div class="dropdown-menu" style="border-bottom: 3px solid red !important;" aria-labelledby="categoriesDropdown">
 							{% for category in total_categories %}
-							<a class="dropdown-item category-item my-2" href="#" data-category-id="{{ category.id }}">
-								{{ category.name }}
-							</a>
-							<div class="dropdown-menu product-menu shadow-sm my-2" style="display: none; border-bottom: 3px solid red !important;"></div>
+							<div>
+								{% if request.user_agent.is_mobile %}
+								<!-- Mobile: Redirect directly -->
+								<a class="dropdown-item " href="{% url 'products_by_category' category.id %}">
+									{{ category.name }} <span class="arrow"></span>
+								</a>
+							{% else %}
+								<!-- Desktop: Keep existing dropdown behavior -->
+								<a class="dropdown-item category-item my-2" href="#" data-category-id="{{ category.id }}">
+									{{ category.name }} <span class="arrow">→</span>
+								</a>
+							{% endif %}
+								<div class="dropdown-menu product-menu shadow-sm my-2" style="display: none;"></div>
+							</div>
 							{% endfor %}
 						</div>
 					</li>
 					{% endif %}
-					{% comment %} <li class="nav-item {% if request.resolver_match.url_name == 'product_grid_view' %}active{% endif %}">
-						<a href="{% url 'product_grid_view' %}" class="nav-link">Products</a>
-					</li> {% endcomment %}
 					{% if request.user.is_authenticated %}
 					<li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
 						<a href="{% url 'dashboard' %}" class="nav-link">Admin Panel</a>
@@ -582,6 +581,23 @@
 		</nav>
 		
 		<style>
+			/* Add right and down arrows to the category dropdown */
+			.dropdown-toggle::after {
+				content: '';
+				display: inline-block;
+				margin-left: 0.5em;
+				vertical-align: middle;
+				border-top: 0.3em solid;
+				border-right: 0.3em solid transparent;
+				border-bottom: 0;
+				border-left: 0.3em solid transparent;
+				transition: transform 0.2s ease-in-out;
+			}
+
+			/* Rotate the arrow when the dropdown is open */
+			.show .dropdown-toggle::after {
+				transform: rotate(180deg);
+			}
 			.dropdown-toggle {
 				border-bottom: 2px solid red !important; /* Adds red bottom border */
 				padding-bottom: 5px; /* Ensures spacing looks natural */
@@ -616,77 +632,179 @@
 			@keyframes spin {
 				to { transform: rotate(360deg); }
 			}
+			.navbar-collapse {
+				transition: height 0.3s ease-in-out;
+			}
+			
+			.navbar-collapse.show {
+				display: block !important;
+			}
+			
+			.navbar-toggler:focus {
+				outline: none;
+				box-shadow: none;
+			}
+			.category-item {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			.category-item .arrow {
+				transition: transform 0.3s ease-in-out;
+			}
+			.category-item.expanded .arrow {
+				transform: rotate(90deg);
+			}
+			.product-menu {
+				display: none;
+				padding-left: 20px;
+			}
+			
 		</style>
 		
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 		
-		<script>
-			$(document).ready(function () {
-				$('.category-item').on('click', function (e) {
-					e.preventDefault();
-					e.stopPropagation();
-			
-					let categoryId = $(this).data('category-id');
-					let $menu = $(this).next('.product-menu');
-			
-					// Hide other open dropdowns
-					$('.product-menu').not($menu).hide().removeData('loaded');
-			
-					if ($menu.is(':visible')) {
-						$menu.hide();
-						return;
-					}
-			
-					if (!$menu.data('loaded')) {
-						loadProducts(categoryId, $menu);
-					}
-			
-					// Position the product dropdown to the right of the category
-					let position = $(this).position();
-					$menu.css({
-						top: position.top,  // Align to the category item
-						left: $(this).outerWidth() + 5, // Push to the right of category dropdown
-						display: 'block'
-					});
-				});
-			
-				$(document).on('click', function (e) {
-					if (!$(e.target).closest('.dropdown-menu, .category-item').length) {
-						$('.product-menu').hide();
-					}
-				});
-			
-				function loadProducts(categoryId, $container) {
-					$container.html('<div class="dropdown-item py-2"><div class="loading-indicator"></div></div>');
-			
-					$.ajax({
-						url: `/fetch-products/${categoryId}/`,
-						method: 'GET',
-						success: function (response) {
-							if (!response || response.length === 0) {
-								$container.html('<div class="dropdown-item py-2 text-muted">No products found</div>');
-								return;
-							}
-							let items = response.map(product => `
-								<a class="dropdown-item py-2" href="/product/${product.id}/">
-									${product.name}
-									${product.price ? `<span class="float-right text-muted">$${product.price}</span>` : ''}
-								</a>
-							`);
-							$container.html(items.join('')).data('loaded', true);
-						},
-						error: function () {
-							$container.html('<div class="dropdown-item py-2 text-danger">Failed to load products</div>');
-						}
-					});
+	<script>
+		$(document).ready(function () {
+			// Navbar toggle functionality
+			$('.navbar-toggler').on('click', function () {
+				let $navCollapse = $('.navbar-collapse');
+				let isExpanded = $navCollapse.hasClass('show');
+		
+				$navCollapse.toggleClass('show', !isExpanded);
+				$(this).attr('aria-expanded', !isExpanded);
+			});
+		
+			// Close navbar when clicking outside
+			$(document).on('click', function (e) {
+				let $nav = $('.navbar-collapse');
+				if ($nav.hasClass('show') && !$(e.target).closest('.navbar-collapse, .navbar-toggler').length) {
+					$nav.removeClass('show');
+					$('.navbar-toggler').attr('aria-expanded', 'false');
 				}
 			});
-		</script>
-
-	
-
+		
+			// Prevent navbar from closing when clicking inside the category dropdown
+			$('.category-item').on('click', function (e) {
+				e.preventDefault();
+				e.stopPropagation();
+		
+				let categoryId = $(this).data('category-id');
+				let $menu = $(this).next('.product-menu');
+		
+				// Hide other dropdowns
+				$('.product-menu').not($menu).hide().removeData('loaded');
+		
+				if ($menu.is(':visible')) {
+					$menu.hide();
+					
+					return;
+				}
+		
+				if (!$menu.data('loaded')) {
+					loadProducts(categoryId, $menu);
+				}
+		
+				// Position the product dropdown
+				let position = $(this).position();
+				$menu.css({
+					top: position.top,
+					left: $(this).outerWidth() + 5,
+					display: 'block'
+				});
+			});
+		
+			$(document).on('click', function (e) {
+				if (!$(e.target).closest('.dropdown-menu, .category-item').length) {
+					$('.product-menu').hide();
+				}
+			});
+		
+			function loadProducts(categoryId, $container) {
+				$container.html('<div class="dropdown-item py-2"><div class="loading-indicator"></div></div>');
+		
+				$.ajax({
+					url: `/fetch-products/${categoryId}/`,
+					method: 'GET',
+					success: function (response) {
+						if (!response || response.length === 0) {
+							$container.html('<div class="dropdown-item py-2 text-muted">No products found</div>');
+							return;
+						}
+						let items = response.map(product => `
+							<a class="dropdown-item py-2" href="/products/${product.id}/">
+								${product.name}
+								${product.price ? `<span class="float-right text-muted">$${product.price}</span>` : ''}
+							</a>
+						`);
+						$container.html(items.join('')).data('loaded', true);
+					},
+					error: function () {
+						$container.html('<div class="dropdown-item py-2 text-danger">Failed to load products</div>');
+					}
+				});
+			}
+		});
+	</script>
     <!-- END nav -->
+
+	<!-- Floating Action Buttons -->
+	<div class="fab-container">
+		<a href="https://wa.me/yourwhatsappnumber" class="fab whatsapp" target="_blank">
+			<i class="fab fa-whatsapp"></i>  <!-- WhatsApp Icon -->
+		</a>
+		<a href="tel:+yourphonenumber" class="fab phone">
+			<i class="fas fa-phone"></i>  <!-- Phone Icon -->
+		</a>
+	</div>
+
+	<!-- Include FontAwesome for Icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+	<!-- Floating Button Styles -->
+	<style>
+		.fab-container {
+			position: fixed;
+			bottom: 100px;
+			right: 50px;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			z-index: 1000;
+		}
+
+		.fab {
+			width: 60px;
+			height: 60px;
+			background-color: #25D366; /* WhatsApp Green */
+			color: white;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-decoration: none;
+			font-size: 24px;
+			transition: all 0.3s ease-in-out;
+		}
+
+		/* Increase only the WhatsApp icon size */
+		.fab.whatsapp i {
+			font-size: 32px; /* Bigger WhatsApp Icon */
+		}
+
+		.fab.phone {
+			background-color: #007bff; /* Blue for Phone */
+		}
+
+		.fab:hover {
+			transform: scale(1.1);
+			opacity: 0.9;
+			color: white;
+		}
+	</style>
+
+
 	{% block content %}
     <div class="hero-wrap">
 	    <div class="home-slider owl-carousel">
@@ -1157,104 +1275,94 @@
 		.custom-product-section .text a:hover {
 			color: #007bff;
 		}
+		.testimony-wrap {
+			min-height: 320px; /* Ensures all cards have the same height */
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: center;
+			padding: 20px;
+			text-align: center;
+		}
+		
+		.testimony-wrap .text {
+			flex-grow: 1; /* Ensures the text section expands to fill space */
+			min-height: 150px; /* Keeps text areas uniform */
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+		
+		.testimony-wrap .d-flex {
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.user-img {
+			width: 40px;  /* Fixed width */
+			height: 40px; /* Fixed height */
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+			border-radius: 50%; /* Makes it circular */
+			border: 3px solid #fff; /* Optional: Adds a white border */
+			display: inline-block;
+		}
+		.testimony-wrap p {
+			font-size: 14px;
+			line-height: 1.5;
+		}
+		
+		.carousel-testimony .item {
+			display: flex;
+			justify-content: center;
+		}
+		
 
 	</style>
 	
 	
 		
-
-    <section class="ftco-section testimony-section">
-      <div class="container">
-        <div class="row justify-content-center pb-5 mb-3">
-          <div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
-          	<span class="subheading"v style="color:red !important;">Testimonies</span>
-            <h2>Happy Clients &amp; Feedbacks</h2>
-          </div>
-        </div>
-        <div class="row ftco-animate">
-          <div class="col-md-12">
-            <div class="carousel-testimony owl-carousel ftco-owl">
-              <div class="item">
-                <div class="testimony-wrap py-4">
-                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></span></div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <div class="d-flex align-items-center">
-                    	<div class="user-img" style="background-image: url({% static 'images/person_1.jpg' %})"></div>
-                    	<div class="pl-3">
-		                    <p class="name">Roger Scott</p>
-		                    <span class="position">Marketing Manager</span>
-		                  </div>
-	                  </div>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap py-4">
-                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></span></div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <div class="d-flex align-items-center">
-                    	<div class="user-img" style="background-image: url({% static 'images/person_2.jpg' %})"></div>
-                    	<div class="pl-3">
-		                    <p class="name">Roger Scott</p>
-		                    <span class="position">Marketing Manager</span>
-		                  </div>
-	                  </div>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap py-4">
-                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></span></div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <div class="d-flex align-items-center">
-                    	<div class="user-img" style="background-image: url({% static 'images/person_3.jpg' %})"></div>
-                    	<div class="pl-3">
-		                    <p class="name">Roger Scott</p>
-		                    <span class="position">Marketing Manager</span>
-		                  </div>
-	                  </div>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap py-4">
-                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></span></div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <div class="d-flex align-items-center">
-                    	<div class="user-img" style="background-image: url({% static 'images/person_1.jpg' %})"></div>
-                    	<div class="pl-3">
-		                    <p class="name">Roger Scott</p>
-		                    <span class="position">Marketing Manager</span>
-		                  </div>
-	                  </div>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap py-4">
-                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></span></div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <div class="d-flex align-items-center">
-                    	<div class="user-img" style="background-image: url({% static 'images/person_2.jpg' %})"></div>
-                    	<div class="pl-3">
-		                    <p class="name">Roger Scott</p>
-		                    <span class="position">Marketing Manager</span>
-		                  </div>
-	                  </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-		
+	<section class="ftco-section testimony-section">
+		<div class="container">
+		  <div class="row justify-content-center pb-5 mb-3">
+			<div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
+				<span class="subheading" style="color:red !important;">Testimonies</span>
+			  <h2>Happy Clients &amp; Feedbacks</h2>
+			</div>
+		  </div>
+		  <div class="row ftco-animate">
+			<div class="col-md-12">
+			  <div class="carousel-testimony owl-carousel ftco-owl">
+				{% for review in reviews %}
+				<div class="item">
+				  <div class="testimony-wrap py-4">
+					  <div class="icon d-flex align-items-center justify-content-center">
+						<span class="fa fa-quote-left"></span>
+					  </div>
+					<div class="text">
+					  <p class="mb-4">{{ review.review_content }}</p>
+					  <div class="d-flex align-items-center" style="justify-content: space-between;">
+						  <div class="user-img" 
+							   style="background-image: url({% if review.image %}{{ review.image.url }}{% else %}{% static 'images/default.jpg' %}{% endif %})">
+						  </div>
+						  <div class="pl-3">
+							  <p class="name" style="font-size: 12px !important; max-width: 150px;">{{ review.customer_name }}</p>
+							  <span class="position">Rated: {{ review.review_rating }}/5</span>
+							</div>
+						</div>
+					</div>
+				  </div>
+				</div>
+				{% empty %}
+				<p class="text-center">No reviews available.</p>
+				{% endfor %}
+			  </div>
+			</div>
+		  </div>
+		</div>
+	</section>
+	
 
 
     {% comment %} <section class="ftco-section bg-light">

@@ -55,3 +55,21 @@ class CustomUserForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+from django import forms
+from .models import Review
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['customer_name', 'review_rating', 'review_content', 'review_date']
+        widgets = {
+            'review_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ReviewForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            print("self.instance.review_dateself.instance.review_date", self.instance.review_date)
+            self.fields['review_date'].initial = self.instance.review_date

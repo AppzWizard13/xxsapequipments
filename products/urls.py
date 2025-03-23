@@ -37,4 +37,6 @@ urlpatterns = [
 
 
     path('fetch-products/<int:category_id>/', FetchProductsView.as_view(), name='fetch_products'),
+
+    path('category/<int:category_id>/', product_grid_view, name='products_by_category'),
 ]

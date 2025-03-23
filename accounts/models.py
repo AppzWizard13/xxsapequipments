@@ -34,3 +34,15 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.phone_number})"
+
+
+from django.utils.timezone import now
+
+class Review(models.Model):
+    customer_name = models.CharField(max_length=255)
+    review_rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])  # 1 to 5 rating
+    review_content = models.TextField()
+    review_date = models.DateTimeField(default=now)
+
+    def __str__(self):
+        return f"{self.customer_name} - {self.review_rating} Stars"

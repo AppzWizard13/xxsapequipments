@@ -183,22 +183,21 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from .models import Product, Category, subcategory
 
-# Product Grid View (Renamed)
-def product_grid_view(request):
-    query = request.GET.get('search', '')  # Get search query
-    category_id = request.GET.get('category', '')  # Get selected category
-    subcategory_id = request.GET.get('subcategory', '')  # Get selected subcategory
+def product_grid_view(request, category_id=None):
+    query = request.GET.get('search', '')  
+    category_id = category_id or request.GET.get('category', '')  
+    subcategory_id = request.GET.get('subcategory', '')  
 
     products = Product.objects.all()
     categories = Category.objects.all()
     subcategories = subcategory.objects.all()
 
     if query:
-        products = products.filter( Q(name__icontains=query) | Q(product_uid__icontains=query))  # Filter by product name
+        products = products.filter(Q(name__icontains=query) | Q(product_uid__icontains=query))
     if category_id:
-        products = products.filter(category_id=category_id)  # Filter by category
+        products = products.filter(category_id=category_id)  
     if subcategory_id:
-        products = products.filter(subcategory_id=subcategory_id)  # Filter by subcategory
+        products = products.filter(subcategory_id=subcategory_id)
 
     return render(request, 'product_detail_view.html', {
         'products': products,
@@ -206,16 +205,18 @@ def product_grid_view(request):
         'total_categories': categories,
         'subcategories': subcategories,
         'query': query,
-        'selected_category': category_id,
-        'selected_subcategory': subcategory_id,
+        'selected_category': str(category_id),  # Convert to string for template comparison
+        'selected_subcategory': str(subcategory_id),  # Convert to string for template comparison
     })
-
 
 from django.shortcuts import render, get_object_or_404
 from .models import Product
 
 def product_detail_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    categories = Category.objects.all()
+
+    print("categoriescategoriescategories", categories)
 
     # Fetch products from the same category (excluding current product)
     same_category_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:8]
@@ -225,6 +226,7 @@ def product_detail_view(request, product_id):
 
     return render(request, 'product_detail.html', {
         'product': product,
+        'total_categories': categories,
         'same_category_products': same_category_products,
         'same_subcategory_products': same_subcategory_products
     })

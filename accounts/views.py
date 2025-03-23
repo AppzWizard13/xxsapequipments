@@ -22,6 +22,7 @@ class HomePageView(TemplateView):
         total_categories = Category.objects.all().prefetch_related('products')
         products = Product.objects.values('category').distinct()
         total_categories = Category.objects.all()
+        reviews = Review.objects.all()  # Fetch all reviews
 
         product_list = []
         for item in products:
@@ -33,6 +34,10 @@ class HomePageView(TemplateView):
             products = category.products.filter(is_active=True).values('id', 'name', 'price')[:4]
             category_data[category.id] = list(products)
 
+        is_mobile = self.request.user_agent.is_mobile 
+
+        context['is_mobile'] = is_mobile
+        context['reviews'] = reviews
         context['total_categories'] = total_categories
         context['products'] = product_list
         context['category_data'] = category_data  # New format: category -> products
@@ -186,7 +191,6 @@ def dashboard_view(request):
     # Get counts
     total_products = Product.objects.all()
     total_categories = Category.objects.all()
-    print("total_categoriestotal_categories", total_categories)
     total_subcategories = subcategory.objects.all()
     total_enquiries = Enquiry.objects.count()
     total_cat_count = total_categories.count()
@@ -261,13 +265,14 @@ def logout_view(request):
 
 
 
-class ProductDetailView(DetailView):
-    model = Product
-    template_name = "product_detail.html"
-    context_object_name = "product"
+# class ProductDetailView(DetailView):
+#     model = Product
+#     template_name = "product_detail.html"
+#     categories = Category.objects.all()
+#     context_object_name = "product"
 
-    def get_object(self):
-        return get_object_or_404(Product, pk=self.kwargs["pk"])
+#     def get_object(self):
+#         return get_object_or_404(Product, pk=self.kwargs["pk"])
 
 
 def services_view(request):
@@ -297,3 +302,49 @@ def download_database(request):
         return HttpResponse("Database file not found.", status=404)
 
 
+# views.py
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import Review
+from .forms import ReviewForm
+
+def review_list(request):
+    reviews = Review.objects.all()
+    return render(request, 'admin_panel/review_list.html', {'reviews': reviews})
+
+def review_create(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Review added successfully!")
+            return redirect('review_list')
+        else:
+            messages.error(request, "There was an error adding the review. Please check the form.")
+    else:
+        form = ReviewForm()
+    return render(request, 'admin_panel/review_form.html', {'form': form})
+
+def review_detail(request, pk):
+    review = get_object_or_404(Review, pk=pk)
+    return render(request, 'admin_panel/review_detail.html', {'review': review})
+
+def review_edit(request, pk):
+    review = get_object_or_404(Review, pk=pk)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Review updated successfully!")
+            return redirect('review_list')
+        else:
+            messages.error(request, "Error updating review. Please check the form.")
+    else:
+        form = ReviewForm(instance=review)
+    return render(request, 'admin_panel/review_form.html', {'form': form, 'review': review})
+
+def review_delete(request, pk):
+    review = get_object_or_404(Review, pk=pk)
+    review.delete()
+    messages.success(request, "Review deleted successfully!")
+    return redirect('review_list')
