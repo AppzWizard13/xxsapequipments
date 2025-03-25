@@ -1,0 +1,13 @@
+# Ignore the SQLite database file
+db.sqlite3
+
+# Ignore media files (user-uploaded content)
+media/
+
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore environment variables and dependencies
+.env
+venv/

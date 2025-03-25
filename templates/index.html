@@ -116,6 +116,8 @@
 		.navbar .dropdown-menu {
 			background: var(--charcoal-dark) !important;
 			border: none;
+			z-index: 20 !important; /* Ensures it appears above other elements */
+			position: absolute !important; /* Helps ensure proper stacking */
 		}
 		
 		/* Ensures dropdown items are white */
@@ -126,6 +128,7 @@
 		/* Navbar toggler (mobile menu button) */
 		.navbar-toggler {
 			border: none !important;
+			z-index: 30 !important; /* Keeps it on top */
 		}
 		
 		/* Navbar toggler icon (hamburger menu) */
@@ -133,6 +136,11 @@
 			filter: invert(1); /* Makes it white */
 		}
 		
+		/* Ensures navbar is above the slider */
+		.navbar {
+			position: relative;
+			z-index: 50 !important;
+		}
 		
 		
 		/* Buttons */
