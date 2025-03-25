@@ -36,7 +36,14 @@ urlpatterns = [
 
 
 
+    path('banners/', views.banner_list, name='banner_list'),
+    path('banners/create/', views.banner_create, name='banner_create'),
+    path('banners/<int:pk>/', views.banner_detail, name='banner_detail'),
+    path('banners/<int:pk>/edit/', views.banner_edit, name='banner_edit'),
+    path('banners/<int:pk>/delete/', views.banner_delete, name='banner_delete'),
 
+
+    path('download-all-media/', views.DownloadAllMediaView.as_view(), name='download_all_media'),
 
 
 

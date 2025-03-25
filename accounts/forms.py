@@ -73,3 +73,22 @@ class ReviewForm(forms.ModelForm):
         if self.instance and self.instance.pk:
             print("self.instance.review_dateself.instance.review_date", self.instance.review_date)
             self.fields['review_date'].initial = self.instance.review_date
+
+
+from django import forms
+from .models import Banner
+
+class BannerForm(forms.ModelForm):
+    class Meta:
+        model = Banner
+        fields = ['name', 'series', 'image']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'series': forms.TextInput(attrs={'class': 'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(BannerForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'

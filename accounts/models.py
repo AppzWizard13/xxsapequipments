@@ -46,3 +46,12 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.customer_name} - {self.review_rating} Stars"
+
+
+class Banner(models.Model):
+    name = models.CharField(max_length=255)
+    series = models.IntegerField()  # Changed to IntegerField
+    image = models.ImageField(upload_to='banners/')
+
+    def __str__(self):
+        return self.name

@@ -21,6 +21,8 @@ from django.urls import include, path
 from accounts import urls
 from enquiry import urls
 from products import urls
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

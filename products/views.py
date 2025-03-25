@@ -77,54 +77,90 @@ def add_subcategory(request):
 
     return render(request, "admin_panel/add_subcategory.html", {"categories": categories})
 
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
+from .models import subcategory, Category
+
 def edit_subcategory(request, subcategory_id):
-    subcategory = get_object_or_404(subcategory, id=subcategory_id)
+    subcategory_instance = get_object_or_404(subcategory, id=subcategory_id)
     categories = Category.objects.all()
 
     if request.method == "POST":
-        subcategory.name = request.POST.get("name")
-        subcategory.description = request.POST.get("description")
-        category_id = request.POST.get("category")
+        try:
+            subcategory_instance.name = request.POST.get("name")
+            subcategory_instance.description = request.POST.get("description")
+            category_id = request.POST.get("category")
 
-        if category_id:
-            subcategory.category = get_object_or_404(Category, id=category_id)
+            if category_id:
+                subcategory_instance.category = get_object_or_404(Category, id=category_id)
 
-        subcategory.save()
-        return redirect("subcategory_list")
+            subcategory_instance.save()
+            messages.success(request, "Subcategory updated successfully!")
+            return redirect("subcategory_list")
+        except Exception as e:
+            messages.error(request, f"Error updating subcategory: {str(e)}")
+            return render(request, "admin_panel/edit_subcategory.html", {
+                "subcategory": subcategory_instance,
+                "categories": categories
+            })
 
-    return render(request, "admin_panel/edit_subcategory.html", {"subcategory": subcategory, "categories": categories})
-
+    return render(request, "admin_panel/edit_subcategory.html", {
+        "subcategory": subcategory_instance,
+        "categories": categories
+    })
 
 def delete_subcategory(request, subcategory_id):
-    print("Deleting subcategory ID:", subcategory_id)
-    subcategory = get_object_or_404(subcategory, id=subcategory_id)  # Renamed to `subcategory`
-    subcategory.delete()
+    try:
+        subcategory_instance = get_object_or_404(subcategory, id=subcategory_id)
+        subcategory_instance.delete()
+        messages.success(request, "Subcategory deleted successfully!")
+    except Exception as e:
+        messages.error(request, f"Error deleting subcategory: {str(e)}")
+    
     return redirect('subcategory_list')
 
-
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .models import Product, Category, subcategory
 from .forms import ProductForm
 
-# --- Add/Edit Product View ---
 def product_form_view(request, product_id=None):
     product = get_object_or_404(Product, id=product_id) if product_id else None
+    action = "updated" if product else "added"
+    
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
-            form.save()
-            return redirect('product_list')
+            try:
+                form.save()
+                messages.success(request, f"Product successfully {action}!")
+                return redirect('product_list')
+            except Exception as e:
+                messages.error(request, f"Error saving product: {str(e)}")
+        else:
+            # Form validation errors
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
     else:
         form = ProductForm(instance=product)
 
     template = 'admin_panel/edit_product.html' if product else 'admin_panel/add_product.html'
-    return render(request, template, {'form': form})
-
+    return render(request, template, {
+        'form': form,
+        'product': product  # Pass product to template if needed
+    })
 # --- Delete Product View ---
 def delete_product(request, product_id):
-    get_object_or_404(Product, id=product_id).delete()
+    try:
+        product = get_object_or_404(Product, id=product_id)
+        product_name = product.name  # Get name before deletion
+        product.delete()
+        messages.success(request, f"Product '{product_name}' was successfully deleted!")
+    except Exception as e:
+        messages.error(request, f"Error deleting product: {str(e)}")
+    
     return redirect('product_list')
-
 
 
 from django.shortcuts import render

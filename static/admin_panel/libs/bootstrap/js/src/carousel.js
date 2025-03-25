@@ -69,7 +69,7 @@ const KEY_TO_DIRECTION = {
 }
 
 const Default = {
-  interval: 5000,
+  interval: 15000,
   keyboard: true,
   pause: 'hover',
   ride: false,

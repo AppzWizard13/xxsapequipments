@@ -11,6 +11,8 @@ from django.conf import settings
 
 from django.http import JsonResponse
 from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView
+from .models import  Banner, Review
 
 class HomePageView(TemplateView):
     template_name = "index.html"
@@ -23,6 +25,7 @@ class HomePageView(TemplateView):
         products = Product.objects.values('category').distinct()
         total_categories = Category.objects.all()
         reviews = Review.objects.all()  # Fetch all reviews
+        banners = Banner.objects.all().order_by('series')  # Fetch all banners ordered by series
 
         product_list = []
         for item in products:
@@ -41,6 +44,7 @@ class HomePageView(TemplateView):
         context['total_categories'] = total_categories
         context['products'] = product_list
         context['category_data'] = category_data  # New format: category -> products
+        context['banners'] = banners  # Pass banners to the template
         return context
 
 
@@ -348,3 +352,112 @@ def review_delete(request, pk):
     review.delete()
     messages.success(request, "Review deleted successfully!")
     return redirect('review_list')
+
+
+
+# views.py
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import Banner
+from .forms import BannerForm
+
+def banner_list(request):
+    banners = Banner.objects.all()
+    return render(request, 'admin_panel/banner_list.html', {'banners': banners})
+
+def banner_create(request):
+    if request.method == 'POST':
+        form = BannerForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Banner added successfully!")
+            return redirect('banner_list')
+        else:
+            messages.error(request, "There was an error adding the banner. Please check the form.")
+    else:
+        form = BannerForm()
+    return render(request, 'admin_panel/banner_form.html', {'form': form})
+
+def banner_detail(request, pk):
+    banner = get_object_or_404(Banner, pk=pk)
+    return render(request, 'admin_panel/banner_detail.html', {'banner': banner})
+
+def banner_edit(request, pk):
+    banner = get_object_or_404(Banner, pk=pk)
+    if request.method == 'POST':
+        form = BannerForm(request.POST, request.FILES, instance=banner)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Banner updated successfully!")
+            return redirect('banner_list')
+        else:
+            messages.error(request, "Error updating banner. Please check the form.")
+    else:
+        form = BannerForm(instance=banner)
+    return render(request, 'admin_panel/banner_form.html', {'form': form, 'banner': banner})
+
+def banner_delete(request, pk):
+    banner = get_object_or_404(Banner, pk=pk)
+    banner.delete()
+    messages.success(request, "Banner deleted successfully!")
+    return redirect('banner_list')
+
+import os
+import zipfile
+from io import BytesIO
+from django.http import HttpResponse
+from django.conf import settings
+from django.views.generic import View
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+
+class DownloadAllMediaView(View):
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            # Create in-memory buffer
+            memory_buffer = BytesIO()
+            
+            # Create ZIP file in memory
+            with zipfile.ZipFile(memory_buffer, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                media_root = str(settings.MEDIA_ROOT)
+                
+                # Walk through media directory
+                for root, _, files in os.walk(media_root):
+                    for file in files:
+                        file_path = os.path.join(root, file)
+                        file_path_str = str(file_path)
+                        
+                        # Security check
+                        if not file_path_str.startswith(media_root):
+                            continue
+                            
+                        # Add to ZIP with relative path
+                        arcname = os.path.relpath(file_path_str, media_root)
+                        zipf.write(file_path_str, arcname)
+            
+            # Reset buffer position and create response
+            memory_buffer.seek(0)
+            response = HttpResponse(
+                memory_buffer.getvalue(),  # Use getvalue() instead of buffer
+                content_type='application/zip'
+            )
+            response['Content-Disposition'] = 'attachment; filename="all_media_files.zip"'
+            
+            # Manually close buffer after response is created
+            memory_buffer.close()
+            
+            return response
+            
+        except Exception as e:
+            # Ensure buffer is closed even if error occurs
+            if 'memory_buffer' in locals():
+                memory_buffer.close()
+            return HttpResponse(
+                f"Error creating archive: {str(e)}",
+                status=500,
+                content_type='text/plain'
+            )

@@ -146,7 +146,7 @@
             </li>
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">Manage Review</span>
+              <span class="hide-menu">Manage Home Page</span>
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="{% url 'review_list' %}" aria-expanded="false">
@@ -156,15 +156,14 @@
                 <span class="hide-menu">View Reviews</span>
               </a>
             </li>
-            
-            {% comment %} <li class="sidebar-item">
-              <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'banner_list' %}" aria-expanded="false">
                 <span>
-                  <i class="ti ti-user-plus"></i>
+                  <i class="ti ti-mood-happy"></i>
                 </span>
-                <span class="hide-menu">Register</span>
+                <span class="hide-menu">View Banner</span>
               </a>
-            </li> {% endcomment %}
+            </li>  
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
               <span class="hide-menu">Employee Management</span>
@@ -183,6 +182,16 @@
                   <i class="ti ti-download"></i>
                 </span>
                 <span class="hide-menu">DB backup</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'download_all_media' %}" 
+                 aria-expanded="false"
+                 onclick="return confirm('This will download all media files as a ZIP archive. Continue?')">
+                <span>
+                  <i class="ti ti-download"></i>
+                </span>
+                <span class="hide-menu">Download All Media</span>
               </a>
             </li>
             {% comment %} <li class="sidebar-item">

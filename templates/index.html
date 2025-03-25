@@ -519,10 +519,9 @@
 							<div class="col-md-3 d-flex justify-content-end align-items-center">
 								<div class="social-media">
 					    		<p class="mb-0 d-flex">
-					    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
-					    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
-					    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
-					    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+					    			<a href="#" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-facebook"><i class="sr-only">Facebook</i></span></a>
+					    			<a href="#" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-instagram"><i class="sr-only">Instagram</i></span></a>
+									<a href="#" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-google"><i class="sr-only">Instagram</i></span></a>
 					    		</p>
 				            </div>
 							</div>
@@ -767,7 +766,7 @@
 		.fab-container {
 			position: fixed;
 			bottom: 100px;
-			right: 50px;
+			right: 30px;
 			display: flex;
 			flex-direction: column;
 			gap: 20px;
@@ -802,51 +801,259 @@
 			opacity: 0.9;
 			color: white;
 		}
+
+
+
 	</style>
 
 
 	{% block content %}
-    <div class="hero-wrap">
-	    <div class="home-slider owl-carousel">
-	      <div class="slider-item" style="background-image:url({% static 'images/bg_1.jpg' %});">
-	      	<div class="overlay"></div>
-	        <div class="container">
-	          <div class="row no-gutters slider-text align-items-center justify-content-start">
-		          <div class="col-md-6 ftco-animate">
-		          	<div class="text w-100">
-		          		<h2>We are best car repair services</h2>
-			            <h1 class="mb-4">Make your car last longer</h1>
-			            <p>
-						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#appointmentModal">
-							Book an appointment
-						</a>
-						</p>
-		            </div>
-		          </div>
-		        </div>
-	        </div>
-	      </div>
-
-	      <div class="slider-item" style="background-image:url({% static 'images/bg_1.jpg' %});">
-	      	<div class="overlay"></div>
-	        <div class="container">
-	          <div class="row no-gutters slider-text align-items-center justify-content-start">
-		          <div class="col-md-6 ftco-animate">
-		          	<div class="text w-100">
-		          		<h2>We care about your car</h2>
-			            <h1 class="mb-4">It's time to come to repair your car</h1>
-			            <p>
-						<a href="#" class="btn btn-primary" disabled data-toggle="modal" data-target="#appointmentModal">
-							Book an appointment
-						</a>
-						</p> 
-		            </div>
-		          </div>
-		        </div>
-	        </div>
-	      </div>
-	    </div>
+	<div class="hero-wrap">
+		<div class="custom-slider">
+		  {% for banner in banners %}
+		  <div class="slider-item" style="background-image: url({{ banner.image.url }});">
+			<div class="overlay"></div>
+			<div class="container">
+			  <div class="row no-gutters slider-text align-items-center justify-content-start">
+				<div class="col-md-6 ftco-animate">
+				  {% comment %} <div class="text w-100">
+					<h2>We care about your car</h2>
+					<h1 class="mb-4">It's time to come to repair your car</h1>
+					<p>
+					  <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#appointmentModal">
+						Book an appointment
+					  </a>
+					</p>
+				  </div> {% endcomment %}
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  {% empty %}
+		  <!-- Default banner -->
+		  <div class="slider-item" style="background-image: url({% static 'images/default-banner.jpg' %});">
+			<div class="overlay"></div>
+			<div class="container">
+			  <div class="row no-gutters slider-text align-items-center justify-content-start">
+				<div class="col-md-6 ftco-animate">
+				  <div class="text w-100">
+					{% comment %} <h2>Welcome to Our Service</h2>
+					<h1 class="mb-4">Your car deserves the best</h1>
+					<p>
+					  <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#appointmentModal">
+						Book an appointment
+					  </a>
+					</p>
+				  </div> {% endcomment %}
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  {% endfor %}
+		  
+		  <!-- Navigation -->
+		  <button class="slider-nav prev">‹</button>
+		  <button class="slider-nav next">›</button>
+		  <div class="slider-dots"></div>
+		</div>
 	  </div>
+	  
+	  <style>
+		/* 16:9 Aspect Ratio Container */
+		.custom-slider {
+		  position: relative;
+		  width: 100%;
+		  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+		  overflow: hidden;
+		}
+	  
+		/* Slider Items with Z-Index Control */
+		.slider-item {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  background-size: cover;
+		  background-position: center;
+		  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+		  transform: translateX(100%);
+		  opacity: 0;
+		  z-index: 1; /* Default z-index for inactive slides */
+		}
+	  
+		.slider-item.active {
+		  transform: translateX(0);
+		  opacity: 1;
+		  z-index: 3; /* Highest for current active slide */
+		}
+	  
+		.slider-item.prev-slide {
+		  transform: translateX(-100%);
+		  opacity: 0;
+		  z-index: 2; /* Middle layer for smoother transitions */
+		}
+	  
+		/* Overlay stays on top */
+		.overlay {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  background: rgba(0, 0, 0, 0.3);
+		  z-index: 4; /* Above slides but below content */
+		}
+	  
+		/* Content stays on top */
+		.container {
+		  position: relative;
+		  z-index: 5;
+		  height: 100%;
+		}
+	  
+		/* Navigation */
+		.slider-nav {
+		  position: absolute;
+		  top: 50%;
+		  transform: translateY(-50%);
+		  z-index: 10;
+		  background: rgba(0,0,0,0.5);
+		  color: white;
+		  border: none;
+		  width: 50px;
+		  height: 80px;
+		  font-size: 30px;
+		  cursor: pointer;
+		  transition: all 0.3s;
+		}
+	  
+		.slider-nav:hover {
+		  background: rgba(0,0,0,0.8);
+		}
+	  
+		.slider-nav.prev {
+		  left: 20px;
+		}
+	  
+		.slider-nav.next {
+		  right: 20px;
+		}
+	  
+		/* Dots */
+		.slider-dots {
+		  position: absolute;
+		  bottom: 60px;
+		  left: 0;
+		  right: 0;
+		  display: flex;
+		  justify-content: center;
+		  z-index: 10;
+		  gap: 20px;
+		}
+	  
+		.slider-dots .dot {
+		  width: 12px;
+		  height: 12px;
+		  border-radius: 50%;
+		  background: rgba(255,255,255,0.5);
+		  cursor: pointer;
+		  transition: all 0.3s;
+		}
+	  
+		.slider-dots .dot.active {
+		  background: white;
+		  transform: scale(1.2);
+		}
+	  </style>
+	  
+	  <script>
+	  document.addEventListener('DOMContentLoaded', function() {
+		const slider = document.querySelector('.custom-slider');
+		const slides = document.querySelectorAll('.slider-item');
+		const prevBtn = document.querySelector('.slider-nav.prev');
+		const nextBtn = document.querySelector('.slider-nav.next');
+		const dotsContainer = document.querySelector('.slider-dots');
+		
+		let currentIndex = 0;
+		let slideInterval;
+		const slideDuration = 15000; // 15 seconds
+	  
+		function initSlider() {
+		  // Create dots
+		  slides.forEach((_, index) => {
+			const dot = document.createElement('div');
+			dot.classList.add('dot');
+			if (index === 0) dot.classList.add('active');
+			dot.addEventListener('click', () => goToSlide(index));
+			dotsContainer.appendChild(dot);
+		  });
+	  
+		  // Activate first slide
+		  if (slides.length > 0) {
+			slides[0].classList.add('active');
+		  }
+	  
+		  startAutoSlide();
+		  prevBtn.addEventListener('click', prevSlide);
+		  nextBtn.addEventListener('click', nextSlide);
+		}
+	  
+		function goToSlide(index) {
+		  if (index === currentIndex) return;
+		  
+		  clearInterval(slideInterval);
+		  
+		  const currentSlide = slides[currentIndex];
+		  const nextSlide = slides[index];
+		  
+		  // Prepare animation classes
+		  currentSlide.classList.remove('active');
+		  currentSlide.classList.add('prev-slide');
+		  
+		  nextSlide.classList.add('active');
+		  
+		  // Update current index
+		  currentIndex = index;
+		  updateDots();
+		  
+		  // Cleanup classes after animation
+		  setTimeout(() => {
+			currentSlide.classList.remove('prev-slide');
+		  }, 800); // Match CSS transition duration
+		  
+		  startAutoSlide();
+		}
+	  
+		function nextSlide() {
+		  const nextIndex = (currentIndex + 1) % slides.length;
+		  goToSlide(nextIndex);
+		}
+	  
+		function prevSlide() {
+		  const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+		  goToSlide(prevIndex);
+		}
+	  
+		function updateDots() {
+		  const dots = document.querySelectorAll('.slider-dots .dot');
+		  dots.forEach((dot, index) => {
+			dot.classList.toggle('active', index === currentIndex);
+		  });
+		}
+	  
+		function startAutoSlide() {
+		  slideInterval = setInterval(nextSlide, slideDuration);
+		}
+	  
+		// Initialize
+		initSlider();
+	  
+		// Pause on hover
+		slider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+		slider.addEventListener('mouseleave', startAutoSlide);
+	  });
+	  </script>
 
 
 		<!-- Bootstrap Modal -->
@@ -1027,43 +1234,46 @@
 
 		</style>
 
-		<section class="ftco-section testimony-section bg-light" >
+		<section class="ftco-section testimony-section bg-light">
 			<div class="container">
-			  <div class="row justify-content-center pb-5 ">
-				<div class="col-md-7 heading-section text-center ftco-animate">
-				  <span class="subheading">Premium Automotive Solutions</span>
-				  <h2>Our Services</h2>
-				</div>
-			  </div>
-			  <div class="row">
-				{% for category in total_categories %}
-				<div class="col-md-4 services ftco-animate" style="min-height: 200px;">
-				  <div class="d-block d-flex align-items-center">
-					<div class="icon d-flex justify-content-center align-items-center" style="min-width: 50px; min-height: 50px;">
-					  {% if category.image %}
-						<img src="{{ category.image.url }}" 
-							 alt="{{ category.name }}" 
-							 class="icon-img white-icon" 
-							 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" 
-							 loading="lazy">
-					  {% else %}
-						<img src="{% static 'icons/category.png' %}" 
-							 alt="Category Icon" 
-							 class="icon-img white-icon" 
-							 style="width: 50px; height: 50px;" 
-							 loading="lazy">
-					  {% endif %}
+				<div class="row justify-content-center pb-5">
+					<div class="col-md-7 heading-section text-center ftco-animate">
+						<span class="subheading">Premium Automotive Solutions</span>
+						<h2>Our Services</h2>
 					</div>
-					<div class="media-body pl-3">
-					  <h3 class="heading">{{ category.name }}</h3>
-					  <p style="margin-bottom: 0;">{{ category.description }}</p>
-					</div>
-				  </div>
 				</div>
-				{% endfor %}
-			  </div>
+				<div class="row">
+					{% for category in total_categories %}
+					<div class="col-md-4 services ftco-animate" style="min-height: 200px;">
+						<div class="d-block d-flex align-items-center">
+							<div class="icon d-flex justify-content-center align-items-center" style="min-width: 50px; min-height: 50px;">
+								{% if category.image %}
+								<img src="{{ category.image.url }}" 
+									 alt="{{ category.name }}" 
+									 class="icon-img white-icon" 
+									 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" 
+									 loading="lazy">
+								{% else %}
+								<img src="{% static 'icons/category.png' %}" 
+									 alt="Category Icon" 
+									 class="icon-img white-icon" 
+									 style="width: 50px; height: 50px;" 
+									 loading="lazy">
+								{% endif %}
+							</div>
+							<div class="media-body pl-3">
+								<!-- Make the title clickable -->
+								<a href="{% url 'products_by_category' category.id %}" style="text-decoration: none; color: inherit;">
+									<h3 class="heading">{{ category.name }}</h3>
+								</a>
+								<p style="margin-bottom: 0;">{{ category.description }}</p>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
 			</div>
-		  </section>
+		</section>
 		  
 		  
    	
@@ -1072,9 +1282,9 @@
     		<div class="row d-flex no-gutters">
     			<div class="col-md-6 d-flex">
     				<div class="img img-video d-flex align-self-stretch align-items-center justify-content-center mb-4 mb-sm-0" style="background-image:url({% static 'images/about.jpg' %});">
-    					<a href="https://vimeo.com/45830194" class="icon-video popup-vimeo d-flex justify-content-center align-items-center">
+    					{% comment %} <a href="https://vimeo.com/45830194" class="icon-video popup-vimeo d-flex justify-content-center align-items-center">
     						<span class="fa fa-play"></span>
-    					</a>
+    					</a> {% endcomment %}
     				</div>
     			</div>
     			<div class="col-md-6 pl-md-5">
@@ -1297,17 +1507,6 @@
 			align-items: center;
 			justify-content: center;
 		}
-		
-		.user-img {
-			width: 40px;  /* Fixed width */
-			height: 40px; /* Fixed height */
-			background-size: cover;
-			background-position: center;
-			background-repeat: no-repeat;
-			border-radius: 50%; /* Makes it circular */
-			border: 3px solid #fff; /* Optional: Adds a white border */
-			display: inline-block;
-		}
 		.testimony-wrap p {
 			font-size: 14px;
 			line-height: 1.5;
@@ -1317,51 +1516,128 @@
 			display: flex;
 			justify-content: center;
 		}
+		.user-img {
+			width: 40px;  /* Fixed width */
+			height: 40px; /* Fixed height */
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+			border-radius: 50%;
+			border: 2px solid #fff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 24px;
+			font-weight: bold;
+			text-transform: uppercase;
+			color: #fff;
+		}
+		
+		.default-img {
+			background-color: #3d3d3d; /* Placeholder color */
+		}
+		
+		.rating {
+			display: flex;
+			gap: 2px;
+		}
+		
+		.rating .fa-star {
+			color: lightgray;
+			font-size: 14px;
+		}
+		
+		.rating .fa-star.filled {
+			color: red;
+		}
+		/* Change the active carousel button color to red */
+		.owl-carousel .owl-dots .owl-dot.active span,
+		.owl-carousel .owl-dots .owl-dot:hover span {
+			background-color: red !important; /* Change to red */
+		}
+
+		/* Optional: Change the default color of inactive dots */
+		.owl-carousel .owl-dots .owl-dot span {
+			background-color: #ccc; /* Default color for inactive dots */
+		}
+
+		.testimony-section .owl-dots .owl-dot.active{
+			background-color: red !important; /* Change to red */
+			
+		}
+		.testimony-section .owl-dots .owl-dot.active:after{
+			border-color: red !important; /* Change to red */
+
+		}
+		.owl-carousel.home-slider .owl-dots .owl-dot.active{
+
+			background-color: red !important; /* Change to red */
+			border-color: red !important; /* Change to red */
+
+		}
+
+		
 		
 
 	</style>
 	
 	
-		
 	<section class="ftco-section testimony-section">
 		<div class="container">
-		  <div class="row justify-content-center pb-5 mb-3">
-			<div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
-				<span class="subheading" style="color:red !important;">Testimonies</span>
-			  <h2>Happy Clients &amp; Feedbacks</h2>
+			<div class="row justify-content-center pb-5 mb-3">
+				<div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
+					<span class="subheading" style="color:red !important;">Testimonies</span>
+					<h2>Happy Clients &amp; Feedbacks</h2>
+				</div>
 			</div>
-		  </div>
-		  <div class="row ftco-animate">
-			<div class="col-md-12">
-			  <div class="carousel-testimony owl-carousel ftco-owl">
-				{% for review in reviews %}
-				<div class="item">
-				  <div class="testimony-wrap py-4">
-					  <div class="icon d-flex align-items-center justify-content-center">
-						<span class="fa fa-quote-left"></span>
-					  </div>
-					<div class="text">
-					  <p class="mb-4">{{ review.review_content }}</p>
-					  <div class="d-flex align-items-center" style="justify-content: space-between;">
-						  <div class="user-img" 
-							   style="background-image: url({% if review.image %}{{ review.image.url }}{% else %}{% static 'images/default.jpg' %}{% endif %})">
-						  </div>
-						  <div class="pl-3">
-							  <p class="name" style="font-size: 12px !important; max-width: 150px;">{{ review.customer_name }}</p>
-							  <span class="position">Rated: {{ review.review_rating }}/5</span>
+			<div class="row ftco-animate">
+				<div class="col-md-12">
+					<div class="carousel-testimony owl-carousel ftco-owl">
+						{% for review in reviews %}
+						<div class="item">
+							<div class="testimony-wrap py-4">
+								<div class="icon d-flex align-items-center justify-content-center">
+									<span class="fa fa-quote-left"></span>
+								</div>
+								<div class="text">
+									<p class="mb-4">{{ review.review_content }}</p>
+									<div class="d-flex align-items-center justify-content-between">
+										<!-- Profile Image or Initial -->
+										{% if review.image %}
+										<div class="user-img" style="background-image: url({{ review.image.url }});">
+										</div>
+										{% else %}
+										<div class="user-img default-img d-flex align-items-center justify-content-center">
+											<span>{{ review.customer_name|first|upper }}</span>
+										</div>
+										{% endif %}
+	
+										<!-- Name and Star Rating -->
+										<div class="pl-3 flex-grow-1 d-flex flex-column align-items-end">
+											<p class="name m-0" style="font-size: 12px !important; max-width: 150px;">
+												{{ review.customer_name }}
+											</p>
+											<div class="rating mt-1">
+												{% for _ in "12345"|make_list %}
+												<span class="fa fa-star {% if forloop.counter <= review.review_rating %}filled{% endif %}"></span>
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
+						{% empty %}
+						<p class="text-center">No reviews available.</p>
+						{% endfor %}
 					</div>
-				  </div>
 				</div>
-				{% empty %}
-				<p class="text-center">No reviews available.</p>
-				{% endfor %}
-			  </div>
 			</div>
-		  </div>
 		</div>
 	</section>
+	
+	
+	
 	
 
 
@@ -1588,10 +1864,23 @@
 					</a>
 				</div>
 				<p><b>Empowering garages with innovative tools, reliability, and global-quality solutions for every need.</b></p>
-				<ul class="ftco-footer-social list-unstyled mt-4 d-flex">
-				<li class="ftco-animate mr-3"><a href="#"><span class="fa fa-twitter"></span></a></li>
-				<li class="ftco-animate mr-3"><a href="#"><span class="fa fa-facebook"></span></a></li>
-				<li class="ftco-animate"><a href="#"><span class="fa fa-instagram"></span></a></li>
+				<ul class="ftco-footer">
+
+					<li class="ftco- mr-3">
+						<a href="#">
+							<span style="background-color: transparent !important;" class="m-2 fab fa-facebook"></span>
+						</a>
+					</li>
+					<li class="ftco-">
+						<a href="#">
+							<span style="background-color: transparent !important;" class="m-2 fab fa-instagram"></span>
+						</a>
+					</li>
+					<li class="ftco- mr-3">
+						<a href="#">
+							<span style="background-color: transparent !important;" class="m-2 fab fa-google"></span>
+						</a>
+					</li>
 				</ul>
 			</div>
 		 </div>

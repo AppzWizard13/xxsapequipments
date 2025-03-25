@@ -125,6 +125,8 @@ USE_I18N = True
 USE_TZ = True
 
 
+
+
 LOGIN_URL = '/login/'  # Instead of '/accounts/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'  # Redirects to dashboard after login
 LOGOUT_REDIRECT_URL = '/login/'  # Redirects to login page after logout
@@ -146,6 +148,9 @@ MEDIA_URL = '/media/'
 MEDIA_DIRS = [ os.path.join(BASE_DIR, 'media') ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
