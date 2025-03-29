@@ -16,9 +16,98 @@ from products.models import Product, Category, subcategory
 from enquiry.models import Enquiry
 from .models import CustomUser, Banner, Review
 from .forms import CustomUserForm, ReviewForm, BannerForm
+from django.contrib.auth import logout, login
+from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
 
 logger = logging.getLogger(__name__)
 
+CustomUser = get_user_model()
+
+class UserCreateView( CreateView):
+    model = CustomUser
+    form_class = CustomUserForm
+    template_name = 'admin_panel/add_user.html'
+    success_url = reverse_lazy('user_list')
+
+    def form_valid(self, form):
+        try:
+            user = form.save(commit=False)
+
+            # ✅ Use password1 instead of password
+            if 'password1' in form.cleaned_data:
+                user.set_password(form.cleaned_data['password1'])  # Correct field
+
+            # Generate employee_id
+            max_employee_id = CustomUser.objects.aggregate(Max('employee_id'))['employee_id__max'] or 0
+            user.employee_id = max_employee_id + 1
+
+            # Generate username
+            user.username = self.generate_username(user.employee_id)
+
+            user.save()
+            messages.success(self.request, "User added successfully.")
+            return super().form_valid(form)
+        except Exception as e:
+            messages.error(self.request, f"An error occurred: {str(e)}")
+            return self.form_invalid(form)
+
+    def generate_username(self, employee_id):
+        """Generate unique username like EMP00001."""
+        return f"EMP{str(employee_id).zfill(5)}"
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = get_user_model()
+    form_class = CustomUserForm
+    template_name = 'admin_panel/user_crud.html'
+    success_url = reverse_lazy('user_list')
+    slug_field = "username"
+    slug_url_kwarg = "username"
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+
+        # Get password only if provided
+        password = form.cleaned_data.get("password1")  # Use 'password1' instead of 'password'
+        if password:
+            user.set_password(password)  # Only set password if it's provided
+
+        user.save()
+        messages.success(self.request, "User updated successfully.")
+        return super().form_valid(form)
+
+from .forms import UserLoginForm
+
+class CustomLoginView(LoginView):
+    template_name = "admin_panel/authentication-login.html"
+    form_class = UserLoginForm  # Use custom login form
+
+    def form_valid(self, form):
+        user = form.get_user()
+        login(self.request, user)
+        messages.success(self.request, "Login successful!")  # Add success message
+        return redirect("dashboard")
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Invalid phone number or password.")
+        return super().form_invalid(form)
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = CustomUser
+    template_name = 'admin_panel/user_crud.html'
+    context_object_name = 'users'
+
+
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    model = CustomUser
+    slug_field = "username"
+    slug_url_kwarg = "username"
+    success_url = reverse_lazy('user_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'User has been deleted successfully.')
+        return super().delete(request, *args, **kwargs)
 # Home Page View
 class HomePageView(TemplateView):
     template_name = "index.html"
@@ -60,96 +149,7 @@ class FetchProductsView(View):
         ).values('id', 'name', 'price')
         return JsonResponse(list(products), safe=False)
 
-# User Management Views
-class UserListView(LoginRequiredMixin, ListView):
-    model = CustomUser
-    template_name = 'admin_panel/user_crud.html'
-    context_object_name = 'users'
 
-class UserCreateView(LoginRequiredMixin, CreateView):
-    model = CustomUser
-    form_class = CustomUserForm
-    template_name = 'admin_panel/add_user.html'
-    success_url = reverse_lazy('user_list')
-
-    def form_valid(self, form):
-        try:
-            user = form.save(commit=False)
-            max_employee_id = CustomUser.objects.aggregate(Max('employee_id'))['employee_id__max'] or 0
-            user.employee_id = max_employee_id + 1
-            user.username = self.generate_username()
-            user.save()
-            messages.success(self.request, "User added successfully.")
-            return super().form_valid(form)
-        except Exception as e:
-            messages.error(self.request, f"An error occurred: {str(e)}")
-            return self.form_invalid(form)
-
-    def form_invalid(self, form):
-        for field, errors in form.errors.items():
-            for error in errors:
-                messages.error(self.request, f"{form[field].label}: {error}")
-        return super().form_invalid(form)
-
-    def generate_username(self):
-        try:
-            max_id = CustomUser.objects.aggregate(Max('employee_id'))['employee_id__max'] or 0
-            next_id = max_id + 1
-            username_prefix = getattr(settings, 'USERNAME_PREFIX', 'EMP')
-            return f"{username_prefix}{next_id:05d}"
-        except Exception as e:
-            logger.exception("Error generating username")
-            return "EMP00001"
-
-class UserUpdateView(LoginRequiredMixin, UpdateView):
-    model = CustomUser
-    form_class = CustomUserForm
-    template_name = 'admin_panel/user_crud.html'
-    success_url = reverse_lazy('user_list')
-    slug_field = "username"
-    slug_url_kwarg = "username"
-
-    def form_valid(self, form):
-        messages.success(self.request, "User updated successfully.")
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, "Error updating user. Please check the form.")
-        return super().form_invalid(form)
-
-class UserDeleteView(LoginRequiredMixin, DeleteView):
-    model = CustomUser
-    slug_field = "username"
-    slug_url_kwarg = "username"
-    success_url = reverse_lazy('user_list')
-
-    def delete(self, request, *args, **kwargs):
-        messages.success(request, f'User has been deleted successfully.')
-        return super().delete(request, *args, **kwargs)
-
-# Authentication Views
-class CustomLoginView(LoginView):
-    template_name = "admin_panel/authentication-login.html"
-
-    def form_valid(self, form):
-        username = form.cleaned_data.get("username")
-        password = form.cleaned_data.get("password")
-        user = authenticate(self.request, username=username, password=password)
-
-        if user:
-            login(self.request, user)
-            return redirect("dashboard")
-
-        try:
-            custom_user = CustomUser.objects.get(username=username)
-            if custom_user.check_password(password):
-                login(self.request, custom_user)
-                return redirect("dashboard")
-        except CustomUser.DoesNotExist:
-            pass
-
-        messages.error(self.request, "Invalid username or password.")
-        return self.form_invalid(form)
 
 class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
