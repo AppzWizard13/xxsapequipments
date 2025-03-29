@@ -1,268 +1,262 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import *
-from .forms import CategoryForm, subcategoryForm, ProductForm
-from .models import subcategory  # Import the model
-
-
-def manage_items(request):
-    categories = Category.objects.all()
-    subcategories = subcategory.objects.all()
-    products = Product.objects.all()
-    
-    return render(request, 'admin_panel/manage_items.html', {
-        'categories': categories,
-        'subcategories': subcategories,
-        'products': products
-    })
-
-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages  # Import messages
-from .forms import CategoryForm
-from .models import Category
-
-def add_category(request):
-    if request.method == "POST":
-        form = CategoryForm(request.POST, request.FILES)  # Include request.FILES for image uploads
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Category added successfully!")  # Success message
-            return redirect('category_list')
-        else:
-            messages.error(request, "There was an error adding the category. Please check the form.")  # Error message
-    else:
-        form = CategoryForm()
-    
-    return render(request, 'admin_panel/add_category.html', {'form': form})
-
-
-def edit_category(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
-    
-    print(f"Editing Category ID: {category.id}")  # Debugging
-
-    if request.method == "POST":
-        form = CategoryForm(request.POST, request.FILES, instance=category)  # Include request.FILES
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Category updated successfully!")  # Success message
-            return redirect('category_list')
-        else:
-            messages.error(request, "Error updating category. Please check the form.")  # Error message
-    else:
-        form = CategoryForm(instance=category)
-
-    return render(request, 'admin_panel/edit_category.html', {'form': form, 'category': category})
-
-
-
-
-def delete_category(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
-    category.delete()
-    return redirect('category_list')
-
-
-def add_subcategory(request):
-    categories = Category.objects.all()
-    if request.method == "POST":
-        name = request.POST.get("name")
-        description = request.POST.get("description")
-        category_id = request.POST.get("category")
-
-        if category_id:
-            category = get_object_or_404(Category, id=category_id)
-            subcategory.objects.create(name=name, description=description, category=category)
-            return redirect("subcategory_list")
-
-    return render(request, "admin_panel/add_subcategory.html", {"categories": categories})
-
-from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.urls import reverse_lazy
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
-from .models import subcategory, Category
-
-def edit_subcategory(request, subcategory_id):
-    subcategory_instance = get_object_or_404(subcategory, id=subcategory_id)
-    categories = Category.objects.all()
-
-    if request.method == "POST":
-        try:
-            subcategory_instance.name = request.POST.get("name")
-            subcategory_instance.description = request.POST.get("description")
-            category_id = request.POST.get("category")
-
-            if category_id:
-                subcategory_instance.category = get_object_or_404(Category, id=category_id)
-
-            subcategory_instance.save()
-            messages.success(request, "Subcategory updated successfully!")
-            return redirect("subcategory_list")
-        except Exception as e:
-            messages.error(request, f"Error updating subcategory: {str(e)}")
-            return render(request, "admin_panel/edit_subcategory.html", {
-                "subcategory": subcategory_instance,
-                "categories": categories
-            })
-
-    return render(request, "admin_panel/edit_subcategory.html", {
-        "subcategory": subcategory_instance,
-        "categories": categories
-    })
-
-def delete_subcategory(request, subcategory_id):
-    try:
-        subcategory_instance = get_object_or_404(subcategory, id=subcategory_id)
-        subcategory_instance.delete()
-        messages.success(request, "Subcategory deleted successfully!")
-    except Exception as e:
-        messages.error(request, f"Error deleting subcategory: {str(e)}")
-    
-    return redirect('subcategory_list')
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from .models import Product, Category, subcategory
-from .forms import ProductForm
-
-def product_form_view(request, product_id=None):
-    product = get_object_or_404(Product, id=product_id) if product_id else None
-    action = "updated" if product else "added"
-    
-    if request.method == "POST":
-        form = ProductForm(request.POST, request.FILES, instance=product)
-        if form.is_valid():
-            try:
-                form.save()
-                messages.success(request, f"Product successfully {action}!")
-                return redirect('product_list')
-            except Exception as e:
-                messages.error(request, f"Error saving product: {str(e)}")
-        else:
-            # Form validation errors
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{field}: {error}")
-    else:
-        form = ProductForm(instance=product)
-
-    template = 'admin_panel/edit_product.html' if product else 'admin_panel/add_product.html'
-    return render(request, template, {
-        'form': form,
-        'product': product  # Pass product to template if needed
-    })
-# --- Delete Product View ---
-def delete_product(request, product_id):
-    try:
-        product = get_object_or_404(Product, id=product_id)
-        product_name = product.name  # Get name before deletion
-        product.delete()
-        messages.success(request, f"Product '{product_name}' was successfully deleted!")
-    except Exception as e:
-        messages.error(request, f"Error deleting product: {str(e)}")
-    
-    return redirect('product_list')
-
-
-from django.shortcuts import render
-from .models import Category, subcategory, Product
-
-def category_list(request):
-    query = request.GET.get('search', '')  # Get the search query from the URL parameters
-    categories = Category.objects.all()
-
-    if query:
-        categories = categories.filter(name__icontains=query)  # Filter categories by name
-
-    return render(request, 'admin_panel/categories.html', {'categories': categories, 'query': query})
-
-def subcategory_list(request):
-    query = request.GET.get('search', '')  # Get search query
-    subcategories = subcategory.objects.all()
-
-    if query:
-        subcategories = subcategories.filter(name__icontains=query)  # Filter by name
-
-    return render(request, 'admin_panel/subcategories.html', {'subcategories': subcategories, 'query': query})
-
-
-
-def product_list(request):
-    from django.shortcuts import render
-    from .models import Product, Category, subcategory
-    query = request.GET.get('search', '')  # Get search query
-    category_id = request.GET.get('category', '')  # Get selected category
-    subcategory_id = request.GET.get('subcategory', '')  # Get selected subcategory
-
-    products = Product.objects.all()
-    categories = Category.objects.all()
-    subcategories = subcategory.objects.all()
-
-    if query:
-        products = products.filter(name__icontains=query)  # Filter by product name
-    if category_id:
-        products = products.filter(category_id=category_id)  # ✅ Use `category_id`
-    if subcategory_id:
-        products = products.filter(subcategory_id=subcategory_id)  # ✅ Use `subcategory_id` (case-sensitive)
-
-    return render(request, 'admin_panel/products.html', {
-        'products': products,
-        'categories': categories,
-        'subcategories': subcategories,
-        'query': query,
-        'selected_category': category_id,
-        'selected_subcategory': subcategory_id,
-    })
-
-
-
-from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
-from .models import Product, Category, subcategory
+from .models import Category, subcategory, Product
+from .forms import CategoryForm, subcategoryForm, ProductForm
 
-def product_grid_view(request, category_id=None):
-    query = request.GET.get('search', '')  
-    category_id = category_id or request.GET.get('category', '')  
-    subcategory_id = request.GET.get('subcategory', '')  
+class ManageItemsView(ListView):
+    template_name = 'admin_panel/manage_items.html'
+    context_object_name = 'items'
 
-    products = Product.objects.all()
-    categories = Category.objects.all()
-    subcategories = subcategory.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['subcategories'] = subcategory.objects.all()
+        context['products'] = Product.objects.all()
+        return context
 
-    if query:
-        products = products.filter(Q(name__icontains=query) | Q(product_uid__icontains=query))
-    if category_id:
-        products = products.filter(category_id=category_id)  
-    if subcategory_id:
-        products = products.filter(subcategory_id=subcategory_id)
+    def get_queryset(self):
+        return None  # We're using get_context_data for multiple querysets
 
-    return render(request, 'product_detail_view.html', {
-        'products': products,
-        'categories': categories,
-        'total_categories': categories,
-        'subcategories': subcategories,
-        'query': query,
-        'selected_category': str(category_id),  # Convert to string for template comparison
-        'selected_subcategory': str(subcategory_id),  # Convert to string for template comparison
-    })
+# Category Views
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'admin_panel/categories.html'
+    context_object_name = 'categories'
 
-from django.shortcuts import render, get_object_or_404
-from .models import Product
+    def get_queryset(self):
+        query = self.request.GET.get('search', '')
+        if query:
+            return Category.objects.filter(name__icontains=query)
+        return super().get_queryset()
 
-def product_detail_view(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    categories = Category.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('search', '')
+        return context
 
-    print("categoriescategoriescategories", categories)
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'admin_panel/add_category.html'
+    success_url = reverse_lazy('category_list')
 
-    # Fetch products from the same category (excluding current product)
-    same_category_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:8]
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Category added successfully!")
+        return response
 
-    # Fetch products from the same subcategory (excluding current product)
-    same_subcategory_products = Product.objects.filter(subcategory=product.subcategory).exclude(id=product.id)[:8] if product.subcategory else []
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error adding the category. Please check the form.")
+        return super().form_invalid(form)
 
-    return render(request, 'product_detail.html', {
-        'product': product,
-        'total_categories': categories,
-        'same_category_products': same_category_products,
-        'same_subcategory_products': same_subcategory_products
-    })
+class CategoryUpdateView(UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'admin_panel/edit_category.html'
+    success_url = reverse_lazy('category_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Category updated successfully!")
+        return response
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Error updating category. Please check the form.")
+        return super().form_invalid(form)
+
+class CategoryDeleteView(DeleteView):
+    model = Category
+    success_url = reverse_lazy('category_list')
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Category deleted successfully!")
+        return super().delete(request, *args, **kwargs)
+
+# Subcategory Views
+class SubcategoryListView(ListView):
+    model = subcategory
+    template_name = 'admin_panel/subcategories.html'
+    context_object_name = 'subcategories'
+
+    def get_queryset(self):
+        query = self.request.GET.get('search', '')
+        if query:
+            return subcategory.objects.filter(name__icontains=query)
+        return super().get_queryset()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('search', '')
+        return context
+
+class SubcategoryCreateView(CreateView):
+    model = subcategory
+    template_name = 'admin_panel/add_subcategory.html'
+    fields = ['name', 'description', 'category']
+    success_url = reverse_lazy('subcategory_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Subcategory added successfully!")
+        return response
+
+class SubcategoryUpdateView(UpdateView):
+    model = subcategory
+    template_name = 'admin_panel/edit_subcategory.html'
+    fields = ['name', 'description', 'category']
+    success_url = reverse_lazy('subcategory_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Subcategory updated successfully!")
+        return response
+
+class SubcategoryDeleteView(DeleteView):
+    model = subcategory
+    success_url = reverse_lazy('subcategory_list')
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Subcategory deleted successfully!")
+        return super().delete(request, *args, **kwargs)
+
+# Product Views
+class ProductListView(ListView):
+    model = Product
+    template_name = 'admin_panel/products.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('search', '')
+        category_id = self.request.GET.get('category', '')
+        subcategory_id = self.request.GET.get('subcategory', '')
+
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        if subcategory_id:
+            queryset = queryset.filter(subcategory_id=subcategory_id)
+        
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['subcategories'] = subcategory.objects.all()
+        context['query'] = self.request.GET.get('search', '')
+        context['selected_category'] = self.request.GET.get('category', '')
+        context['selected_subcategory'] = self.request.GET.get('subcategory', '')
+        return context
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'admin_panel/add_product.html'
+    success_url = reverse_lazy('product_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Product added successfully!")
+        return response
+
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+        return super().form_invalid(form)
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'admin_panel/edit_product.html'
+    success_url = reverse_lazy('product_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Product updated successfully!")
+        return response
+
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+        return super().form_invalid(form)
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('product_list')
+
+    def delete(self, request, *args, **kwargs):
+        product = self.get_object()
+        product_name = product.name
+        response = super().delete(request, *args, **kwargs)
+        messages.success(request, f"Product '{product_name}' was successfully deleted!")
+        return response
+
+# Frontend Views
+class ProductGridView(ListView):
+    model = Product
+    template_name = 'product_detail_view.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('search', '')
+        category_id = self.kwargs.get('category_id') or self.request.GET.get('category', '')
+        subcategory_id = self.request.GET.get('subcategory', '')
+
+        if query:
+            queryset = queryset.filter(Q(name__icontains=query) | Q(product_uid__icontains=query))
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        if subcategory_id:
+            queryset = queryset.filter(subcategory_id=subcategory_id)
+        
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['total_categories'] = Category.objects.all()
+        context['subcategories'] = subcategory.objects.all()
+        context['query'] = self.request.GET.get('search', '')
+        context['selected_category'] = str(self.kwargs.get('category_id') or self.request.GET.get('category', ''))
+        context['selected_subcategory'] = str(self.request.GET.get('subcategory', ''))
+        return context
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'product_detail.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        context['total_categories'] = Category.objects.all()
+        context['same_category_products'] = Product.objects.filter(
+            category=product.category
+        ).exclude(id=product.id)[:8]
+        context['same_subcategory_products'] = Product.objects.filter(
+            subcategory=product.subcategory
+        ).exclude(id=product.id)[:8] if product.subcategory else []
+        return context

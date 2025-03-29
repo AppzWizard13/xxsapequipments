@@ -1,55 +1,49 @@
-from . import views
 from django.urls import path
-from django.contrib import admin
-from accounts.views import CustomLoginView, dashboard_view, logout_view
 from django.contrib.auth import views as auth_views
-from .views import *
-from .views import review_list, review_create, review_edit, review_delete, review_detail
-
+from .views import (
+    HomePageView, CustomLoginView, DashboardView, DashboardSearchView,
+    LogoutView, ServicesView, AboutView, DownloadDatabaseView,
+    UserListView, UserCreateView, UserUpdateView, UserDeleteView,
+    ReviewListView, ReviewCreateView, ReviewDetailView, ReviewUpdateView, ReviewDeleteView,
+    BannerListView, BannerCreateView, BannerDetailView, BannerUpdateView, BannerDeleteView,
+    DownloadAllMediaView
+)
 
 urlpatterns = [
-    # landing page
-    path('', views.HomePageView.as_view(), name='home'),
+    # Landing page
+    path('', HomePageView.as_view(), name='home'),
     path('login/', CustomLoginView.as_view(), name='login'),
-    path('dashboard/', dashboard_view, name='dashboard'),
-    path('logout/', logout_view, name='logout'),
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 
-    # path('product/<int:pk>/', views.ProductDetailView.as_view(), name='product_detail'),
-    path('dashboard/search/', views.dashboard_search_list, name='dashboard_search_list'),
+    # Dashboard search
+    path('dashboard/search/', DashboardSearchView.as_view(), name='dashboard_search_list'),
 
+    # Static pages
+    path('services/', ServicesView.as_view(), name='services'),
+    path('about/', AboutView.as_view(), name='about'),
+    path('download-db/', DownloadDatabaseView.as_view(), name='download_database'),
 
-    path('services/', views.services_view, name='services'),
-    path('about/', views.about_view, name='about'),
-    path('download-db/', views.download_database, name='download_database'),
-
+    # User management
     path('users/', UserListView.as_view(), name='user_list'),
     path('users/add/', UserCreateView.as_view(), name='user_add'),
     path('users/edit/<str:username>/', UserUpdateView.as_view(), name='user_edit'),
     path('users/delete/<str:username>/', UserDeleteView.as_view(), name='user_delete'),
 
+    # Review management
+    path('reviews/', ReviewListView.as_view(), name='review_list'),
+    path('reviews/add/', ReviewCreateView.as_view(), name='review_create'),
+    path('reviews/<int:pk>/', ReviewDetailView.as_view(), name='review_detail'),
+    path('reviews/<int:pk>/edit/', ReviewUpdateView.as_view(), name='review_edit'),
+    path('reviews/<int:pk>/delete/', ReviewDeleteView.as_view(), name='review_delete'),
 
-    path('reviews/', review_list, name='review_list'),
-    path('reviews/add/', review_create, name='review_create'),
-    path('reviews/<int:pk>/', review_detail, name='review_detail'),
-    path('reviews/<int:pk>/edit/', review_edit, name='review_edit'),
-    path('reviews/<int:pk>/delete/', review_delete, name='review_delete'),
+    # Banner management
+    path('banners/', BannerListView.as_view(), name='banner_list'),
+    path('banners/create/', BannerCreateView.as_view(), name='banner_create'),
+    path('banners/<int:pk>/', BannerDetailView.as_view(), name='banner_detail'),
+    path('banners/<int:pk>/edit/', BannerUpdateView.as_view(), name='banner_edit'),
+    path('banners/<int:pk>/delete/', BannerDeleteView.as_view(), name='banner_delete'),
 
-
-
-    path('banners/', views.banner_list, name='banner_list'),
-    path('banners/create/', views.banner_create, name='banner_create'),
-    path('banners/<int:pk>/', views.banner_detail, name='banner_detail'),
-    path('banners/<int:pk>/edit/', views.banner_edit, name='banner_edit'),
-    path('banners/<int:pk>/delete/', views.banner_delete, name='banner_delete'),
-
-
-    path('download-all-media/', views.DownloadAllMediaView.as_view(), name='download_all_media'),
-
-
-
-
-
-
-
-    
+    # Media download
+    path('download-all-media/', DownloadAllMediaView.as_view(), name='download_all_media'),
 ]

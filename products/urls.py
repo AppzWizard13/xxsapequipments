@@ -1,42 +1,41 @@
 from django.urls import path
 from .views import (
-    manage_items, delete_category, delete_subcategory, delete_product,
-    add_category, edit_category,
-    add_subcategory, edit_subcategory,
-    product_form_view, category_list, subcategory_list, product_list , product_grid_view, product_detail_view, 
+    ManageItemsView,
+    CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView,
+    SubcategoryListView, SubcategoryCreateView, SubcategoryUpdateView, SubcategoryDeleteView,
+    ProductListView, ProductCreateView, ProductUpdateView, ProductDeleteView,
+    ProductGridView, ProductDetailView
 )
-
 from accounts.views import FetchProductsView
 
-
 urlpatterns = [
-    path('manage-items/', manage_items, name='manage_items'),
+    path('manage-items/', ManageItemsView.as_view(), name='manage_items'),
 
     # Category URLs
-    path('add-category/', add_category, name='add_category'),
-    path('edit-category/<int:category_id>/', edit_category, name='edit_category'),
-    path('delete-category/<int:category_id>/', delete_category, name='delete_category'),
+    path('add-category/', CategoryCreateView.as_view(), name='add_category'),
+    path('edit-category/<int:pk>/', CategoryUpdateView.as_view(), name='edit_category'),
+    path('delete-category/<int:pk>/', CategoryDeleteView.as_view(), name='delete_category'),
 
-    # subcategory URLs
-    path('add-subcategory/', add_subcategory, name='add_subcategory'),
-    path('edit-subcategory/<int:subcategory_id>/', edit_subcategory, name='edit_subcategory'),
-    path('delete-subcategory/<int:subcategory_id>/', delete_subcategory, name='delete_subcategory'),
+    # Subcategory URLs
+    path('add-subcategory/', SubcategoryCreateView.as_view(), name='add_subcategory'),
+    path('edit-subcategory/<int:pk>/', SubcategoryUpdateView.as_view(), name='edit_subcategory'),
+    path('delete-subcategory/<int:pk>/', SubcategoryDeleteView.as_view(), name='delete_subcategory'),
 
     # Product URLs
-    path('product/add/', product_form_view, name='add_product'),  # ✅ Handles adding a product
-    path('product/edit/<int:product_id>/', product_form_view, name='edit_product'),  # ✅ Handles editing a product
-    path('product/delete/<int:product_id>/', delete_product, name='delete_product'),  
+    path('product/add/', ProductCreateView.as_view(), name='add_product'),
+    path('product/edit/<int:pk>/', ProductUpdateView.as_view(), name='edit_product'),
+    path('product/delete/<int:pk>/', ProductDeleteView.as_view(), name='delete_product'),
 
+    # List Views
+    path('categories/', CategoryListView.as_view(), name='category_list'),
+    path('subcategories/', SubcategoryListView.as_view(), name='subcategory_list'),
+    path('products/', ProductListView.as_view(), name='product_list'),
 
-    path('categories/', category_list, name='category_list'),
-    path('subcategories/', subcategory_list, name='subcategory_list'),
-    path('products/', product_list, name='product_list'),
+    # Frontend Views
+    path('products-grid/', ProductGridView.as_view(), name='product_grid_view'),
+    path('products/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
+    path('category/<int:category_id>/', ProductGridView.as_view(), name='products_by_category'),
 
-    path('products-grid/', product_grid_view, name='product_grid_view'),  # Updated route
-    path('products/<int:product_id>/', product_detail_view, name='product_detail'),
-
-
+    # API View
     path('fetch-products/<int:category_id>/', FetchProductsView.as_view(), name='fetch_products'),
-
-    path('category/<int:category_id>/', product_grid_view, name='products_by_category'),
 ]
