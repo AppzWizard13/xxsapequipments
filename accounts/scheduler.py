@@ -15,7 +15,7 @@ def self_ping():
     Adjust the URL to your actual endpoint.
     """
     try:
-        response = requests.get('https://xxsapequipments.onrender.com/')  # Replace with your actual URL
+        response = requests.get('https://codespikestudio.onrender.com/')  # Replace with your actual URL
         if response.status_code == 200:
             logger.info("Self-ping successful!")
         else:
@@ -28,7 +28,7 @@ def start():
     scheduler = BackgroundScheduler()
 
     # Add self-ping to the scheduler, for example, every 15 seconds
-    scheduler.add_job(self_ping, IntervalTrigger(seconds=10))  # Self-ping every 15 seconds
+    scheduler.add_job(self_ping, IntervalTrigger(seconds=15))  # Self-ping every 15 seconds
     
     # Start the scheduler
     scheduler.start()
