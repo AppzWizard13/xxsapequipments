@@ -47,7 +47,7 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = [
-            'name', 'is_active', 'images', 'image_1', 'image_2', 'image_3', 'catalogues',
+            'name', 'is_active', 'images', 'image_1', 'image_2', 'image_3', 'catalogues','supplier_location',
             'category', 'price', 'subcategory', 'specifications', 'description', 'additional_information'
         ]
         widgets = {
@@ -59,5 +59,6 @@ class ProductForm(forms.ModelForm):
             'price': forms.TextInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'catalogues': forms.TextInput(attrs={'class': 'form-control'}),
+            'supplier_location': forms.TextInput(attrs={'class': 'form-control'}),
             'images': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }

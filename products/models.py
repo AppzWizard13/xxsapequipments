@@ -35,6 +35,7 @@ class Product(models.Model):
     image_3 = models.ImageField(upload_to='product_images/', blank=True, null=True)
 
     catalogues = models.CharField(max_length=255, blank=True, null=True)
+    supplier_location = models.CharField(max_length=512, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     subcategory = models.ForeignKey(subcategory, on_delete=models.CASCADE, related_name='products')
 

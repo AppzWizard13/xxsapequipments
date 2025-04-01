@@ -69,6 +69,7 @@
                         <p><strong>Subcategory:</strong> {{ product.subcategory.name }}</p>
                     {% endif %}
                     <p><strong>Additional Information:</strong> {{ product.additional_information }}</p>
+                    
                     <p><strong>Catalogue:</strong>
                         {% if product.catalogues %}
                             <a href="{{ product.catalogues }}" target="_blank">View Catalogue</a>
@@ -104,7 +105,24 @@
             <!-- Description Section -->
             <div class="col-md-6">
                 <p><strong>Description:</strong> </br>{{ product.description }}</p>
-                <p><strong>Additional Information:</strong> </br>{{ product.additional_information }}</p>
+                <style>
+                    .supplier-map-container.fixed-size {
+                      width: 400px;
+                      height: 300px;
+                    }
+                    .supplier-map-container.fixed-size .map-wrapper {
+                      width: 100%;
+                      height: 100%;
+                      padding-bottom: 0; /* Override any responsive padding */
+                    }
+                </style>
+                
+                <p><strong>Supplier Location:</strong> </p>
+                <div class="supplier-map-container fixed-size">
+                    <div class="map-wrapper">
+                        {{ product.supplier_location|safe }}
+                    </div>
+                </div>
             </div>
 
             <!-- Specifications Section -->
