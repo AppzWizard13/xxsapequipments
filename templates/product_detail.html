@@ -68,15 +68,16 @@
                     {% if product.subcategory %}
                         <p><strong>Subcategory:</strong> {{ product.subcategory.name }}</p>
                     {% endif %}
-                    <p><strong>Additional Information:</strong> {{ product.additional_information }}</p>
                     
-                    <p><strong>Catalogue:</strong>
+                    <p><strong>Description:</strong> </br>{{ product.description }}</p>   
+                    <p><strong>Additional Information:</strong> {{ product.additional_information }}</p>
+                    {% comment %} <p><strong>Catalogue:</strong>
                         {% if product.catalogues %}
                             <a href="{{ product.catalogues }}" target="_blank">View Catalogue</a>
                         {% else %}
                             No Catalogue Available
                         {% endif %}
-                    </p>
+                    </p> {% endcomment %}
 
                     <!-- WhatsApp Button -->
                     <a href="https://wa.me/+919940100506?text=Hi, I am interested in your product: {{ product.name }}. Price: {{ product.price }}, Category: {{ product.category.name }}{% if product.subcategory %}, Subcategory: {{ product.subcategory.name }}{% endif %}. Additional Information: {{ product.additional_information }}. Product UID: {{ product.product_uid }}" 
@@ -100,54 +101,46 @@
         </div>
 
         <!-- Description & Specifications Section -->
-        <div class="row mt-5 ">
+        <div class="row mt-5">
             <!-- Description Section -->
-            <div class="col-md-6 mb-2">
-                <p><strong>Description:</strong> </br>{{ product.description }}</p>                
+            <div class="col-lg-8 col-12 mb-4 col-md-12">
                 <p><strong>Supplier Location:</strong> </p>
-                <div class="supplier-map-container">
-                    <div class="map-responsive">
-                        {{ product.supplier_location|safe }}
+                    <!-- Tabbed Map Interface -->
+                    <div class="supplier-map-tabs">
+                        <!-- Tab Navigation -->
+                        <ul class="nav nav-tabs" id="supplierTabs" role="tablist">
+                            {% for supplier in product.get_supplier_location %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if forloop.first %}active{% endif %}" 
+                                id="tab-{{ forloop.counter }}" data-toggle="tab" 
+                                href="#supplier-{{ forloop.counter }}" role="tab"
+                                aria-controls="supplier-{{ forloop.counter }}" 
+                                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                                <i class="fas fa-map-marker-alt mr-2"></i> 
+                                {{ supplier.shop_name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        
+                        <!-- Tab Content -->
+                        <div class="tab-content p-0 border-0" id="supplierTabContent">
+                            {% for supplier in product.get_supplier_location %}
+                            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" 
+                                id="supplier-{{ forloop.counter }}" role="tabpanel"
+                                aria-labelledby="tab-{{ forloop.counter }}">
+                                <div class="map-container border-0">
+                                    {{ supplier.iframe|safe }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
+               
             </div>
 
-            <style>
-                /* Responsive map container */
-                .supplier-map-container {
-                    margin: 15px 0;
-                    width: 100%;
-                }
-                
-                /* Responsive map wrapper */
-                .map-responsive {
-                    position: relative;
-                    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-                    height: 0;
-                    overflow: hidden;
-                    border-radius: 8px;
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                }
-                
-                .map-responsive iframe {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100% !important;
-                    height: 100% !important;
-                    border: 0;
-                }
-                
-                /* Optional: Adjust aspect ratio on mobile */
-                @media (max-width: 768px) {
-                    .map-responsive {
-                        padding-bottom: 75%; /* More square aspect ratio for mobile */
-                    }
-                }
-            </style>
-
             <!-- Specifications Section -->
-            <div class="col-md-5">
+            <div class="col-lg-4 col-12">
                 <div id="specifications-table" class="specifications-table">
                     <table>
                         <thead>
@@ -163,6 +156,104 @@
                 </div>
             </div>
         </div>
+
+        <style>
+            /* Main Container */
+            .supplier-map-tabs {
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                overflow: hidden;
+            }
+
+            /* Tab Navigation */
+            .nav-tabs {
+                border-bottom: 1px solid #e9ecef;
+                padding: 0 15px;
+                background: #f8f9fa;
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                white-space: nowrap;
+                scrollbar-width: thin;
+                scrollbar-color: #ddd transparent;
+            }
+
+            .nav-item {
+                flex-shrink: 0;
+                margin-bottom: -1px;
+            }
+
+            .nav-link {
+                color: #495057;
+                border: none;
+                padding: 12px 20px;
+                font-weight: 500;
+                transition: all 0.3s;
+                border-radius: 0;
+                position: relative;
+                white-space: nowrap;
+            }
+
+            .nav-link:hover {
+                color: #007bff;
+                background: transparent;
+            }
+
+            .nav-link.active {
+                color: #007bff;
+                background: #fff;
+                border: none;
+                border-bottom: 3px solid #007bff;
+            }
+
+            /* Map Container */
+            .map-container {
+                position: relative;
+                width: 100%;
+                padding-bottom: 56.25%; /* 16:9 aspect ratio */
+                overflow: hidden;
+                background: #f8f9fa;
+            }
+
+            .map-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: 0 !important;
+            }
+
+            .tab-content {
+                padding: 5px !important;
+                background: white !important;
+            }
+
+            /* Responsive Adjustments */
+            @media (max-width: 768px) {
+                .nav-tabs {
+                    padding-bottom: 5px;
+                    -webkit-overflow-scrolling: touch;
+                }
+                
+                .nav-link {
+                    padding: 10px 15px;
+                    font-size: 14px;
+                }
+                
+                .map-container {
+                    padding-bottom: 75%; /* Taller aspect ratio for mobile */
+                }
+
+                /* Ensuring 12-12 column layout on mobile */
+                .col-12 {
+                    width: 100%;
+                    margin-bottom: 15px;
+                }
+            }
+        </style>
+
 
 
         <!-- Same Category Products -->
