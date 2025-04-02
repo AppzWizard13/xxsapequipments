@@ -101,29 +101,50 @@
 
         <!-- Description & Specifications Section -->
         <div class="row mt-5 ">
-
             <!-- Description Section -->
-            <div class="col-md-6">
-                <p><strong>Description:</strong> </br>{{ product.description }}</p>
-                <style>
-                    .supplier-map-container.fixed-size {
-                      width: 400px;
-                      height: 300px;
-                    }
-                    .supplier-map-container.fixed-size .map-wrapper {
-                      width: 100%;
-                      height: 100%;
-                      padding-bottom: 0; /* Override any responsive padding */
-                    }
-                </style>
-                
+            <div class="col-md-6 mb-2">
+                <p><strong>Description:</strong> </br>{{ product.description }}</p>                
                 <p><strong>Supplier Location:</strong> </p>
-                <div class="supplier-map-container fixed-size">
-                    <div class="map-wrapper">
+                <div class="supplier-map-container">
+                    <div class="map-responsive">
                         {{ product.supplier_location|safe }}
                     </div>
                 </div>
             </div>
+
+            <style>
+                /* Responsive map container */
+                .supplier-map-container {
+                    margin: 15px 0;
+                    width: 100%;
+                }
+                
+                /* Responsive map wrapper */
+                .map-responsive {
+                    position: relative;
+                    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+                    height: 0;
+                    overflow: hidden;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                }
+                
+                .map-responsive iframe {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100% !important;
+                    height: 100% !important;
+                    border: 0;
+                }
+                
+                /* Optional: Adjust aspect ratio on mobile */
+                @media (max-width: 768px) {
+                    .map-responsive {
+                        padding-bottom: 75%; /* More square aspect ratio for mobile */
+                    }
+                }
+            </style>
 
             <!-- Specifications Section -->
             <div class="col-md-5">
