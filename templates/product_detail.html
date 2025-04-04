@@ -66,9 +66,9 @@
                     <h5 class="heading">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div style="text-align: left;">
-                                <p>
-                                    Price:
-                                    <strong>&nbsp;{{ product.price }}</strong>
+                                <p ><strong>
+                                    Price:</strong>
+                                    <strong style="font-size: 18px; color: #555;">&nbsp;{{ product.price }}&nbsp;&nbsp; INR</strong>
                                 </p>
                             </div>
                             <div style="text-align: right;">
@@ -80,7 +80,10 @@
                     </h5>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <p><strong>Category:</strong> {{ product.category.name }}</p>
-                        <i class="fa fa-file-pdf-o" style="font-size: 40px; color: red; vertical-align: middle;"></i>
+                        <!-- Assuming your static files are served correctly -->
+                        <a href="{% static 'pdf/sapet_catelogue.pdf' %}" download class="pdf-download-button">
+                            <i class="fa fa-file-pdf-o" style="font-size: 40px; color: red; vertical-align: middle;"></i>
+                        </a>
                     </div>
                     {% if product.subcategory %}
                         <p><strong>Subcategory:</strong> {{ product.subcategory.name }}</p>
@@ -167,8 +170,74 @@
             </div>
 
         </div>
-        <p class="mt-3"><strong>Additional Information:</strong> {{ product.additional_information }}</p>
+        <p class="mt-3"><strong>Additional Information:</strong> </p>
+        {% comment %} {{ product.additional_information }} {% endcomment %}
+
+        <div id="formattedText"></div>
         {% endif %}
+        <script>
+            const text = "{{ product.additional_information }}";
+        
+            const formattedTextDiv = document.getElementById('formattedText');
+        
+            // Split the text into lines
+            const lines = text.split('. ');
+        
+            let currentBulletList = null;
+        
+            lines.forEach(line => {
+                // Check if the line starts with a capital letter followed by a colon
+                if (/^[A-Z][a-zA-Z\s]+:/.test(line)) {
+                    // If there is an existing bullet list, close it
+                    if (currentBulletList) {
+                        formattedTextDiv.appendChild(currentBulletList);
+                        currentBulletList = null;
+                    }
+        
+                    // Create a bold element for the section title
+                    const boldElement = document.createElement('div');
+                    boldElement.classList.add('bold');
+                    const colonIndex = line.indexOf(':');
+                    const sectionTitle = line.substring(0, colonIndex + 1);
+                    boldElement.textContent = sectionTitle;
+                    formattedTextDiv.appendChild(boldElement);
+        
+                    // Remove the section title from the line
+                    const value = line.substring(colonIndex + 1).trim();
+                    if (value) {
+                        // Create a new bullet list for the value
+                        currentBulletList = document.createElement('ul');
+                        currentBulletList.classList.add('bullet');
+                        const listItem = document.createElement('li');
+                        listItem.textContent = value;
+                        currentBulletList.appendChild(listItem);
+                    }
+                } else {
+                    // If no section title is found, append the line as a bullet point
+                    if (!currentBulletList) {
+                        currentBulletList = document.createElement('ul');
+                        currentBulletList.classList.add('bullet');
+                    }
+                    const listItem = document.createElement('li');
+                    listItem.textContent = line;
+                    currentBulletList.appendChild(listItem);
+                }
+            });
+        
+            // Append the last bullet list if it exists
+            if (currentBulletList) {
+                formattedTextDiv.appendChild(currentBulletList);
+            }
+        </script>
+        <style>
+            .bold {
+                font-weight: bold;
+            }
+            .bullet {
+                list-style-type: disc;
+                margin-left: 20px;
+            }
+        </style>
         <style>
             /* Main Container */
             .supplier-map-tabs {
@@ -286,7 +355,7 @@
                         </a>
                         <div class="text">
                             <h3 class="heading"><a href="{% url 'product_detail' item.id %}">{{ item.name }}</a></h3>
-                            <p><strong>Price:</strong> ₹{{ item.price }}</p>
+                            <p><strong>Price:</strong> {{ item.price }}   &nbsp; INR</p>
                         </div>
                     </div>
                 {% empty %}
@@ -309,7 +378,7 @@
                         </a>
                         <div class="text">
                             <h3 class="heading"><a href="{% url 'product_detail' item.id %}">{{ item.name }}</a></h3>
-                            <p><strong>Price:</strong> ₹{{ item.price }}</p>
+                            <p><strong>Price:</strong>  {{ item.price }}   &nbsp; INR</p>
                         </div>
                     </div>
                 {% empty %}
@@ -589,6 +658,7 @@
 </style>
 <!-- Initial Popup Modal -->
 <!-- Initial Popup Modal -->
+{% if product.popup_image %}
 <div class="modal fade" id="initialPopup" tabindex="-1" role="dialog" aria-labelledby="initialPopupLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -602,7 +672,8 @@
             </div>
         </div>
     </div>
-</div>
+</div>0
+{% endif %}
 
 <script>
     // Show the initial popup when the page loads

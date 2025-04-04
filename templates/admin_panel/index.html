@@ -147,14 +147,14 @@
                 <span class="hide-menu">View Banner</span>
               </a>
             </li>  
-            <li class="sidebar-item">
+            {% comment %} <li class="sidebar-item">
               <a class="sidebar-link" href="{% url 'banner_list' %}" aria-expanded="false">
                 <span>
                   <i class="ti ti-cards"></i>
                 </span>
                 <span class="hide-menu">View PDF</span>
               </a>
-            </li>
+            </li> {% endcomment %}
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
               <span class="hide-menu">Employee Management</span>
@@ -382,7 +382,7 @@
                         <tr>
                           <td>{{ product.id }}</td>
                           <td>{{ product.name }}</td>
-                          <td>₹{{ product.price }}</td>
+                          <td>{{ product.price }}   &nbsp; INR</td>
                           <td>{{ product.category.name }}</td>
                           <td>{{ product.subcategory.name }}</td>
                           <td>
@@ -435,7 +435,7 @@
                           <tr>
                             <td>${product.id}</td>
                             <td>${product.name}</td>
-                            <td>₹${product.price}</td>
+                            <td>INR ${product.price}</td>
                             <td>${product.category__name}</td>
                             <td>${product.subcategory__name}</td>
                             <td>${imageTag}</td>

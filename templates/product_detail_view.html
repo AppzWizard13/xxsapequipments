@@ -71,7 +71,7 @@
                 <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
               </h3>
               <p class="text-muted text-center flex-grow-1">{{ product.description|truncatewords:8 }}</p>
-              <p class="text-center font-weight-bold mt-auto"><strong>Price:</strong> ₹{{ product.price }}</p>
+              <p class="text-center font-weight-bold mt-auto"><strong>Price:</strong> {{ product.price }}  &nbsp; INR </p>
             </div>
           </div>
           {% empty %}
