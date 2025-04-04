@@ -2,8 +2,8 @@
 {% load static %}
 
 {% block content %}
-<section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ product.images.url }}'); background-position: center; background-size: cover; background-repeat: no-repeat; height: 50%;">
+    <div class="overlay"></div>    
     <div class="container">
         <div class="row no-gutters slider-text align-items-end">
             <div class="col-md-9 ftco-animate pb-5">
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-5">
             <!-- Main Image Section -->
             <div class="col-md-6 ftco-animate">
                 <div class="blog-entry align-self-stretch">
@@ -63,32 +63,40 @@
             <div class="col-md-6 ftco-animate">
                 <div class="text mt-3">
                     <h3 class="heading">{{ product.name }}</h3>
-                    <h5 class="heading"><p>Price:<strong> &nbsp; {{ product.price }}</strong></p></h5>
-                    <p><strong>Category:</strong> {{ product.category.name }}</p>
+                    <h5 class="heading">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="text-align: left;">
+                                <p>
+                                    Price:
+                                    <strong>&nbsp;{{ product.price }}</strong>
+                                </p>
+                            </div>
+                            <div style="text-align: right;">
+                                <p style="font-size: 12px; color: black; vertical-align: middle;">
+                                    <strong>Download Our Catalogue</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </h5>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <p><strong>Category:</strong> {{ product.category.name }}</p>
+                        <i class="fa fa-file-pdf-o" style="font-size: 40px; color: red; vertical-align: middle;"></i>
+                    </div>
                     {% if product.subcategory %}
                         <p><strong>Subcategory:</strong> {{ product.subcategory.name }}</p>
                     {% endif %}
+                    <p><strong>Description:</strong> </br>{{ product.description }}</p>
                     
-                    <p><strong>Description:</strong> </br>{{ product.description }}</p>   
-                    <p><strong>Additional Information:</strong> {{ product.additional_information }}</p>
-                    {% comment %} <p><strong>Catalogue:</strong>
-                        {% if product.catalogues %}
-                            <a href="{{ product.catalogues }}" target="_blank">View Catalogue</a>
-                        {% else %}
-                            No Catalogue Available
-                        {% endif %}
-                    </p> {% endcomment %}
-
                     <!-- WhatsApp Button -->
-                    <a href="https://wa.me/+919940100506?text=Hi, I am interested in your product: {{ product.name }}. Price: {{ product.price }}, Category: {{ product.category.name }}{% if product.subcategory %}, Subcategory: {{ product.subcategory.name }}{% endif %}. Additional Information: {{ product.additional_information }}. Product UID: {{ product.product_uid }}" 
-                       class="btn btn-primary mt-3" 
-                       style="background: green; border: 1px solid #2cf724; color: white; --bs-btn-hover-bg: green; --bs-btn-hover-border-color: #2cf724; --bs-btn-hover-color: white;">
-                       Contact Supplier via WhatsApp
+                    <a href="https://wa.me/+919940100506?text=Hi%20,%20I%20am%20interested%20in%20your%20product:%20{{ product.name }}.%20Price:%20{{ product.price }},%20Category:%20{{ product.category.name }}{% if product.subcategory %},%20Subcategory:%20{{ product.subcategory.name }}{% endif %}.%20Additional%20Information:%20{{ product.additional_information }}.%20Product%20UID:%20{{ product.product_uid }}" 
+                    class="btn btn-primary mt-3" 
+                    style="background: green; border: 1px solid #2cf724; color: white; --bs-btn-hover-bg: green; --bs-btn-hover-border-color: #2cf724; --bs-btn-hover-color: white;">
+                    Contact Supplier via WhatsApp
                     </a>
                 </div>
             </div>
         </div>
-
+        
         <!-- Modal for Displaying Larger Image -->
         <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -101,9 +109,10 @@
         </div>
 
         <!-- Description & Specifications Section -->
+         {% if product.get_supplier_location %}
         <div class="row mt-5">
-            <!-- Description Section -->
-            <div class="col-lg-8 col-12 mb-4 col-md-12">
+            <!-- Supplier Map Section -->
+            <div class="col-lg-7 col-12 mb-4 col-md-12">
                 <p><strong>Supplier Location:</strong> </p>
                     <!-- Tabbed Map Interface -->
                     <div class="supplier-map-tabs">
@@ -126,27 +135,28 @@
                         <!-- Tab Content -->
                         <div class="tab-content p-0 border-0" id="supplierTabContent">
                             {% for supplier in product.get_supplier_location %}
-                            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" 
+                            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" style="height: inherit;" 
                                 id="supplier-{{ forloop.counter }}" role="tabpanel"
                                 aria-labelledby="tab-{{ forloop.counter }}">
-                                <div class="map-container border-0">
+                                <div class="map-container border-0" >
                                     {{ supplier.iframe|safe }}
                                 </div>
                             </div>
                             {% endfor %}
                         </div>
                     </div>
-               
+                
             </div>
 
             <!-- Specifications Section -->
-            <div class="col-lg-4 col-12">
+            <div class="col-lg-5 col-12">
                 <div id="specifications-table" class="specifications-table">
                     <table>
                         <thead>
                             <tr>
                                 <th>Specification</th>
-                                <th>Value</th>
+                                <th class="value-column">Value</th>
+                                <th class="value-column">Additional Value</th> <!-- New column for additional value -->
                             </tr>
                         </thead>
                         <tbody>
@@ -155,8 +165,10 @@
                     </table>
                 </div>
             </div>
-        </div>
 
+        </div>
+        <p class="mt-3"><strong>Additional Information:</strong> {{ product.additional_information }}</p>
+        {% endif %}
         <style>
             /* Main Container */
             .supplier-map-tabs {
@@ -164,6 +176,10 @@
                 border-radius: 10px;
                 box-shadow: 0 4px 20px rgba(0,0,0,0.08);
                 overflow: hidden;
+            }
+            .value-column {
+                width: 150px; /* Adjust the width as needed */
+                text-align: center; /* Optional: center-align the text */
             }
 
             /* Tab Navigation */
@@ -211,6 +227,7 @@
             .map-container {
                 position: relative;
                 width: 100%;
+                height:inherit;
                 padding-bottom: 56.25%; /* 16:9 aspect ratio */
                 overflow: hidden;
                 background: #f8f9fa;
@@ -228,6 +245,7 @@
             .tab-content {
                 padding: 5px !important;
                 background: white !important;
+                height: 600px;
             }
 
             /* Responsive Adjustments */
@@ -255,14 +273,13 @@
         </style>
 
 
-
         <!-- Same Category Products -->
         <div class="row mt-5">
             <div class="col-md-12 heading-section text-center ftco-animate">
                 <h3>More from {{ product.category.name }}</h3>
             </div>
             <div class="product-grid">
-                {% for item in  same_subcategory_products %}
+                {% for item in same_subcategory_products %}
                     <div class="blog-entry">
                         <a href="{% url 'product_detail' item.id %}" class="block-20">
                             <img src="{{ item.images.url|default:'/static/images/placeholder.jpg' }}" class="product-image">
@@ -307,11 +324,9 @@
 <!-- JavaScript for Image Switching -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-
-    
         const specificationsText = "{{ product.specifications|escapejs }}";
         console.log("specificationsText:", specificationsText); 
-        
+
         // Split the specifications into key-value pairs
         const specificationsArray = specificationsText.split(", ");
         
@@ -320,14 +335,22 @@
         
         // Loop through the specifications and add rows to the table
         specificationsArray.forEach(spec => {
-            const [key, value] = spec.split(/:(.+)/); // Split only on the first occurrence of ':'
-            if (key && value) {
-                const row = document.createElement("tr");
-                row.innerHTML = `<td>${key.trim()}</td><td>${value.trim()}</td>`;
-                tableBody.appendChild(row);
+            const [key, values] = spec.split(/:(.+)/); // Split only on the first occurrence of ':'
+            if (key && values) {
+                const [value, additionalValue] = values.split(":"); // Split the values by ':' to get the additional value
+                if (key && value) {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${key.trim()}</td>
+                        <td>${value.trim()}</td>
+                        <td>${additionalValue ? additionalValue.trim() : ''}</td> <!-- Add the additional value -->
+                    `;
+                    tableBody.appendChild(row);
+                }
             }
         });
     });
+
     function updateModalImage(imageSrc) {
         document.getElementById('modalImage').src = imageSrc;
     }
@@ -476,7 +499,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        height: 100%; /* Ensures each product card has equal height */
+        height: 400px; /* Ensures each product card has equal height */
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 5px;
@@ -515,9 +538,77 @@
         object-fit: cover;
         border-radius: 5px;
     }
-
-    
-    
 </style>
+<style>
+    /* Popup Image Styling */
+    .popup-image {
+        width: 100%; /* Ensure the image fills the modal body */
+        height: 100%; /* Ensure the image fills the modal body */
+        object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+        margin: 0 auto; /* Center the image */
+        display: block; /* Ensure the image is displayed as a block element */
+    }
+    
+    /* Modal Body Styling */
+    .modal-body {
+        padding: 0; /* Remove padding to allow the image to fill the entire modal body */
+        position: relative; /* Ensure the image is positioned correctly */
+        height: 100%; /* Ensure the modal body fills the modal content */
+    }
+    
+    /* Modal Content Styling */
+    .modal-content {
+        border-radius: 10px; /* Add rounded corners to the modal */
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+        display: flex; /* Use flexbox to center the content */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        height: 100%; /* Ensure the modal content fills the modal */
+    }
+    
+    /* Modal Header Styling */
+    .modal-header {
+        border-bottom: none; /* Remove the bottom border from the header */
+        padding: 0; /* Remove padding */
+        position: absolute; /* Position the header at the top */
+        top: 0;
+        color:white;
+        width: 100%; /* Ensure the header spans the entire width */
+        z-index: 1000; /* Ensure the header is above the image */
+    }
+    
+    /* Close Button Styling */
+    .close {
+        font-size: 24px; /* Increase the size of the close button */
+        color: #333; /* Set the color of the close button */
+        opacity: 1; /* Ensure the close button is fully opaque */
+        position: absolute; /* Position the close button at the top right */
+        top: 10px;
+        right: 10px;
+    }
+</style>
+<!-- Initial Popup Modal -->
+<!-- Initial Popup Modal -->
+<div class="modal fade" id="initialPopup" tabindex="-1" role="dialog" aria-labelledby="initialPopupLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="{{ product.popup_image.url }}" alt="Popup Image" class="img-fluid popup-image">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Show the initial popup when the page loads
+    $(document).ready(function() {
+        $('#initialPopup').modal('show');
+    });
+</script>
 
 {% endblock %}

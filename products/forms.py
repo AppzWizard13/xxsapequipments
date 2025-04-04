@@ -9,7 +9,7 @@ class CategoryForm(forms.ModelForm):
 
     class Meta:
         model = Category
-        fields = ['name', 'description', 'image']
+        fields = ['name', 'description', 'image', 'shortcut_image']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
@@ -43,11 +43,12 @@ class ProductForm(forms.ModelForm):
     image_1 = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
     image_2 = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
     image_3 = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
+    popup_image = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control mb-3'}))
 
     class Meta:
         model = Product
         fields = [
-            'name', 'is_active', 'images', 'image_1', 'image_2', 'image_3', 'catalogues','supplier_location',
+            'name', 'is_active', 'images', 'image_1', 'image_2', 'image_3','popup_image', 'catalogues','supplier_location',
             'category', 'price', 'subcategory', 'specifications', 'description', 'additional_information'
         ]
         widgets = {

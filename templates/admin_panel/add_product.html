@@ -65,6 +65,16 @@
             </div>
             {% endif %}
           </div>
+
+          <div class="col-md-4 mt-3">
+            <label for="popup_image" class="form-label">Pop Up Image</label>
+            {{ form.popup_image }}
+            {% if form.instance.popup_image %}
+            <div class="mt-2">
+              <img src="{{ form.instance.popup_image.url }}" class="img-thumbnail" width="120">
+            </div>
+            {% endif %}
+          </div>
         </div>
 
         <div class="mb-3">

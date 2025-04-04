@@ -24,6 +24,14 @@
             <img src="{{ category.image.url }}" alt="Category Image" class="mt-2" style="max-width: 150px;">
           {% endif %}
         </div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">Category ShortCut Image</label>
+          <input type="file" class="form-control" id="shortcut_image" name="shortcut_image">
+          {% if category.shortcut_image %}
+            <img src="{{ category.shortcut_image.url }}" alt="Category ShortCut Image" class="mt-2" style="max-width: 150px;">
+          {% endif %}
+        </div>
         
         <button type="submit" class="btn btn-primary">Update Category</button>
         <a href="{% url 'manage_items' %}" class="btn btn-secondary">Cancel</a>

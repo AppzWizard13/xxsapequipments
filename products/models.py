@@ -5,6 +5,7 @@ class Category(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     image = models.ImageField(upload_to='category_images/', null=True, blank=True)
+    shortcut_image = models.ImageField(upload_to='category_shortcut_images/', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -32,6 +33,8 @@ class Product(models.Model):
     image_1 = models.ImageField(upload_to='product_images/', blank=True, null=True)
     image_2 = models.ImageField(upload_to='product_images/', blank=True, null=True)
     image_3 = models.ImageField(upload_to='product_images/', blank=True, null=True)
+    popup_image = models.ImageField(upload_to='product_images/', blank=True, null=True)
+    
 
     catalogues = models.CharField(max_length=255, blank=True, null=True)
     supplier_location = models.TextField(

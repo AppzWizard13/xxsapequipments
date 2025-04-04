@@ -43,6 +43,7 @@
             <tr>
               <th>ID</th>
               <th>Image</th>  <!-- New Image Column -->
+              <th>Short Cut Image</th>  <!-- New Image Column -->
               <th>Name</th>
               <th>Description</th>
               <th class="text-center">Actions</th>
@@ -52,6 +53,13 @@
             {% for category in categories %}
             <tr>
               <td>{{ category.id }}</td>
+              <td class="text-center">
+                {% if category.shortcut_image %}
+                  <img src="{{ category.shortcut_image.url }}" alt="{{ category.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                {% else %}
+                  <img src="{% static 'icons/default-category.png' %}" alt="No shortcut_image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                {% endif %}
+              </td>
               <td class="text-center">
                 {% if category.image %}
                   <img src="{{ category.image.url }}" alt="{{ category.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
