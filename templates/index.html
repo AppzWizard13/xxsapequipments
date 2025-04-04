@@ -1289,7 +1289,9 @@
 		  
 		  <div class="category-grid-container">
 			{% for category in total_categories %}
+			{% if category.shortcut_image %}
 			<div class="category-grid-item">
+				
 			  <img src="{{ category.shortcut_image.url }}" 
 				   alt="{{ category.name }}" 
 				   class="icon-img" style="padding: 0px !important;"
@@ -1297,7 +1299,9 @@
 				   <a href="{% url 'products_by_category' category.id %}" style="text-decoration: none; color: inherit;">
 					<div class="category-title">{{ category.name }}</div>
 				</a>
+				
 			</div>
+			{% endif %}
 			{% endfor %}
 		  </div>
    	
