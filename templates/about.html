@@ -18,9 +18,9 @@
 		<div class="row d-flex no-gutters">
 			<div class="col-md-6 d-flex">
 				<div class="img img-video d-flex align-self-stretch align-items-center justify-content-center mb-4 mb-sm-0" style="background-image:url({% static 'images/about.jpg' %});">
-					<a href="https://vimeo.com/45830194" class="icon-video popup-vimeo d-flex justify-content-center align-items-center">
+					{% comment %} <a href="https://vimeo.com/45830194" class="icon-video popup-vimeo d-flex justify-content-center align-items-center">
 						<span class="fa fa-play"></span>
-					</a>
+					</a> {% endcomment %}
 				</div>
 			</div>
 			<div class="col-md-6 pl-md-5">
@@ -32,26 +32,24 @@
 					</div>
 					<div class="tabulation-2 mt-4">
 						<ul class="nav nav-pills nav-fill d-md-flex d-block">
-							<li class="nav-item mb-md-0 mb-2 mx-1">
-								<a class="nav-link active py-2" data-toggle="tab" href="#home1">Who We Are</a>
+							<li class="nav-item mb-md-0 mb-2 mx-1 my-1 ">
+								<a class="nav-link active py-2" data-toggle="tab" href="#home1">Our Product Range</a>
 							</li>
-							<li class="nav-item mb-md-0 mb-2 mx-1">
-								<a class="nav-link py-2" data-toggle="tab" href="#home2">Our Product Range</a>
+							<li class="nav-item mb-md-0 mb-2 mx-1 my-1 ">
+								<a class="nav-link py-2" data-toggle="tab" href="#home2">Who We Are</a>
 							</li>
-							<li class="nav-item mb-md-0 mb-2 mx-1">
+							<li class="nav-item mb-md-0 mb-2 mx-1 my-1 ">
 								<a class="nav-link py-2" data-toggle="tab" href="#home3">Why Choose Us?</a>
+							</li>
+							<li class="nav-item mb-md-0 mb-2 mx-1 my-1 ">
+								<a class="nav-link py-2" data-toggle="tab" href="#home4">Our Vision & Mission</a>
+							</li>
+							<li class="nav-item mb-md-0 mb-2 mx-1 my-1 ">
+								<a class="nav-link py-2" data-toggle="tab" href="#home5">Get in Touch</a>
 							</li>
 						</ul>
 						<div class="tab-content rounded mt-2">
-							<div class="tab-pane container p-0 active" id="home1">
-								<div class="tab-content-inner">
-									<p>
-										<strong>Who We Are</strong>
-										<p>At SAP Equipment and Tools, we specialize in delivering high-quality automotive service equipment tailored to the needs of car wash centers, workshops, and garages. From advanced cleaning systems to state-of-the-art diagnostic tools, our solutions are built for durability, precision, and superior performance.</p>
-									</p>
-								</div>
-							</div>
-							<div class="tab-pane container p-0 fade" id="home2">
+							<div class="tab-pane container p-0  active" id="home1">
 								<div class="tab-content-inner">
 									<p>
 										<strong>Our Product Range</strong>
@@ -91,6 +89,15 @@
 									</p>
 								</div>
 							</div>
+							<div class="tab-pane container p-0 fade" id="home2">
+								<div class="tab-content-inner">
+									<p>
+										<strong>Who We Are</strong>
+										<p>At SAP Equipment and Tools, we specialize in delivering high-quality automotive service equipment tailored to the needs of car wash centers, workshops, and garages. From advanced cleaning systems to state-of-the-art diagnostic tools, our solutions are built for durability, precision, and superior performance.</p>
+									</p>
+								</div>
+							</div>
+
 							<div class="tab-pane container p-0 fade" id="home3">
 								<div class="tab-content-inner">
 									<p>
@@ -104,10 +111,40 @@
 									</p>
 								</div>
 							</div>
+							<div class="tab-pane container p-0 fade" id="home4">
+								<div class="tab-content-inner">
+									<p>
+										<strong>Our Vision</strong>
+										<p>To be the most trusted name in automotive wash, diagnostic, and service equipment, delivering innovative solutions for vehicle care and workshop efficiency.</p>
+									</p>
+									<p>
+										<strong>Our Mission</strong>
+										<p>To empower automotive professionals with high-performance car wash, servicing, and repair equipment, ensuring precision, efficiency, and customer satisfaction.</p>
+									</p>
+								</div>
+							</div>
+							<div class="tab-pane container p-0 fade" id="home5">
+								<div class="tab-content-inner">
+									<p>
+										<strong>Get in Touch</strong>
+										<p>Looking for top-notch automotive service equipment? SAP Equipment and Tools India Pvt Ltd. has got you covered! Contact us today to elevate your workshop efficiency and vehicle care standards.</p>
+										<p>
+											📞 Call us now | ✉ Email us | 🌐 Visit our website
+										</p>
+									</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<style>
+				.tab-content-inner {
+					height: 350px; /* Set a fixed height for the content */
+					overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+					padding: 10px; /* Add some padding for better readability */
+				}
+			</style>
 			<style>
 				.tab-content-inner {
 					height: 840px; /* Set a fixed height for the content */
