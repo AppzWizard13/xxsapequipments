@@ -26,6 +26,7 @@ from django.db import models
 class Product(models.Model):
     product_uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=255)
+    sku = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     
     # Images

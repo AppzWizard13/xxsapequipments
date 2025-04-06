@@ -11,7 +11,7 @@ import os
 import zipfile
 from io import BytesIO
 import logging
-
+from .forms import CustomUserForm, UserLoginForm
 from products.models import Product, Category, subcategory
 from enquiry.models import Enquiry
 from .models import CustomUser, Banner, Review
@@ -19,95 +19,25 @@ from .forms import CustomUserForm, ReviewForm, BannerForm
 from django.contrib.auth import logout, login
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, View
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.http import HttpResponse, FileResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import redirect_to_login
+from django.conf import settings
+import os
+import zipfile
+from io import BytesIO
+from .models import Review, Banner
+from .forms import ReviewForm, BannerForm
 
 logger = logging.getLogger(__name__)
 
 CustomUser = get_user_model()
 
-class UserCreateView( CreateView):
-    model = CustomUser
-    form_class = CustomUserForm
-    template_name = 'admin_panel/add_user.html'
-    success_url = reverse_lazy('user_list')
 
-    def form_valid(self, form):
-        try:
-            user = form.save(commit=False)
-
-            # ✅ Use password1 instead of password
-            if 'password1' in form.cleaned_data:
-                user.set_password(form.cleaned_data['password1'])  # Correct field
-
-            # Generate employee_id
-            max_employee_id = CustomUser.objects.aggregate(Max('employee_id'))['employee_id__max'] or 0
-            user.employee_id = max_employee_id + 1
-
-            # Generate username
-            user.username = self.generate_username(user.employee_id)
-
-            user.save()
-            messages.success(self.request, "User added successfully.")
-            return super().form_valid(form)
-        except Exception as e:
-            messages.error(self.request, f"An error occurred: {str(e)}")
-            return self.form_invalid(form)
-
-    def generate_username(self, employee_id):
-        """Generate unique username like EMP00001."""
-        return f"EMP{str(employee_id).zfill(5)}"
-
-class UserUpdateView(LoginRequiredMixin, UpdateView):
-    model = get_user_model()
-    form_class = CustomUserForm
-    template_name = 'admin_panel/user_crud.html'
-    success_url = reverse_lazy('user_list')
-    slug_field = "username"
-    slug_url_kwarg = "username"
-
-    def form_valid(self, form):
-        user = form.save(commit=False)
-
-        # Get password only if provided
-        password = form.cleaned_data.get("password1")  # Use 'password1' instead of 'password'
-        if password:
-            user.set_password(password)  # Only set password if it's provided
-
-        user.save()
-        messages.success(self.request, "User updated successfully.")
-        return super().form_valid(form)
-
-from .forms import UserLoginForm
-
-class CustomLoginView(LoginView):
-    template_name = "admin_panel/authentication-login.html"
-    form_class = UserLoginForm  # Use custom login form
-
-    def form_valid(self, form):
-        user = form.get_user()
-        login(self.request, user)
-        messages.success(self.request, "Login successful!")  # Add success message
-        return redirect("dashboard")
-
-    def form_invalid(self, form):
-        messages.error(self.request, "Invalid phone number or password.")
-        return super().form_invalid(form)
-
-class UserListView(LoginRequiredMixin, ListView):
-    model = CustomUser
-    template_name = 'admin_panel/user_crud.html'
-    context_object_name = 'users'
-
-
-
-class UserDeleteView(LoginRequiredMixin, DeleteView):
-    model = CustomUser
-    slug_field = "username"
-    slug_url_kwarg = "username"
-    success_url = reverse_lazy('user_list')
-
-    def delete(self, request, *args, **kwargs):
-        messages.success(request, 'User has been deleted successfully.')
-        return super().delete(request, *args, **kwargs)
 # Home Page View
 class HomePageView(TemplateView):
     template_name = "index.html"
@@ -139,6 +69,16 @@ class HomePageView(TemplateView):
         })
         return context
 
+
+class AboutView(TemplateView):
+    template_name = 'about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_categories'] = Category.objects.all()
+        return context
+
+
 # API View
 class FetchProductsView(View):
     def get(self, request, *args, **kwargs):
@@ -151,10 +91,15 @@ class FetchProductsView(View):
 
 
 
+
+# Logout View
 class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return redirect('login')
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
 # Dashboard Views
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -172,6 +117,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             'total_subcat_count': subcategory.objects.count(),
         })
         return context
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
 class DashboardSearchView(LoginRequiredMixin, TemplateView):
     template_name = 'admin_panel/index.html'
@@ -207,6 +155,9 @@ class DashboardSearchView(LoginRequiredMixin, TemplateView):
         })
         return context
 
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 # Static Pages
 class ServicesView(TemplateView):
     template_name = 'services.html'
@@ -216,19 +167,109 @@ class ServicesView(TemplateView):
         context['total_categories'] = Category.objects.all()
         return context
 
-class AboutView(TemplateView):
-    template_name = 'about.html'
+# User Management Views
+class UserCreateView(LoginRequiredMixin, CreateView):
+    model = CustomUser
+    form_class = CustomUserForm
+    template_name = 'admin_panel/add_user.html'
+    success_url = reverse_lazy('user_list')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['total_categories'] = Category.objects.all()
-        return context
+    def form_valid(self, form):
+        try:
+            user = form.save(commit=False)
+
+            # Use password1 instead of password
+            if 'password1' in form.cleaned_data:
+                user.set_password(form.cleaned_data['password1'])  # Correct field
+
+            # Generate employee_id
+            max_employee_id = CustomUser.objects.aggregate(Max('employee_id'))['employee_id__max'] or 0
+            user.employee_id = max_employee_id + 1
+
+            # Generate username
+            user.username = self.generate_username(user.employee_id)
+
+            user.save()
+            messages.success(self.request, "User added successfully.")
+            return super().form_valid(form)
+        except Exception as e:
+            messages.error(self.request, f"An error occurred: {str(e)}")
+            return self.form_invalid(form)
+
+    def generate_username(self, employee_id):
+        """Generate unique username like EMP00001."""
+        return f"EMP{str(employee_id).zfill(5)}"
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = get_user_model()
+    form_class = CustomUserForm
+    template_name = 'admin_panel/user_crud.html'
+    success_url = reverse_lazy('user_list')
+    slug_field = "username"
+    slug_url_kwarg = "username"
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+
+        # Get password only if provided
+        password = form.cleaned_data.get("password1")  # Use 'password1' instead of 'password'
+        if password:
+            user.set_password(password)  # Only set password if it's provided
+
+        user.save()
+        messages.success(self.request, "User updated successfully.")
+        return super().form_valid(form)
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class CustomLoginView(LoginView):
+    template_name = "admin_panel/authentication-login.html"
+    form_class = UserLoginForm  # Use custom login form
+
+    def form_valid(self, form):
+        user = form.get_user()
+        login(self.request, user)
+        messages.success(self.request, "Login successful!")  # Add success message
+        return redirect("dashboard")
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Invalid phone number or password.")
+        return super().form_invalid(form)
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = CustomUser
+    template_name = 'admin_panel/user_crud.html'
+    context_object_name = 'users'
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    model = CustomUser
+    slug_field = "username"
+    slug_url_kwarg = "username"
+    success_url = reverse_lazy('user_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'User has been deleted successfully.')
+        return super().delete(request, *args, **kwargs)
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 
 # Review Management Views
 class ReviewListView(LoginRequiredMixin, ListView):
     model = Review
     template_name = 'admin_panel/review_list.html'
     context_object_name = 'reviews'
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
 class ReviewCreateView(LoginRequiredMixin, CreateView):
     model = Review
@@ -244,10 +285,16 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         messages.error(self.request, "There was an error adding the review. Please check the form.")
         return super().form_invalid(form)
 
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 class ReviewDetailView(LoginRequiredMixin, DetailView):
     model = Review
     template_name = 'admin_panel/review_detail.html'
     context_object_name = 'review'
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
 class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     model = Review
@@ -263,6 +310,9 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
         messages.error(self.request, "Error updating review. Please check the form.")
         return super().form_invalid(form)
 
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 class ReviewDeleteView(LoginRequiredMixin, DeleteView):
     model = Review
     success_url = reverse_lazy('review_list')
@@ -271,11 +321,17 @@ class ReviewDeleteView(LoginRequiredMixin, DeleteView):
         messages.success(request, "Review deleted successfully!")
         return super().delete(request, *args, **kwargs)
 
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 # Banner Management Views
 class BannerListView(LoginRequiredMixin, ListView):
     model = Banner
     template_name = 'admin_panel/banner_list.html'
     context_object_name = 'banners'
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
 class BannerCreateView(LoginRequiredMixin, CreateView):
     model = Banner
@@ -291,10 +347,16 @@ class BannerCreateView(LoginRequiredMixin, CreateView):
         messages.error(self.request, "There was an error adding the banner. Please check the form.")
         return super().form_invalid(form)
 
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 class BannerDetailView(LoginRequiredMixin, DetailView):
     model = Banner
     template_name = 'admin_panel/banner_detail.html'
     context_object_name = 'banner'
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
 class BannerUpdateView(LoginRequiredMixin, UpdateView):
     model = Banner
@@ -310,6 +372,9 @@ class BannerUpdateView(LoginRequiredMixin, UpdateView):
         messages.error(self.request, "Error updating banner. Please check the form.")
         return super().form_invalid(form)
 
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 class BannerDeleteView(LoginRequiredMixin, DeleteView):
     model = Banner
     success_url = reverse_lazy('banner_list')
@@ -317,6 +382,9 @@ class BannerDeleteView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, "Banner deleted successfully!")
         return super().delete(request, *args, **kwargs)
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
 # Utility Views
 class DownloadDatabaseView(LoginRequiredMixin, View):
@@ -326,6 +394,9 @@ class DownloadDatabaseView(LoginRequiredMixin, View):
             response = FileResponse(open(db_path, 'rb'), as_attachment=True, filename="database.sqlite3")
             return response
         return HttpResponse("Database file not found.", status=404)
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
 class DownloadAllMediaView(LoginRequiredMixin, View):
     def get(self, request):
@@ -350,3 +421,6 @@ class DownloadAllMediaView(LoginRequiredMixin, View):
             if 'memory_buffer' in locals():
                 memory_buffer.close()
             return HttpResponse(f"Error creating archive: {str(e)}", status=500, content_type='text/plain')
+
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())

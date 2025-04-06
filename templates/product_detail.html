@@ -2,6 +2,140 @@
 {% load static %}
 
 {% block content %}
+
+<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="background:#636060">
+                <!-- Appointment Section -->
+                <section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img">
+                    <div class="container">
+                        <div class="row d-md-flex justify-content-end">
+                            <div class="col-md-12 col-lg-12 half p-3 py-5 pl-lg-5 ftco-animate heading-section heading-section-white">
+                                <span class="subheading">Talk to Our Sales Team</span>
+                                <h2 class="mb-4">Let's discuss your needs and how we can help</h2>
+                                <form action="#" class="appointment" id="appointmentForm">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="phone" placeholder="Phone Number" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="city" placeholder="city" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <select class="form-control" name="category" required>
+                                                    {% for category in total_categories %}
+                                                    <option value="{{ category.name }}">{{ category.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <select class="form-control" name="referral" required>
+                                                    <option value="">How did you hear about us?</option>
+                                                    <option value="Google">Google</option>
+                                                    <option value="Referral">Referral</option>
+                                                    <option value="Social Media">Social Media</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <textarea name="message" id="" cols="30" rows="4" class="form-control" placeholder="Your Message" required></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="button" value="Submit via Email" class="btn btn-dark py-3 px-4" onclick="submitViaEmail()">
+                                                <input type="button" value="Submit via WhatsApp" class="btn btn-dark py-3 px-4" onclick="submitViaWhatsApp()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function submitViaEmail() {
+        // Collect form data
+        var formData = new FormData(document.getElementById('appointmentForm'));
+        var name = formData.get('name');
+        var email = formData.get('email');
+        var phone = formData.get('phone');
+        var city = formData.get('city');
+        var category = formData.get('category');
+        var referral = formData.get('referral');
+        var message = formData.get('message');
+    
+        // Format the email content (CLIENT'S PERSPECTIVE)
+        var toEmail = "sales@sapetindiapvtltd.in";
+        var subject = `Quotation Request for ${category}`;
+        var body = `Dear Supplier,\n\n` +
+                   `I am interested in your ${category} products and would like to request a quotation.\n\n` +
+                   `My Details:\n` +
+                   `- Name: ${name}\n` +
+                   `- Email: ${email}\n` +
+                   `- Phone: ${phone}\n` +
+                   `- City: ${city}\n` +
+                   `- How I found you: ${referral}\n\n` +
+                   `My Requirements:\n${message}\n\n` +
+                   `Kindly provide product details and pricing at your earliest convenience.\n\n` +
+                   `Best regards,\n${name}`;
+    
+        // Encode and send
+        var mailtoUrl = `mailto:${toEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoUrl;
+    }
+    
+    function submitViaWhatsApp() {
+        // Collect form data
+        var formData = new FormData(document.getElementById('appointmentForm'));
+        var name = formData.get('name');
+        var phone = formData.get('phone');
+        var city = formData.get('city');
+        var category = formData.get('category');
+        var referral = formData.get('referral');
+        var message = formData.get('message');
+    
+        // Format WhatsApp message (CLIENT'S PERSPECTIVE)
+        var whatsappMessage = `Dear Supplier,\n\n` +
+                             `I'm interested in your *${category}* products and need a quotation.\n\n` +
+                             `*My Details:*\n` +
+                             `- Name: ${name}\n` +
+                             `- Phone: ${phone}\n` +
+                             `- City: ${city}\n` +
+                             `- Reference: ${referral}\n\n` +
+                             `*My Requirements:*\n${message}\n\n` +
+                             `Please share product details and pricing.\n\n` +
+                             `Best regards,\n${name}`;
+    
+        var whatsappUrl = `https://wa.me/7736500760?text=${encodeURIComponent(whatsappMessage)}`;
+        window.open(whatsappUrl, '_blank');
+    }
+</script>
 <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ product.images.url }}'); background-position: center; background-size: cover; background-repeat: no-repeat; height: 50%;">
     <div class="overlay"></div>    
     <div class="container">
@@ -91,10 +225,10 @@
                     <p><strong>Description:</strong> </br>{{ product.description }}</p>
                     
                     <!-- WhatsApp Button -->
-                    <a href="https://wa.me/+919940100506?text=Hi%20,%20I%20am%20interested%20in%20your%20product:%20{{ product.name }}.%20Price:%20{{ product.price }},%20Category:%20{{ product.category.name }}{% if product.subcategory %},%20Subcategory:%20{{ product.subcategory.name }}{% endif %}.%20Additional%20Information:%20{{ product.additional_information }}.%20Product%20UID:%20{{ product.product_uid }}" 
-                    class="btn btn-primary mt-3" 
-                    style="background: green; border: 1px solid #2cf724; color: white; --bs-btn-hover-bg: green; --bs-btn-hover-border-color: #2cf724; --bs-btn-hover-color: white;">
-                    Contact Supplier via WhatsApp
+                    <a href="https://wa.me/+919940100506?text=Dear%20Supplier,%0A%0AI%20am%20interested%20in%20your%20product:%20{{product.name}}.%0APrice:%20{{product.price}}%0ACategory:%20{{product.category.name}}%0AProduct%20SKU:%20{{product.sku}}%0A%0AKindly%20provide%20more%20information%20and%20a%20quotation.%0A%0ABest%20regards,%0A" 
+                        class="btn btn-primary mt-3" 
+                        style="background: green; border: 1px solid #2cf724; color: white; --bs-btn-hover-bg: green; --bs-btn-hover-border-color: #2cf724; --bs-btn-hover-color: white;">
+                        Contact Supplier via WhatsApp
                     </a>
                 </div>
             </div>

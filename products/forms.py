@@ -49,7 +49,7 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = [
             'name', 'is_active', 'images', 'image_1', 'image_2', 'image_3','popup_image', 'catalogues','supplier_location',
-            'category', 'price', 'subcategory', 'specifications', 'description', 'additional_information'
+            'category', 'price', 'subcategory', 'specifications', 'description', 'additional_information', 'sku'
         ]
         widgets = {
             'specifications': MarkdownxWidget(attrs={'class': 'form-control'}),
@@ -59,6 +59,7 @@ class ProductForm(forms.ModelForm):
             'subcategory': forms.Select(attrs={'class': 'form-control'}),
             'price': forms.TextInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'sku': forms.TextInput(attrs={'class': 'form-control'}),
             'catalogues': forms.TextInput(attrs={'class': 'form-control'}),
             'supplier_location': forms.TextInput(attrs={'class': 'form-control'}),
             'images': forms.ClearableFileInput(attrs={'class': 'form-control'}),

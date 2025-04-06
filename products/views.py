@@ -3,10 +3,12 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import redirect_to_login
 from .models import Category, subcategory, Product
 from .forms import CategoryForm, subcategoryForm, ProductForm
 
-class ManageItemsView(ListView):
+class ManageItemsView(LoginRequiredMixin, ListView):
     template_name = 'admin_panel/manage_items.html'
     context_object_name = 'items'
 
@@ -20,8 +22,11 @@ class ManageItemsView(ListView):
     def get_queryset(self):
         return None  # We're using get_context_data for multiple querysets
 
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 # Category Views
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     template_name = 'admin_panel/categories.html'
     context_object_name = 'categories'
@@ -37,7 +42,10 @@ class CategoryListView(ListView):
         context['query'] = self.request.GET.get('search', '')
         return context
 
-class CategoryCreateView(CreateView):
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
     template_name = 'admin_panel/add_category.html'
@@ -52,7 +60,10 @@ class CategoryCreateView(CreateView):
         messages.error(self.request, "There was an error adding the category. Please check the form.")
         return super().form_invalid(form)
 
-class CategoryUpdateView(UpdateView):
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = 'admin_panel/edit_category.html'
@@ -67,7 +78,10 @@ class CategoryUpdateView(UpdateView):
         messages.error(self.request, "Error updating category. Please check the form.")
         return super().form_invalid(form)
 
-class CategoryDeleteView(DeleteView):
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
     success_url = reverse_lazy('category_list')
 
@@ -78,8 +92,11 @@ class CategoryDeleteView(DeleteView):
         messages.success(request, "Category deleted successfully!")
         return super().delete(request, *args, **kwargs)
 
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 # Subcategory Views
-class SubcategoryListView(ListView):
+class SubcategoryListView(LoginRequiredMixin, ListView):
     model = subcategory
     template_name = 'admin_panel/subcategories.html'
     context_object_name = 'subcategories'
@@ -95,7 +112,10 @@ class SubcategoryListView(ListView):
         context['query'] = self.request.GET.get('search', '')
         return context
 
-class SubcategoryCreateView(CreateView):
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class SubcategoryCreateView(LoginRequiredMixin, CreateView):
     model = subcategory
     template_name = 'admin_panel/add_subcategory.html'
     fields = ['name', 'description', 'category']
@@ -111,7 +131,10 @@ class SubcategoryCreateView(CreateView):
         messages.success(self.request, "Subcategory added successfully!")
         return response
 
-class SubcategoryUpdateView(UpdateView):
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class SubcategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = subcategory
     template_name = 'admin_panel/edit_subcategory.html'
     fields = ['name', 'description', 'category']
@@ -127,7 +150,10 @@ class SubcategoryUpdateView(UpdateView):
         messages.success(self.request, "Subcategory updated successfully!")
         return response
 
-class SubcategoryDeleteView(DeleteView):
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class SubcategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = subcategory
     success_url = reverse_lazy('subcategory_list')
 
@@ -138,8 +164,11 @@ class SubcategoryDeleteView(DeleteView):
         messages.success(request, "Subcategory deleted successfully!")
         return super().delete(request, *args, **kwargs)
 
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 # Product Views
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'admin_panel/products.html'
     context_object_name = 'products'
@@ -168,7 +197,10 @@ class ProductListView(ListView):
         context['selected_subcategory'] = self.request.GET.get('subcategory', '')
         return context
 
-class ProductCreateView(CreateView):
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'admin_panel/add_product.html'
@@ -185,7 +217,10 @@ class ProductCreateView(CreateView):
                 messages.error(self.request, f"{field}: {error}")
         return super().form_invalid(form)
 
-class ProductUpdateView(UpdateView):
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'admin_panel/edit_product.html'
@@ -202,7 +237,10 @@ class ProductUpdateView(UpdateView):
                 messages.error(self.request, f"{field}: {error}")
         return super().form_invalid(form)
 
-class ProductDeleteView(DeleteView):
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('product_list')
 
@@ -213,6 +251,8 @@ class ProductDeleteView(DeleteView):
         messages.success(request, f"Product '{product_name}' was successfully deleted!")
         return response
 
+    def handle_no_permission(self):
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 # Frontend Views
 class ProductGridView(ListView):
     model = Product
