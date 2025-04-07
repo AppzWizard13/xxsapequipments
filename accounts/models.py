@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager, Group, Permission
 from django.db import models
 from django.utils.timezone import now  # Fix the NameError issue
+from .utils import compress_image  # Make sure to import this
+from io import BytesIO
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, phone_number, password=None, **extra_fields):
@@ -91,3 +93,10 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # Check if image exists and compress it
+        if self.image and hasattr(self.image, 'file'):
+            self.image = compress_image(self.image)
+
+        super().save(*args, **kwargs)

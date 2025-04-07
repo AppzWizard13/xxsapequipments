@@ -1,5 +1,6 @@
 from django.db import models
 import re
+from .utils import compress_image
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -9,6 +10,17 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # Compress both image fields if they exist
+        image_fields = ['image', 'shortcut_image']
+        for field_name in image_fields:
+            image = getattr(self, field_name)
+            if image and hasattr(image, 'file'):
+                compressed = compress_image(image)
+                setattr(self, field_name, compressed)
+
+        super().save(*args, **kwargs)
 
 
 class subcategory(models.Model):
@@ -23,6 +35,7 @@ class subcategory(models.Model):
 import uuid
 from django.db import models
 
+
 class Product(models.Model):
     product_uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=255)
@@ -35,7 +48,6 @@ class Product(models.Model):
     image_2 = models.ImageField(upload_to='product_images/', blank=True, null=True)
     image_3 = models.ImageField(upload_to='product_images/', blank=True, null=True)
     popup_image = models.ImageField(upload_to='product_images/', blank=True, null=True)
-    
 
     catalogues = models.CharField(max_length=255, blank=True, null=True)
     supplier_location = models.TextField(
@@ -52,28 +64,33 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-                
+
+    def save(self, *args, **kwargs):
+        # Compress all image fields if they exist
+        image_fields = ['images', 'image_1', 'image_2', 'image_3', 'popup_image']
+        for field_name in image_fields:
+            image = getattr(self, field_name)
+            if image and hasattr(image, 'file'):
+                compressed = compress_image(image)
+                setattr(self, field_name, compressed)
+
+        super().save(*args, **kwargs)
+
     def get_supplier_location(self):
         """Returns a proper list of dictionaries containing iframe codes and shop names"""
         if not self.supplier_location:
             return []
         
-        # First, split the string into individual iframes
         iframes = re.split(r',\s*(?=<iframe)', self.supplier_location.strip())
-        
-        # Clean each iframe and extract shop name
         cleaned_iframes = []
+
         for iframe in iframes:
             iframe = iframe.strip()
             if iframe:
-                # Ensure proper closing tag
                 if not iframe.endswith('</iframe>'):
-                    iframe = iframe + '</iframe>'
-
-                # Extract shop name using !2s pattern
-                match = re.search(r"!2s([^!]*)", iframe)  # Extract text after "!2s"
+                    iframe += '</iframe>'
+                match = re.search(r"!2s([^!]*)", iframe)
                 shop_name = match.group(1).replace("%20", " ") if match else "Unknown Shop"
-
                 cleaned_iframes.append({"iframe": iframe, "shop_name": shop_name})
 
         return cleaned_iframes

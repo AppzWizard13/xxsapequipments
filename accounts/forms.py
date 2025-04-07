@@ -1,6 +1,5 @@
 from django import forms
 from .models import CustomUser
-from .utils import generate_username  # Import generate_username function.
 from django.contrib.auth.hashers import make_password
 from django.db.models import Max
 from django import forms
