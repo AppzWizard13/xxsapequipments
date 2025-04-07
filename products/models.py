@@ -13,7 +13,7 @@ class Category(models.Model):
 
     def save(self, *args, **kwargs):
         # Compress both image fields if they exist
-        image_fields = ['image', 'shortcut_image']
+        image_fields = ['shortcut_image']
         for field_name in image_fields:
             image = getattr(self, field_name)
             if image and hasattr(image, 'file'):
