@@ -563,7 +563,7 @@
 					<li class="nav-item {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
 						<a href="{% url 'about' %}" class="nav-link">About</a>
 					</li>
-					<li class="nav-item active d-block d-sm-none">
+					<li class="nav-item active d-block d-lg-none">
 						<a href="#" class="nav-link" role="button" data-toggle="modal" data-target="#appointmentModal" aria-expanded="false">
 							Enquire Now
 						</a>
@@ -577,17 +577,15 @@
 						<div class="dropdown-menu" style="border-bottom: 3px solid red !important;" aria-labelledby="categoriesDropdown">
 							{% for category in total_categories %}
 							<div>
-								{% if request.user_agent.is_mobile %}
-								<!-- Mobile: Redirect directly -->
-								<a class="dropdown-item " href="{% url 'products_by_category' category.id %}">
+								<!-- Mobile + Tablet version -->
+								<a class="dropdown-item d-block d-lg-none" href="{% url 'products_by_category' category.id %}">
 									{{ category.name }} <span class="arrow"></span>
 								</a>
-							{% else %}
-								<!-- Desktop: Keep existing dropdown behavior -->
-								<a class="dropdown-item category-item my-2" href="#" data-category-id="{{ category.id }}">
+
+								<!-- Desktop version -->
+								<a class="dropdown-item category-item my-2 d-none d-lg-block" href="#" data-category-id="{{ category.id }}">
 									{{ category.name }} <span class="arrow">→</span>
 								</a>
-							{% endif %}
 								<div class="dropdown-menu product-menu shadow-sm my-2" style="display: none;"></div>
 							</div>
 							{% endfor %}
@@ -595,11 +593,11 @@
 					</li>
 					{% endif %}
 					{% if request.user.is_authenticated %}
-					<li class="nav-item d-none d-sm-block {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+					<li class="nav-item d-none d-lg-block {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
 						<a href="{% url 'dashboard' %}" class="nav-link">Admin Panel</a>
 					</li>
 					{% endif %}
-					<li class="nav-item active d-none d-sm-block">
+					<li class="nav-item active d-none d-lg-block">
 						<a href="#" class="nav-link" style="margin-left:150px;" role="button" data-toggle="modal" data-target="#appointmentModal" aria-expanded="false">
 							Enquire Now
 						</a>

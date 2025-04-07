@@ -60,7 +60,7 @@ class HomePageView(TemplateView):
             category_data[category.id] = list(products)
 
         context.update({
-            'is_mobile': self.request.user_agent.is_mobile,
+            'is_not_desktop': not self.request.user_agent.is_pc,
             'reviews': reviews,
             'total_categories': total_categories,
             'products': product_list,
@@ -350,6 +350,21 @@ class BannerCreateView(LoginRequiredMixin, CreateView):
     def handle_no_permission(self):
         return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
+class BannerDeleteView(LoginRequiredMixin, DeleteView):
+    model = Banner
+    success_url = reverse_lazy('banner_list')  # Adjust to your actual banner list URL name
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Banner deleted successfully!")
+        return super().delete(request, *args, **kwargs)
+
+    def handle_no_permission(self):
+        return redirect_to_login(
+            self.request.get_full_path(), 
+            self.get_login_url(), 
+            self.get_redirect_field_name()
+        )
+
 class BannerDetailView(LoginRequiredMixin, DetailView):
     model = Banner
     template_name = 'admin_panel/banner_detail.html'
@@ -375,13 +390,20 @@ class BannerUpdateView(LoginRequiredMixin, UpdateView):
     def handle_no_permission(self):
         return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
-class BannerDeleteView(LoginRequiredMixin, DeleteView):
+
+class BannerCreateView(LoginRequiredMixin, CreateView):
     model = Banner
+    form_class = BannerForm
+    template_name = 'admin_panel/banner_form.html'
     success_url = reverse_lazy('banner_list')
 
-    def delete(self, request, *args, **kwargs):
-        messages.success(request, "Banner deleted successfully!")
-        return super().delete(request, *args, **kwargs)
+    def form_valid(self, form):
+        messages.success(self.request, "Banner added successfully!")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error adding the banner. Please check the form.")
+        return super().form_invalid(form)
 
     def handle_no_permission(self):
         return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
