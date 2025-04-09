@@ -1858,63 +1858,74 @@
 
 	{% endblock %}
 
+
 	<footer class="footer ftco-section" style="background: #202020 !important;">
-		<div class="container mt-5 pt-5">
-		  <div class="row mb-5">
-			<div class="col-md-6 col-lg-3">
-			  <div class="ftco-footer-widget mb-2 text-left">
-				<div class="d-flex align-items-left">
+		<div class="container px-3 px-md-5 py-4 py-lg-5">
+		  <div class="row g-4 g-lg-5 mb-5">
+			<!-- Logo and Info Column -->
+			<div class="col-12 col-md-6 col-lg-3">
+			  <div class="ftco-footer-widget mb-2 text-left mx-auto" style="max-width: 300px;">
+				<div class="d-flex align-items-left justify-content-center justify-content-md-start">
 				  <a class="navbar-brand mb-3" href="{% url 'home' %}">
 					<img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
 				  </a>
 				</div>
-				<p><b>Empowering garages with innovative tools, reliability, and global-quality solutions for every need.</b></p>
-
+				<p class="text-left"><b>Empowering garages with innovative tools, reliability, and global-quality solutions for every need.</b></p>
 				<div class="social-media">
-					<p class="mb-0 d-flex">
-						<a href="https://www.facebook.com/share/1C9Ek4FTJW/" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-facebook"><i class="sr-only">Facebook</i></span></a>
-						<a href="https://youtube.com/@sapequipmentandtoolscoimbatore?si=0qKYIzJDYqfo82W8" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-youtube"><i class="sr-only">Youtube</i></span></a>
-						<a href="https://www.instagram.com/sapet.cbe?igsh=bTEzM3F1cW5hbXRm" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-instagram"><i class="sr-only">Instagram</i></span></a>
-					</p>
+				  <p class="mb-0 d-flex justify-content-center justify-content-md-start">
+					<a href="https://www.facebook.com/share/1C9Ek4FTJW/" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-facebook"><i class="sr-only">Facebook</i></span></a>
+					<a href="https://youtube.com/@sapequipmentandtoolscoimbatore?si=0qKYIzJDYqfo82W8" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-youtube"><i class="sr-only">Youtube</i></span></a>
+					<a href="https://www.instagram.com/sapet.cbe?igsh=bTEzM3F1cW5hbXRm" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-instagram"><i class="sr-only">Instagram</i></span></a>
+				  </p>
 				</div>
 			  </div>
 			</div>
-			<div class="col-md-6 col-lg-3">
-			  <div class="ftco-footer-widget  text-left">
-				<h2 class="ftco-heading-2">Our Services</h2>
-				<ul class="list-unstyled">
+	  
+			<!-- Services Column -->
+			<div class="col-12 col-md-6 col-lg-3">
+			  <div class="ftco-footer-widget text-left mx-auto" style="max-width: 300px;">
+				<h2 class="ftco-heading-2 mb-3">Our Services</h2>
+				<ul class="list-unstyled pl-0 ml-0">
 				  {% for category in total_categories %}
-				  <li class="text-left"><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>{{ category.name }}</a></li>
+				  <li class="mb-2 text-left">
+					<a href="#" class="py-1 d-block text-decoration-none">
+					  <span class="fa fa-check mr-2"></span>{{ category.name }}
+					</a>
+				  </li>
 				  {% endfor %}
 				</ul>
 			  </div>
 			</div>
-			<div class="col-md-8 col-lg-4">
-			  <div class="ftco-footer-widget text-left">
-				<h2 class="ftco-heading-2 ml-3">Contact</h2>
-				<div class="block-23" style="margin-bottom: 5px !important">
-				  <ul class="text-left">
-					<li class="pb-1"><span class="icon fa fa-user"></span><span class="text">Rajagopal Radhakrishnan</span></li>
-					<li class="pb-1"><span class="icon fa fa-map-marker"></span><span class="text">Neelikonampalayam, Coimbatore, Tamil Nadu 641033, India</span></li>
-					<li class="pb-1"><a href="#"><span class="icon fa fa-phone"></span><span class="text">+919940100506</span></a></li>
-					<li class="pb-1"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">sales@sapequipments.in</span></a></li>
-					<li class="pb-1"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">service@sapequipments.in</span></a></li>
-					<li class="pb-1"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">admin@sapequipments.in</span></a></li>
+	  
+			<!-- Contact Column -->
+			<div class="col-12 col-md-8 col-lg-4">
+			  <div class="ftco-footer-widget text-left mx-auto" style="max-width: 300px;">
+				<h2 class="ftco-heading-2 mb-3">Contact</h2>
+				<div class="block-23">
+				  <ul class="text-left pl-0 ml-0">
+					<li class="pb-2"><span class="icon fa fa-user"></span><span class="text">Rajagopal Radhakrishnan</span></li>
+					<li class="pb-2"><span class="icon fa fa-map-marker"></span><span class="text">Neelikonampalayam, Coimbatore, Tamil Nadu 641033, India</span></li>
+					<li class="pb-2"><a href="#"><span class="icon fa fa-phone"></span><span class="text">+919940100506</span></a></li>
+					<li class="pb-2"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">sales@sapequipments.in</span></a></li>
+					<li class="pb-2"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">service@sapequipments.in</span></a></li>
+					<li class="pb-2"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">admin@sapequipments.in</span></a></li>
 				  </ul>
 				</div>
 			  </div>
 			</div>
-			<div class="col-md-4 col-lg-2">
-			  <div class="ftco-footer-widget">
-				<h2 class="ftco-heading-2">Active Hours</h2>
+	  
+			<!-- Active Hours Column -->
+			<div class="col-12 col-md-4 col-lg-2">
+			  <div class="ftco-footer-widget text-left mx-auto" style="max-width: 300px;">
+				<h2 class="ftco-heading-2 mb-3">Active Hours</h2>
 				<div class="opening-hours">
-				  <h4>Opening Days:</h4>
-				  <p>
+				  <h4 class="mb-2">Opening Days:</h4>
+				  <p class="text-left mb-3">
 					<span>Monday – Friday  9am - 20 pm</span><br>
-					<span>Saturday </br> 9am -  17 pm</span>
+					<span>Saturday 9am - 17 pm</span>
 				  </p>
-				  <h4>Holiday:</h4>
-				  <p>
+				  <h4 class="mb-2">Holiday:</h4>
+				  <p class="text-left">
 					<span>All Sunday Days</span><br>
 					<span>All Official Holidays</span>
 				  </p>
@@ -1922,18 +1933,17 @@
 			  </div>
 			</div>
 		  </div>
+	  
+		  <!-- Copyright Row -->
 		  <div class="row">
 			<div class="col-md-12 text-center">
-			  <p>
-				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+			  <p class="mb-0">
 				Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | codespikestudio.com<i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://codespikestudio.onrender.com/" target="_blank">codespikestudio</a>
-				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 			  </p>
 			</div>
 		  </div>
 		</div>
-	  </footer> 
-  
+	  </footer>
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
