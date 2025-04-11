@@ -292,11 +292,25 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
-        context['total_categories'] = Category.objects.all()
-        context['same_category_products'] = Product.objects.filter(
-            category=product.category
-        ).exclude(id=product.id)[:8]
-        context['same_subcategory_products'] = Product.objects.filter(
-            subcategory=product.subcategory
-        ).exclude(id=product.id)[:8] if product.subcategory else []
+        total_categories = Category.objects.all().prefetch_related('products')
+        
+        # Prepare category data with products for navigation
+        categories_with_products = []
+        for category in total_categories:
+            products = category.products.filter(is_active=True)
+            categories_with_products.append({
+                'category': category,
+                'products': products
+            })
+        
+        context.update({
+            'total_categories': total_categories,
+            'categories_with_products': categories_with_products,
+            'same_category_products': Product.objects.filter(
+                category=product.category
+            ).exclude(id=product.id)[:8],
+            'same_subcategory_products': Product.objects.filter(
+                subcategory=product.subcategory
+            ).exclude(id=product.id)[:8] if product.subcategory else []
+        })
         return context

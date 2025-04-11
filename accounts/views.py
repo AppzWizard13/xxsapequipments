@@ -48,23 +48,25 @@ class HomePageView(TemplateView):
         products = Product.objects.values('category').distinct()
         reviews = Review.objects.all()
         banners = Banner.objects.all().order_by('series')
-
         product_list = []
         for item in products:
             top_products = Product.objects.filter(category=item['category']).order_by('-price')[:4]
             product_list.extend(top_products)
-
-        category_data = {}
+        # Prepare category data with products
+        categories_with_products = []
         for category in total_categories:
-            products = category.products.filter(is_active=True).values('id', 'name', 'price')[:4]
-            category_data[category.id] = list(products)
-
+            products = category.products.filter(is_active=True)# Get first 8 products
+            categories_with_products.append({
+                'category': category,
+                'products': products
+            })
+        print("productsproductsproductsproductsproducts", categories_with_products)
         context.update({
             'is_not_desktop': not self.request.user_agent.is_pc,
             'reviews': reviews,
             'total_categories': total_categories,
             'products': product_list,
-            'category_data': category_data,
+            'categories_with_products': categories_with_products,
             'banners': banners,
         })
         return context
@@ -75,9 +77,22 @@ class AboutView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_categories'] = Category.objects.all()
+        total_categories = Category.objects.all().prefetch_related('products')
+        
+        # Prepare category data with products
+        categories_with_products = []
+        for category in total_categories:
+            products = category.products.filter(is_active=True)
+            categories_with_products.append({
+                'category': category,
+                'products': products
+            })
+            
+        context.update({
+            'total_categories': total_categories,
+            'categories_with_products': categories_with_products,
+        })
         return context
-
 
 # API View
 class FetchProductsView(View):
