@@ -36,7 +36,7 @@
 			width: 100%; /* Adjust width to compensate for the scale */
 			height: 90%;
 			transform-origin: top left; /* Ensure the scaling starts from the top-left corner */
-			zoom: 0.8; 
+			{% comment %} zoom: 0.8;  {% endcomment %}
 			margin: 0; /* Remove default margin */
 			overflow: auto; /* Prevent scrollbars from appearing */
 			margin-bottom: -1437px;
@@ -87,9 +87,10 @@
 		
 		/* Navbar */
 		.navbar {
-			background: var(--charcoal-dark) !important;
-			border-bottom: 3px solid var(--primary-red);
-		}
+			{% comment %} border-bottom: 3px solid var(--primary-red); {% endcomment %}
+			{% comment %} border-top: 1px solid var(--light-gray); {% endcomment %}
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+		  }
 		
 		/* Ensures all text inside the navbar is white */
 		.navbar, 
@@ -99,7 +100,7 @@
 		.navbar .navbar-toggler-icon, 
 		.navbar .dropdown-menu, 
 		.navbar .dropdown-item {
-			color: white !important;
+			color: black !important;
 		}
 		
 		/* Ensures navbar brand/logo text is white */
@@ -115,15 +116,11 @@
 			{% comment %} color: var(--primary-red) !important; {% endcomment %}
 		}
 		
-		/* Active link styling */
-		.navbar .nav-item.active .nav-link {
-			font-weight: bold;
-			{% comment %} color: var(--primary-red) !important; {% endcomment %}
-		}
+
 		
 		/* Ensures dropdown menu has a dark background */
 		.navbar .dropdown-menu {
-			background: var(--charcoal-dark) !important;
+			background: white !important;
 			border: none;
 			z-index: 20 !important; /* Ensures it appears above other elements */
 			position: absolute !important; /* Helps ensure proper stacking */
@@ -150,6 +147,19 @@
 			position: relative;
 			z-index: 50 !important;
 		}
+		.nav-item.active .nav-link {
+			color: white !important;
+			font-weight: 600 !important; /* Make the text bold */
+		}
+
+		.nav-item.active .nav-link {
+			color: white !important;
+			font-weight: 600 !important; /* Make the text bold */
+		}
+		.ftco-navbar-light .navbar-nav > .nav-item > .nav-link{
+			font-weight: 600 !important; /* Make the text bold */
+		}
+		
 		
 		
 		/* Buttons */
@@ -171,8 +181,11 @@
 			background: var(--charcoal-dark) !important;
 		}
 		.bg-intro:after{
-			background: #202020 !important;
+			background: white !important;
 		}
+		.intro {
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		  }
 
 		.bg-catelogue {
 			background: var(--primary-red) !important;
@@ -481,6 +494,16 @@
 			color: lightgrey;
 			font-weight:bolder !important;
 		}
+		.wrap{
+			background: #f7f7f7  !important;
+		}
+		.navbar, .navbar a, .navbar .nav-link, .navbar .navbar-brand, .navbar .navbar-toggler-icon, .navbar .dropdown-menu, .navbar .dropdown-item {
+			color: black !important;
+		}
+		
+		.navbar .nav-link:hover, .navbar .nav-link:focus, .navbar .dropdown-item:hover, .navbar .dropdown-item:focus {
+			color: white !important;
+		}
 		
 		.logo-img {
 			max-height: 60px; /* Adjust as needed */
@@ -503,56 +526,144 @@
 		.dropdown-submenu .dropdown-menu.show {
 			display: block;
 		}
+		/* Ensure the logo and company name are on the same line */
+		.navbar-brand {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+		}
+
+		.logo-img {
+			margin-right: 8px; /* Add some space between the logo and the company name */
+		}
+
+		.company-name {
+			white-space: nowrap; /* Prevent the company name from wrapping to a new line */
+			font-weight: bolder !important;
+		}
+
+		/* Responsive adjustments for mobile view */
+		@media (max-width: 768px) {
+			.navbar-brand {
+				flex-direction: column; /* Stack the logo and company name vertically on small screens */
+				align-items: center; /* Center-align the items */
+			}
+
+			.logo-img {
+				margin-right: 0; /* Remove horizontal margin */
+				margin-bottom: 4px; /* Add some vertical space between the logo and company name */
+			}
+
+			.company-name {
+				text-align: bottom; /* Center-align the company name */
+				font-weight: bolder;
+			}
+		}
+		.social-media {
+			display: flex;
+			align-items: center; /* Vertically center the social media icons */
+		  }
+		  
+		  .social-media div {
+			display: flex;
+			flex-direction: column; /* Stack the icons vertically */
+			align-items: flex-end; /* Align the icons to the end (right side) */
+		  }
+		  
+		  .social-media a {
+			margin-bottom: 10px; /* Add some space between the icons */
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		  }
+		  
+		  .social-media span {
+			background-color: transparent !important;
+		  }
+		  .ftco-navbar-light {
+			background: white !important;
+			color: black !important;
+		}
+		.ftco-navbar-light .navbar-toggler{
+			color: black !important;
+		}
 	
 
 	</style> 
 	
   </head>
   <body>
-		<div class="wrap">
+		<div class="wrap" style="padding-block: 25px !important;">
 	    <div class="container">
 				<div class="row justify-content-between">
 					<div class="col-md-3 d-flex align-items-center">
 						<a class="navbar-brand mb-3" href="{% url 'home' %}">
 							<img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
+							<span class="company-name pt-4 px-2">SAP Equipments & Tools</span>
 						</a>
 					</div>
-					
-					<div class="col-md-7">
-						<div class="row">
-							<div class="col">
+					<div class="col-md-5">
+						<style>
+						  .black-text {
+							color: black !important;
+						  }
+						</style>
+						
+						<div class="row mx-2">
+							<div class="mx-0 px-0 col">
 								<div class="top-wrap d-flex">
-									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-location-arrow"></span></div>
-									<div class="text"><span>Address</span><span>Neelikonampalayam, Coimbatore, Tamil Nadu 641033, India</span></div>
+								  {% comment %} <div class="icon d-flex align-items-center justify-content-center black-text"><span class="fa fa-location-arrow"></span></div> {% endcomment %}
+								  <div class="text">
+									<strong class="black-text">Address</strong>
+									<span class="black-text">Neelikonampalayam, Coimbatore, Tamil Nadu 641033, India</span>
+								  </div>
 								</div>
-							</div>
-							<div class="col">
+							  </div>
+							  <div class="mx-0 px-0 col ml-1">
 								<div class="top-wrap d-flex">
-									<div class="text"><span>Call us</span><span>(+91) 099401 00506</span></div>
+								  <div class="text">
+									<strong class="black-text">Call us</strong>
+									<span class="black-text">+91 9940100506</span>
+								  </div>
 								</div>
 								<div class="top-wrap d-flex">
-									<div class="text"><span>GSTIN</span><span>33BHTPR6598F1ZI</span></div>
+								  <div class="text">
+									<strong class="black-text">GSTIN</strong>
+									<span class="black-text">33BHTPR6598F1ZI</span>
+								  </div>
 								</div>
+							  </div>
+						  <div class="mx-0 px-0 col-auto">
+							<div class="social-media">
+							  <div class="d-flex flex-column align-items-end">
+								<a href="https://www.facebook.com/share/1C9Ek4FTJW/" class="d-flex align-items-center justify-content-center black-text">
+								  <span style="background-color: transparent !important; height:20px !important; weight:20px !important;" class="fab fa-facebook black-text">
+									<i class="sr-only">Facebook</i>
+								  </span>
+								</a>
+								<a href="https://youtube.com/@sapequipmentandtoolscoimbatore?si=0qKYIzJDYqfo82W8" class="d-flex align-items-center justify-content-center black-text">
+								  <span style="background-color: transparent !important; height:20px !important; weight:20px !important;" class="fab fa-youtube black-text">
+									<i class="sr-only">Youtube</i>
+								  </span>
+								</a>
+								<a href="https://www.instagram.com/sapet.cbe?igsh=bTEzM3F1cW5hbXRm" class="d-flex align-items-center justify-content-center black-text">
+								  <span style="background-color: transparent !important; height:20px !important; weight:20px !important;" class="fab fa-instagram black-text">
+									<i class="sr-only">Instagram</i>
+								  </span>
+								</a>
+							  </div>
 							</div>
-							<div class="col-md-3 d-flex justify-content-end align-items-center">
-								<div class="social-media">
-					    		<p class="mb-0 d-flex">
-					    			<a href="https://www.facebook.com/share/1C9Ek4FTJW/" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-facebook"><i class="sr-only">Facebook</i></span></a>
-									<a href="https://youtube.com/@sapequipmentandtoolscoimbatore?si=0qKYIzJDYqfo82W8" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-youtube"><i class="sr-only">Youtube</i></span></a>
-					    			<a href="https://www.instagram.com/sapet.cbe?igsh=bTEzM3F1cW5hbXRm" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-instagram"><i class="sr-only">Instagram</i></span></a>
-									
-					    		</p>
-				            </div>
-							</div>
+						  </div>
 						</div>
-					</div>
+					  </div>
+
 				</div>
 			</div>
 		</div>
 		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 			<div class="container">
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="fa fa-bars"></span> Menu
+					<span class="fa fa-bars " style="color:black"></span> Menu
 				</button>
 				<div class="collapse navbar-collapse" id="ftco-nav">
 					<!-- Close button for mobile menu -->
@@ -564,8 +675,11 @@
 						<li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
 							<a href="{% url 'home' %}" class="nav-link">Home</a>
 						</li>
+						<li  class="nav-item {% if request.resolver_match.url_name == 'services' %}active{% endif %}">
+							<a style="color:black!important;" href="{% url 'services' %}" class="nav-link">Services</a>
+						</li>
 						<li class="nav-item {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
-							<a href="{% url 'about' %}" class="nav-link">About</a>
+							<a style="color:black!important;" href="{% url 'about' %}" class="nav-link">About</a>
 						</li>
 						<li class="nav-item d-block d-lg-none">
 							<a href="#" class="nav-link" role="button" data-toggle="modal" data-target="#appointmentModal" aria-expanded="false">
@@ -575,9 +689,9 @@
 						{% if categories_with_products %}
 						<!-- Mega Dropdown Menu - Modified for mobile -->
 						<li class="nav-item dropdown mega-dropdown">
-							<a href="#" class="nav-link dropdown-toggle" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<a class="nav-link dropdown-toggle" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="pointer-events: none;">
 								Products <i class="fas fa-chevron-down ml-1"></i>
-							</a>
+							  </a>
 							<div class="dropdown-menu mega-menu p-4" aria-labelledby="categoriesDropdown">
 								<div class="container-fluid" style="position:relative !important;">
 									<div class="row">
@@ -586,7 +700,7 @@
 										<div class="col-lg-3 col-md-6 mb-3 mb-md-0 mt-3">
 											<div class="category-card">
 												<h5 class="category-title">
-													<a href="{% url 'products_by_category' category_data.category.id %}" class="text-dark">
+													<a href="{% url 'products_by_category' category_data.category.id %}" class="text-dark" style="color:black!important;">
 														<i class="fas fa-{{ category_data.category.icon|default:'tag' }} mr-2"></i>
 														{{ category_data.category.name }}
 													</a>
@@ -711,19 +825,20 @@
 			
 			.category-card {
 				padding: 0 15px;
-				border-left: 1px solid #535353;
+				{% comment %} border-left: 1px solid #535353; {% endcomment %}
 			}
 			
 			.category-title {
 				font-size: 0.85rem;
-				font-weight: 600;
+				font-weight: 00;
 				padding-bottom: 8px;
-				border-bottom: 2px dashed #535353;
+				border-bottom: 1px dashed #cbcbcb;
 			}
 			
 			.produc-title {
 				font-size: 0.8rem !important;
-				color: white !important;
+				color: black !important;
+				font-weight: 600;
 			}
 			
 			.category-title a:hover {
@@ -738,7 +853,7 @@
 			}
 			
 			.product-item:hover {
-				background-color: rgba(255,255,255,0.16);
+				background-color: red;
 				transform: translateX(3px);
 				text-decoration: none;
 			}
@@ -823,6 +938,7 @@
 				}
 			}
 		</style>
+		
 
 		<script>
 			// Close mobile menu when clicking the close button
@@ -1037,37 +1153,166 @@
 	{% block content %}
 	<div class="hero-wrap">
 		<div class="custom-slider">
-		  {% for banner in banners %}
-		  <div class="slider-item" style="background-image: url({{ banner.image.url }});">
-			<div class="overlay"></div>
-			<div class="container">
-			  <div class="row no-gutters slider-text align-items-center justify-content-start">
-			  </div>
-			</div>
-		  </div>
-		  {% empty %}
-		  <!-- Default banner -->
-		  <div class="slider-item" style="background-image: url({% static 'images/default-banner.jpg' %});">
-			<div class="overlay"></div>
-			<div class="container">
-			  <div class="row no-gutters slider-text align-items-center justify-content-start">
-				<div class="col-md-6 ftco-animate">
-				  <div class="text w-100">
-
+			{% for banner in banners %}
+			<div class="slider-item" style="background-image: url({{ banner.image.url }});">
+				<div class="overlay"></div>
+				<!-- Floating images container -->
+				{% comment %} <div class="ds-floating-images">
+					{% if banner.image_1 and banner.image_1.url and banner.image_1.url.strip %}
+						<img src="{{ banner.image_1.url }}" class="ds-float-img ds-float-img-1" alt="">
+					{% endif %}
+					{% if banner.image_2 and banner.image_2.url and banner.image_2.url.strip %}
+						<img src="{{ banner.image_2.url }}" class="ds-float-img ds-float-img-2" alt="">
+					{% endif %}
+					{% if banner.image_3 and banner.image_3.url and banner.image_3.url.strip %}
+						<img src="{{ banner.image_3.url }}" class="ds-float-img ds-float-img-3" alt="">
+					{% endif %}
+					{% if banner.image_4 and banner.image_4.url and banner.image_4.url.strip %}
+						<img src="{{ banner.image_4.url }}" class="ds-float-img ds-float-img-4" alt="">
+					{% endif %}
+				</div> {% endcomment %}
+				<div class="container">
+					<div class="row no-gutters slider-text align-items-center justify-content-start">
+						{% if banner.image_1 and banner.image_1.url and banner.image_1.url.strip %}
+							<img src="{{ banner.image_1.url }}" class="ds-float-img ds-float-img-1" alt="">
+						{% endif %}
+						{% if banner.image_2 and banner.image_2.url and banner.image_2.url.strip %}
+							<img src="{{ banner.image_2.url }}" class="ds-float-img ds-float-img-2" alt="">
+						{% endif %}
+						{% if banner.image_3 and banner.image_3.url and banner.image_3.url.strip %}
+							<img src="{{ banner.image_3.url }}" class="ds-float-img ds-float-img-3" alt="">
+						{% endif %}
+						{% if banner.image_4 and banner.image_4.url and banner.image_4.url.strip %}
+							<img src="{{ banner.image_4.url }}" class="ds-float-img ds-float-img-4" alt="">
+						{% endif %}
+					</div>
 				</div>
-			  </div>
 			</div>
-		  </div>
-		  {% endfor %}
-		  
-		  <!-- Navigation -->
-		  <button class="slider-nav prev">‹</button>
-		  <button class="slider-nav next">›</button>
-		  <div class="slider-dots"></div>
+			{% empty %}
+			<!-- Default banner (no floating images) -->
+			<div class="slider-item" style="background-image: url({% static 'images/default-banner.jpg' %});">
+				<div class="overlay"></div>
+				<div class="container">
+					<div class="row no-gutters slider-text align-items-center justify-content-start">
+						<div class="col-md-6 ftco-animate">
+							<div class="text w-100"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			
+			<!-- Navigation -->
+			<button class="slider-nav prev">‹</button>
+			<button class="slider-nav next">›</button> 
+			<div class="slider-dots"></div>
 		</div>
-	  </div>
-	  
+		
+		<style>
+			.ds-floating-images img[src=""] {
+				display: none !important;
+			}
+			.ds-floating-images {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				z-index: 6;
+				pointer-events: none;
+			}
+			.ds-float-img {
+				position: absolute;
+				filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+				opacity: 0.9;
+				max-width: 150px;
+				height: auto;
+				transition: all 0.3s ease;
+			}
+			
+			/* Animation for all floating images in the same slider item */
+			.slider-item.hovering .ds-float-img {
+				opacity: 1 !important;
+				filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4)) !important;
+				cursor: pointer;
+				animation: floatAnimation 6s infinite ease-in-out;
+			}
+			
+			.overlay {
+				display: none;
+			}
+			
+			.ds-float-img-1 {
+				width: 120px;
+				top: 10%;
+				left: 10%;
+				animation-delay: 0s;
+			}
+			
+			.ds-float-img-2 {
+				width: 150px;
+				top: 60%;
+				right: 10%;
+				left: auto;
+				animation-delay: 1s;
+			}
+			
+			.ds-float-img-3 {
+				width: 120px;
+				top: 10%;
+				right: 10%;
+				left: auto;
+				animation-delay: 1.5s;
+			}
+			
+			.ds-float-img-4 {
+				width: 150px;
+				top: 60%;
+				left: 10%;
+				animation-delay: 0.5s;
+			}
+			
+			@keyframes floatAnimation {
+				0% {
+					transform: translateY(0) rotate(0deg);
+				}
+				25% {
+					transform: translateY(-15px) rotate(3deg);
+				}
+				50% {
+					transform: translateY(0) rotate(0deg);
+				}
+				75% {
+					transform: translateY(-10px) rotate(-2deg);
+				}
+				100% {
+					transform: translateY(0) rotate(0deg);
+				}
+			}
+		</style>
+		
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				const floatImages = document.querySelectorAll('.ds-float-img');
+				
+				floatImages.forEach(image => {
+					// Add hover effect to all floating images
+					image.addEventListener('mouseenter', function() {
+						// Find the closest slider-item and add the 'hovering' class
+						const sliderItem = this.closest('.slider-item');
+						sliderItem.classList.add('hovering');
+					});
+					
+					// Remove hover effect
+					image.addEventListener('mouseleave', function() {
+						const sliderItem = this.closest('.slider-item');
+						sliderItem.classList.remove('hovering');
+					});
+				});
+			});
+		</script>
 	  <style>
+		
 		/* 16:9 Aspect Ratio Container */
 		.custom-slider {
 		  position: relative;
@@ -1174,9 +1419,16 @@
 		  background: white;
 		  transform: scale(1.2);
 		}
+
 	  </style>
 	  
 	  <script>
+
+
+		
+
+
+		
 	  document.addEventListener('DOMContentLoaded', function() {
 		const slider = document.querySelector('.custom-slider');
 		const slides = document.querySelectorAll('.slider-item');
@@ -1403,9 +1655,9 @@
 			<div class="container intro-wrap">
 				<div class="row no-gutters">
 					<div class="col-md-12 col-lg-9 bg-intro d-sm-flex align-items-center align-items-stretch">
-						<div class="intro-box d-flex align-items-center" style="color:grey; background: #202020;">
+						<div class="intro-box d-flex align-items-center" style="color:grey; background: white;">
 							<div class="icon d-flex align-items-center justify-content-center">
-								<i class="flaticon-repair"></i>
+								<i class="flaticon-repair" style="color:black !important;"></i>
 							</div>
 							<h2 class="ml-2" style="color:grey !important;" id="mobile-hidden">Gear up for innovation.<span style="color:red;"> &nbsp;Let's enhance it now!</span></h2>
 						</div>

@@ -179,7 +179,21 @@ class ServicesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_categories'] = Category.objects.all()
+        total_categories = Category.objects.all().prefetch_related('products')
+        
+        # Prepare category data with products
+        categories_with_products = []
+        for category in total_categories:
+            products = category.products.filter(is_active=True)
+            categories_with_products.append({
+                'category': category,
+                'products': products
+            })
+            
+        context.update({
+            'total_categories': total_categories,
+            'categories_with_products': categories_with_products,
+        })
         return context
 
 # User Management Views

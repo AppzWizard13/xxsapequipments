@@ -134,14 +134,37 @@ from .models import Banner
 class BannerForm(forms.ModelForm):
     class Meta:
         model = Banner
-        fields = ['name', 'series', 'image']
+        fields = ['name', 'series', 'image', 'image_1', 'image_2', 'image_3', 'image_4']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'series': forms.TextInput(attrs={'class': 'form-control'}),
+            'series': forms.NumberInput(attrs={'class': 'form-control'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'image_1': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'image_2': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'image_3': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'image_4': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'name': 'Banner Name',
+            'series': 'Series Number',
+            'image': 'Main Banner Image (Compressed)',
+            'image_1': 'Floating Cloud Image (Left)',
+            'image_2': 'Floating Cloud Image (Right)',
+            'image_3': 'Additional Decoration Image 1',
+            'image_4': 'Additional Decoration Image 2',
         }
 
     def __init__(self, *args, **kwargs):
         super(BannerForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
+            if field_name.startswith('image'):
+                field.widget.attrs['accept'] = 'image/*'
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        
+        
+        if commit:
+            instance.save()
+        return instance

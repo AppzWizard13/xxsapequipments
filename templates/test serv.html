@@ -1,109 +1,295 @@
 {% extends 'index.html' %}
 {% block content %}
-    <section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Services <i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread" style="color:grey!important;">Services</h1>
+{% load static %}
+
+<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-body" style="background:#636060">
+				<!-- Appointment Section -->
+				<section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img">
+					<div class="container">
+						<div class="row d-md-flex justify-content-end">
+							<div class="col-md-12 col-lg-12 half p-3 py-5 pl-lg-5 ftco-animate heading-section heading-section-white">
+								<span class="subheading">Talk to Our Sales Team</span>
+								<h2 class="mb-4">Let's discuss your needs and how we can help</h2>
+								<form action="#" class="appointment" id="appointmentForm">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<input type="text" class="form-control" name="name" placeholder="Your Name" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<input type="email" class="form-control" name="email" placeholder="Your Email" required>
+											</div>
+										</div>
+										
+										<div class="col-md-6">
+											<div class="form-group">
+												<input type="text" class="form-control" name="phone" placeholder="Phone Number" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<input type="text" class="form-control" name="city" placeholder="City" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<select class="form-control" name="category" required>
+													{% for category in total_categories %}
+													<option value="{{ category.name }}">{{ category.name }}</option>
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<select class="form-control" name="referral" required>
+													<option value="">How did you hear about us?</option>
+													<option value="Google">Google</option>
+													<option value="Referral">Referral</option>
+													<option value="Social Media">Social Media</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="form-group">
+												<textarea name="message" id="" cols="30" rows="4" class="form-control" placeholder="Your Message" required></textarea>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="form-group">
+												<input type="button" value="Submit via Email" class="btn btn-dark py-3 px-4" onclick="submitViaEmail()">
+												<input type="button" value="Submit via WhatsApp" class="btn btn-dark py-3 px-4" onclick="submitViaWhatsApp()">
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function submitViaEmail() {
+		// Collect form data
+		var formData = new FormData(document.getElementById('appointmentForm'));
+		var name = formData.get('name');
+		var email = formData.get('email');
+		var phone = formData.get('phone');
+		var category = formData.get('category');
+		var referral = formData.get('referral');
+		var message = formData.get('message');
+	
+		// Get current date and time
+		var currentDate = new Date();
+		var formattedDate = currentDate.toLocaleString();
+	
+		// Format the email content
+		var toEmail = "sales@sapetindiapvtltd.in"; // Recipient's email address
+		var subject = "Consultation Request";
+		var body = `Dear Team,\n\nWe have received a new enquiry from *${name}*.\n\nDetails:\n*Name:* ${name}\n*Email:* ${email}\n*Phone:* ${phone}\n*Category:* ${category}\n*Referral:* ${referral}\n*Message:* ${message}\n\n*Date and Time:* ${formattedDate}\n\nBest regards,\n[Your Company Name]`;
+	
+		// Encode the subject and body to ensure proper URL formatting
+		var encodedSubject = encodeURIComponent(subject);
+		var encodedBody = encodeURIComponent(body);
+	
+		// Construct the mailto URL with the recipient's email address
+		var mailtoUrl = `mailto:${toEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+	
+		// Redirect to the Gmail compose page with the pre-filled email content
+		window.location.href = mailtoUrl;
+	}
+	
+	function submitViaWhatsApp() {
+		// Collect form data
+		var formData = new FormData(document.getElementById('appointmentForm'));
+		var name = formData.get('name');
+		var phone = formData.get('phone');
+		var city = formData.get('city');
+		var category = formData.get('category');
+		var referral = formData.get('referral');
+		var message = formData.get('message');
+	
+		// Get current date and time
+		var currentDate = new Date();
+		var formattedDate = currentDate.toLocaleString();
+	
+		// Format WhatsApp message
+		var whatsappMessage = `Dear Team,\n\nWe have received a new enquiry from *${name}*.\n\nDetails:\n*Name:* ${name}\n*Phone:* ${phone}\n*City:* ${city}\n*Category:* ${category}\n*Referral:* ${referral}\n*Message:* ${message}\n\n*Date and Time:* ${formattedDate}\n\nBest regards,\n www.sapetindiapvtltd.in`;
+		var whatsappUrl = `https://wa.me/7736500760?text=${encodeURIComponent(whatsappMessage)}`;
+	
+		// Open WhatsApp URL
+		window.open(whatsappUrl, '_blank');
+	}
+</script>
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'home' %}">Home <i class="fa fa-chevron-right"></i></a></span> <span>About <i class="fa fa-chevron-right"></i></span></p>
+        <h1 class="mb-0 bread" style="color:grey!important;">Customer Care</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center pb-5 mb-3">
+      <div class="col-md-7 heading-section text-center ftco-animate">
+        <span class="subheading">We offer Services</span>
+        <h2>Your One-Stop Partner for Advanced Automotive Workshop Solutions</h2>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-4 services ftco-animate">
+        <div class="d-block d-flex">
+          <div class="icon d-flex justify-content-center align-items-center">
+            <i class="fas fa-headset fa-2x"></i>
+          </div>
+          <div class="media-body pl-3">
+            <h3 class="heading">Contact Support</h3>
+            <p>Get in touch with our dedicated customer care team for immediate assistance with your equipment needs.</p>
+            <p><a href="#contact" class="btn-custom">Contact Us</a></p>
+          </div>
+        </div>
+        <div class="d-block d-flex">
+          <div class="icon d-flex justify-content-center align-items-center">
+            <i class="fas fa-tools fa-2x"></i>
+          </div>
+          <div class="media-body pl-3">
+            <h3 class="heading">Technical Support</h3>
+            <p>Expert troubleshooting and maintenance guidance for all your automotive workshop equipment.</p>
+            <p><a href="#support" class="btn-custom">Get Support</a></p>
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="ftco-section">
-    	<div class="container">
-    		<div class="row justify-content-center pb-5 mb-3">
-          <div class="col-md-7 heading-section text-center ftco-animate">
-          	<span class="subheading">We offer Services</span>
-            <h2>Our car services</h2>
+      
+      <div class="col-md-4 services ftco-animate">
+        <div class="d-block d-flex">
+          <div class="icon d-flex justify-content-center align-items-center">
+            <i class="fas fa-cogs fa-2x"></i>
+          </div>
+          <div class="media-body pl-3">
+            <h3 class="heading">Installation Services</h3>
+            <p>Professional setup and commissioning of your new equipment by certified technicians.</p>
+            <p><a href="#installation" class="btn-custom">Learn More</a></p>
           </div>
         </div>
-    		<div class="row">
-          <div class="col-md-4 services ftco-animate">
-            <div class="d-block d-flex">
-              <div class="icon d-flex justify-content-center align-items-center">
-            		<span class="flaticon-car-service"></span>
-              </div>
-              <div class="media-body pl-3">
-                <h3 class="heading">Oil change</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                <p><a href="#" class="btn-custom">Read more</a></p>
-              </div>
-            </div>
-            <div class="d-block d-flex">
-              <div class="icon d-flex justify-content-center align-items-center">
-            		<span class="flaticon-tyre"></span>
-              </div>
-              <div class="media-body pl-3">
-                <h3 class="heading">Tire Change</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                <p><a href="#" class="btn-custom">Read more</a></p>
-              </div>
-            </div> 
-
+        <div class="d-block d-flex">
+          <div class="icon d-flex justify-content-center align-items-center">
+            <i class="fas fa-certificate fa-2x"></i>
           </div>
-          <div class="col-md-4 services ftco-animate">
-            <div class="d-block d-flex">
-              <div class="icon d-flex justify-content-center align-items-center">
-            		<span class="flaticon-battery"></span>
-              </div>
-              <div class="media-body pl-3">
-                <h3 class="heading">Batteries</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                <p><a href="#" class="btn-custom">Read more</a></p>
-              </div>
-            </div> 
-            <div class="d-block d-flex">
-              <div class="icon d-flex justify-content-center align-items-center">
-            		<span class="flaticon-car-engine"></span>
-              </div>
-              <div class="media-body pl-3">
-                <h3 class="heading">Engine Repair</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                <p><a href="#" class="btn-custom">Read more</a></p>
-              </div>
-            </div>    
-          </div>
-
-          <div class="col-md-4 services ftco-animate">
-            <div class="d-block d-flex">
-              <div class="icon d-flex justify-content-center align-items-center">
-            		<span class="flaticon-tow-truck"></span>
-              </div>
-              <div class="media-body pl-3">
-                <h3 class="heading">Tow Truck</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                <p><a href="#" class="btn-custom">Read more</a></p>
-              </div>
-            </div>
-            <div class="d-block d-flex">
-              <div class="icon d-flex justify-content-center align-items-center">
-            		<span class="flaticon-repair"></span>
-              </div>
-              <div class="media-body pl-3">
-                <h3 class="heading">Car Maintenance</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                <p><a href="#" class="btn-custom">Read more</a></p>
-              </div>
-            </div>       
+          <div class="media-body pl-3">
+            <h3 class="heading">Training Programs</h3>
+            <p>Comprehensive training for your staff on proper equipment operation and maintenance.</p>
+            <p><a href="#training" class="btn-custom">View Programs</a></p>
           </div>
         </div>
-        <div class="row mt-4 mt-md-5 justify-content-between">
-        	<div class="col-md-7 ftco-animate">
-        		<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-        	</div>
-        	<div class="col-md-4 ftco-animate">
-        		<h5 class="font-weight-bold">Our Advantages</h5>
-        		<ul class="services-2">
-        			<li><span class="fa fa-check"></span>Free Diagnostics &amp; Brake Check</li>
-        			<li><span class="fa fa-check"></span>Certified Repair Service</li>
-        			<li><span class="fa fa-check"></span>Repair Estimates</li>
-        			<li><span class="fa fa-check"></span>Auto Repair Shops Serving Customer</li>
-        		</ul>
-        	</div>
+      </div>
+      
+      <div class="col-md-4 services ftco-animate">
+        <div class="d-block d-flex">
+          <div class="icon d-flex justify-content-center align-items-center">
+            <i class="fas fa-calendar-check fa-2x"></i>
+          </div>
+          <div class="media-body pl-3">
+            <h3 class="heading">Maintenance Plans</h3>
+            <p>Customized annual maintenance contracts to keep your equipment running optimally.</p>
+            <p><a href="#maintenance" class="btn-custom">Explore Plans</a></p>
+          </div>
         </div>
-    	</div>
-    </section>
-    {% endblock %}
+        <div class="d-block d-flex">
+          <div class="icon d-flex justify-content-center align-items-center">
+            <i class="fas fa-box-open fa-2x"></i>
+          </div>
+          <div class="media-body pl-3">
+            <h3 class="heading">Spare Parts</h3>
+            <p>Genuine spare parts and accessories for all your equipment needs.</p>
+            <p><a href="#parts" class="btn-custom">Find Parts</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mt-4 mt-md-5 justify-content-between">
+      <div class="col-md-7 ftco-animate">
+        <p>At SAP Equipment's & Tools India Pvt. Ltd., we pride ourselves on providing cutting-edge automotive service equipment backed by responsive and reliable customer care. Whether you're running a high-capacity service center or a boutique car spa, our dedicated support team is here to ensure your equipment runs smoothly and efficiently.</p>
+        <p>Our Customer Care team is trained to support all aspects of your journey with us, from product selection to installation, training, preventive maintenance, troubleshooting, warranty assistance, and supply of genuine spare parts.</p>
+      </div>
+      <div class="col-md-4 ftco-animate">
+        <h5 class="font-weight-bold">Our Advantages</h5>
+        <ul class="services-2">
+          <li><span class="fa fa-check"></span>Robust and innovative product range</li>
+          <li><span class="fa fa-check"></span>In-house manufacturing and quality assurance</li>
+          <li><span class="fa fa-check"></span>Nationwide service support</li>
+          <li><span class="fa fa-check"></span>Expert engineers and quick response time</li>
+          <li><span class="fa fa-check"></span>Trusted by workshops across India</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center pb-5 mb-3">
+      <div class="col-md-7 heading-section text-center ftco-animate">
+        <h2>Our Product Portfolio Covers</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 ftco-animate">
+        <div class="block-7">
+          <div class="text-center">
+            <h3 class="heading-2 mb-4">Water Wash Equipment</h3>
+            <ul class="pricing-text mb-5">
+              <li>Touchless Car Washers</li>
+              <li>Under Chassis Washers</li>
+              <li>High-Pressure Compressors</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 ftco-animate">
+        <div class="block-7">
+          <div class="text-center">
+            <h3 class="heading-2 mb-4">Wheel Service Equipment</h3>
+            <ul class="pricing-text mb-5">
+              <li>Tire Removers</li>
+              <li>Wheel Balancers</li>
+              <li>Hydraulic Lifts</li>
+              <li>Two-Post Lifts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 ftco-animate">
+        <div class="block-7">
+          <div class="text-center">
+            <h3 class="heading-2 mb-4">Diagnostic Equipment</h3>
+            <ul class="pricing-text mb-5">
+              <li>ACRU (Air Conditioning Recovery Units)</li>
+              <li>Automotive Scanners</li>
+              <li>Decarbonizing Systems</li>
+              <li>Oil Changers</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

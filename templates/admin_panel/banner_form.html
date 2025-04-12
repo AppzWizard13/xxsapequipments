@@ -47,29 +47,94 @@
         </div>
 
         <div class="mb-3">
-          <label for="bannerSeries" class="form-label">Banner Series</label>
-          <input type="text" class="form-control {% if form.series.errors %}is-invalid{% endif %}" 
+          <label for="bannerSeries" class="form-label">Series Number</label>
+          <input type="number" class="form-control {% if form.series.errors %}is-invalid{% endif %}" 
                  id="bannerSeries" name="series" value="{{ form.series.value|default:'' }}" required>
           <div class="invalid-feedback">
             {{ form.series.errors.0 }}
           </div>
         </div>
 
+        <!-- Main Banner Image -->
         <div class="mb-3">
-          <label for="bannerImage" class="form-label">Banner Image</label>
+          <label for="bannerImage" class="form-label">Main Banner Image (Compressed)</label>
           <input type="file" class="form-control {% if form.image.errors %}is-invalid{% endif %}" 
-                 id="bannerImage" name="image">
+                 id="bannerImage" name="image" accept="image/*">
           <div class="invalid-feedback">
             {{ form.image.errors.0 }}
           </div>
           {% if banner and banner.image %}
           <div class="mt-2">
-            <img src="{{ banner.image.url }}" alt="{{ banner.name }}" width="100">
+            <img src="{{ banner.image.url }}" alt="{{ banner.name }}" width="150" class="img-thumbnail">
+            <p class="text-muted small mt-1">Current image (will be compressed on save)</p>
           </div>
           {% endif %}
         </div>
 
+        <!-- Floating Cloud Images -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="image_1" class="form-label">Floating Cloud Image (Left)</label>
+            <input type="file" class="form-control {% if form.image_1.errors %}is-invalid{% endif %}" 
+                   id="image_1" name="image_1" accept="image/*">
+            <div class="invalid-feedback">
+              {{ form.image_1.errors.0 }}
+            </div>
+            {% if banner and banner.image_1 %}
+            <div class="mt-2">
+              <img src="{{ banner.image_1.url }}" alt="Left cloud" width="100" class="img-thumbnail">
+            </div>
+            {% endif %}
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label for="image_2" class="form-label">Floating Cloud Image (Right)</label>
+            <input type="file" class="form-control {% if form.image_2.errors %}is-invalid{% endif %}" 
+                   id="image_2" name="image_2" accept="image/*">
+            <div class="invalid-feedback">
+              {{ form.image_2.errors.0 }}
+            </div>
+            {% if banner and banner.image_2 %}
+            <div class="mt-2">
+              <img src="{{ banner.image_2.url }}" alt="Right cloud" width="100" class="img-thumbnail">
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Additional Decoration Images -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="image_3" class="form-label">Additional Decoration Image 1</label>
+            <input type="file" class="form-control {% if form.image_3.errors %}is-invalid{% endif %}" 
+                   id="image_3" name="image_3" accept="image/*">
+            <div class="invalid-feedback">
+              {{ form.image_3.errors.0 }}
+            </div>
+            {% if banner and banner.image_3 %}
+            <div class="mt-2">
+              <img src="{{ banner.image_3.url }}" alt="Decoration 1" width="100" class="img-thumbnail">
+            </div>
+            {% endif %}
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label for="image_4" class="form-label">Additional Decoration Image 2</label>
+            <input type="file" class="form-control {% if form.image_4.errors %}is-invalid{% endif %}" 
+                   id="image_4" name="image_4" accept="image/*">
+            <div class="invalid-feedback">
+              {{ form.image_4.errors.0 }}
+            </div>
+            {% if banner and banner.image_4 %}
+            <div class="mt-2">
+              <img src="{{ banner.image_4.url }}" alt="Decoration 2" width="100" class="img-thumbnail">
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">{% if banner %}Update{% else %}Submit{% endif %} Banner</button>
+        <a href="{% url 'banner_list' %}" class="btn btn-secondary ms-2">Cancel</a>
       </form>
     </div>
   </div>

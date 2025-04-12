@@ -1,184 +1,441 @@
-
 {% extends 'index.html' %}
-{% load static %}
 {% block content %}
-<section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
+{% load static %}
+
+<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-body" style="background:#636060">
+				<!-- Appointment Section -->
+				<section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img">
+					<div class="container">
+						<div class="row d-md-flex justify-content-end">
+							<div class="col-md-12 col-lg-12 half p-3 py-5 pl-lg-5 ftco-animate heading-section heading-section-white">
+								<span class="subheading">Talk to Our Sales Team</span>
+								<h2 class="mb-4">Let's discuss your needs and how we can help</h2>
+								<form action="#" class="appointment" id="appointmentForm">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<input type="text" class="form-control" name="name" placeholder="Your Name" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<input type="email" class="form-control" name="email" placeholder="Your Email" required>
+											</div>
+										</div>
+										
+										<div class="col-md-6">
+											<div class="form-group">
+												<input type="text" class="form-control" name="phone" placeholder="Phone Number" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<input type="text" class="form-control" name="city" placeholder="City" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<select class="form-control" name="category" required>
+													{% for category in total_categories %}
+													<option value="{{ category.name }}">{{ category.name }}</option>
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<select class="form-control" name="referral" required>
+													<option value="">How did you hear about us?</option>
+													<option value="Google">Google</option>
+													<option value="Referral">Referral</option>
+													<option value="Social Media">Social Media</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="form-group">
+												<textarea name="message" id="" cols="30" rows="4" class="form-control" placeholder="Your Message" required></textarea>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="form-group">
+												<input type="button" value="Submit via Email" class="btn btn-dark py-3 px-4" onclick="submitViaEmail()">
+												<input type="button" value="Submit via WhatsApp" class="btn btn-dark py-3 px-4" onclick="submitViaWhatsApp()">
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function submitViaEmail() {
+		// Collect form data
+		var formData = new FormData(document.getElementById('appointmentForm'));
+		var name = formData.get('name');
+		var email = formData.get('email');
+		var phone = formData.get('phone');
+		var category = formData.get('category');
+		var referral = formData.get('referral');
+		var message = formData.get('message');
+	
+		// Get current date and time
+		var currentDate = new Date();
+		var formattedDate = currentDate.toLocaleString();
+	
+		// Format the email content
+		var toEmail = "sales@sapetindiapvtltd.in"; // Recipient's email address
+		var subject = "Consultation Request";
+		var body = `Dear Team,\n\nWe have received a new enquiry from *${name}*.\n\nDetails:\n*Name:* ${name}\n*Email:* ${email}\n*Phone:* ${phone}\n*Category:* ${category}\n*Referral:* ${referral}\n*Message:* ${message}\n\n*Date and Time:* ${formattedDate}\n\nBest regards,\n[Your Company Name]`;
+	
+		// Encode the subject and body to ensure proper URL formatting
+		var encodedSubject = encodeURIComponent(subject);
+		var encodedBody = encodeURIComponent(body);
+	
+		// Construct the mailto URL with the recipient's email address
+		var mailtoUrl = `mailto:${toEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+	
+		// Redirect to the Gmail compose page with the pre-filled email content
+		window.location.href = mailtoUrl;
+	}
+	
+	function submitViaWhatsApp() {
+		// Collect form data
+		var formData = new FormData(document.getElementById('appointmentForm'));
+		var name = formData.get('name');
+		var phone = formData.get('phone');
+		var city = formData.get('city');
+		var category = formData.get('category');
+		var referral = formData.get('referral');
+		var message = formData.get('message');
+	
+		// Get current date and time
+		var currentDate = new Date();
+		var formattedDate = currentDate.toLocaleString();
+	
+		// Format WhatsApp message
+		var whatsappMessage = `Dear Team,\n\nWe have received a new enquiry from *${name}*.\n\nDetails:\n*Name:* ${name}\n*Phone:* ${phone}\n*City:* ${city}\n*Category:* ${category}\n*Referral:* ${referral}\n*Message:* ${message}\n\n*Date and Time:* ${formattedDate}\n\nBest regards,\n www.sapetindiapvtltd.in`;
+		var whatsappUrl = `https://wa.me/7736500760?text=${encodeURIComponent(whatsappMessage)}`;
+	
+		// Open WhatsApp URL
+		window.open(whatsappUrl, '_blank');
+	}
+</script>
+
+<section class="hero-wrap hero-wrap-2" style="background-image:url({% static 'images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
   <div class="overlay"></div>
   <div class="container">
     <div class="row no-gutters slider-text align-items-end">
       <div class="col-md-9 ftco-animate pb-5">
-        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'home' %}">Home <i class="fa fa-chevron-right"></i></a></span> <span>Services <i class="fa fa-chevron-right"></i></span></p>
-        <h1 class="mb-0 bread" style="color:grey!important;">Services</h1>
+        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'home' %}">Home <i class="fa fa-chevron-right"></i></a></span> <span>About <i class="fa fa-chevron-right"></i></span></p>
+        <h1 class="mb-0 bread" style="color:grey!important;">Customer Care</h1>
       </div>
     </div>
   </div>
 </section>
 
+<section class="ftco-section ftco-no-pt ftco-no-pb  mt-5 pt-5">
+	<div class="container">
+		<div class="row d-flex no-gutters">
+			<div class="col-md-6 d-flex">
+				<div class="img img-video d-flex align-self-stretch align-items-center justify-content-center mb-4 mb-sm-0" style="background-image:url({% static 'images/about.jpg' %});">
+				</div>
+			</div>
+			<div class="col-md-6 pl-md-5">
+				<div class="row justify-content-start">
+					<div class="col-md-12 heading-section ftco-animate">
+						<span class="subheading">Customer Care</span>
+						<h2 class="mb-4">Your One-Stop Partner for Advanced Automotive Workshop Solutions</h2>
+						<p>At SAP Equipment's & Tools India Pvt. Ltd., we pride ourselves on providing cutting-edge automotive service equipment backed by responsive and reliable customer care. Whether you're running a high-capacity service center or a boutique car spa, our dedicated support team is here to ensure your equipment runs smoothly and efficiently.</p>
+					</div>
+					<div class="tabulation-2 mt-4">
+						<ul class="nav nav-pills nav-fill d-md-flex d-block">
+              <li class="nav-item mb-md-0 mb-2 mx-1 my-1">
+								<a class="nav-link active py-2" data-toggle="tab" href="#home1"><i class="fas fa-phone-alt mr-2"></i>Contact Us</a>
+							</li>
+							<li class="nav-item mb-md-0 mb-2 mx-1 my-1">
+								<a class="nav-link  py-2" data-toggle="tab" href="#home2"><i class="fas fa-question-circle mr-2"></i>How Can We Assist?</a>
+							</li>
+							<li class="nav-item mb-md-0 mb-2 mx-1 my-1">
+								<a class="nav-link py-2" data-toggle="tab" href="#home3"><i class="fas fa-star mr-2"></i>Why Choose Us?</a>
+							</li>
+						</ul>
+						<div class="tab-content rounded mt-2">
+              <div class="tab-pane container p-0 active" id="home1">
+								<div class="tab-content-inner">
+									<h6><i class="fas fa-headset text-primary mr-2"></i> Contact Our Customer Care</h6>
+									<div class="contact-info">
+										<p><i class="fas fa-phone-alt mr-2"></i> <strong>Phone:</strong> +91-9894678506</p>
+										<p><i class="fas fa-envelope mr-2"></i> <strong>Email:</strong> <p class="">service@sapetindiapvtltd.in <br> ccs.@sapetindiapvtltd.in</p></p>
+										<p><i class="far fa-clock mr-2"></i> <strong>Office Hours:</strong> <p class=""> Monday to Saturday | 9:30 AM – 6:00 PM</p></p>
+										<p><i class="fas fa-globe mr-2"></i> <strong>Website:</strong> <a href="#">www.sapetindiapvtltd.in</a></p>
+									</div>
+									<div class="mt-4">
+										<h6><i class="fas fa-map-marker-alt text-primary mr-2"></i> Our Location</h6>
+										<p>Neelikonampalayam, Coimbatore, Tamil Nadu 641033, India</p>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane container p-0 fade" id="home2">
+								<div class="tab-content-inner">
+									<h6><i class="fas fa-hands-helping text-primary mr-2"></i> How Can We Assist You?</h6>
+									<p>Our Customer Care team is trained to support all aspects of your journey with us, including:</p>
+									<ul class="list-unstyled">
+										<li><i class="fas fa-check-circle text-success mr-2"></i> Product Selection Assistance</li>
+										<li><i class="fas fa-check-circle text-success mr-2"></i> Installation Support & On-Site Setup</li>
+										<li><i class="fas fa-check-circle text-success mr-2"></i> User Training & Operational Guidance</li>
+										<li><i class="fas fa-check-circle text-success mr-2"></i> Preventive Maintenance & Service Scheduling</li>
+										<li><i class="fas fa-check-circle text-success mr-2"></i> Troubleshooting & Technical Support</li>
+										<li><i class="fas fa-check-circle text-success mr-2"></i> Warranty Assistance</li>
+										<li><i class="fas fa-check-circle text-success mr-2"></i> Genuine Spare Parts Supply</li>
+										<li><i class="fas fa-check-circle text-success mr-2"></i> Annual Maintenance Contracts (AMC)</li>
+									</ul>
+								</div>
+							</div>
 
-<section class="ftco-section mb-5" style="padding:3rem;">
-    <div class="container">
-      <div class="row justify-content-center pb-2 mb-2">
-        <div class="col-md-7 heading-section text-center ftco-animate">
-          <span class="subheading">Premium Automotive Solutions</span>
-          <h2>Our Products</h2>
-        </div>
+							<div class="tab-pane container p-0 fade" id="home3">
+								<div class="tab-content-inner">
+									<h6><i class="fas fa-medal text-primary mr-2"></i> Why SAP Equipment's?</h6>
+									<ul class="list-unstyled">
+										<li><i class="fas fa-check text-success mr-2"></i> Robust and innovative product range</li>
+										<li><i class="fas fa-check text-success mr-2"></i> In-house manufacturing and quality assurance</li>
+										<li><i class="fas fa-check text-success mr-2"></i> Nationwide service support</li>
+										<li><i class="fas fa-check text-success mr-2"></i> Expert engineers and quick response time</li>
+										<li><i class="fas fa-check text-success mr-2"></i> Trusted by workshops, service stations, and detailing centers across India</li>
+									</ul>
+									<div class="mt-3">
+										<p><i class="fas fa-clock mr-2"></i> At SAP Equipment's & Tools, your uptime is our priority.</p>
+										<p><i class="fas fa-hands-helping mr-2"></i> Our customer care team is committed to providing seamless after-sales service so that your business keeps running without interruptions.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ftco-map ftco-no-pb">
+  <div class="container" style="margin-block: 50px !important;">
+      <div class="row justify-content-center">
+          <div class="col-md-7 heading-section text-center ftco-animate">
+              <h2>Our Product Portfolio Covers</h2>
+          </div>
+      </div>
+  </div>
+  
+  <div class="container">
+      <div class="row">
+          <div class="col-md-4 mb-4">
+              <div class="product-category card h-100">
+                  <h5 class="card-header text-white">
+                      <i class="fas fa-shower text-white mr-2"></i> Water Wash Equipment
+                  </h5>
+                  <div class="card-body">
+                      <ul class="list-unstyled">
+                          <li class="mb-2"><i class="fas fa-car mr-2"></i> Touchless Car Washers</li>
+                          <li class="mb-2"><i class="fas fa-car-side mr-2"></i> Under Chassis Washers</li>
+                          <li><i class="fas fa-tint mr-2"></i> High-Pressure Compressors</li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 mb-4">
+              <div class="product-category card h-100">
+                  <h5 class="card-header text-white">
+                      <i class="fas fa-cog text-white mr-2"></i> Wheel Service Equipment
+                  </h5>
+                  <div class="card-body">
+                      <ul class="list-unstyled">
+                          <li class="mb-2"><i class="fas fa-car mr-2"></i> Tire Removers</li>
+                          <li class="mb-2"><i class="fas fa-balance-scale mr-2"></i> Wheel Balancers</li>
+                          <li class="mb-2"><i class="fas fa-car mr-2"></i> Hydraulic Lifts</li>
+                          <li><i class="fas fa-car mr-2"></i> Two-Post Lifts</li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 mb-4">
+              <div class="product-category card h-100">
+                  <h5 class="card-header text-white">
+                      <i class="fas fa-search text-white mr-2"></i> Diagnostic Equipment
+                  </h5>
+                  <div class="card-body">
+                      <ul class="list-unstyled">
+                          <li class="mb-2"><i class="fas fa-wind mr-2"></i> ACRU (Air Conditioning Recovery Units)</li>
+                          <li class="mb-2"><i class="fas fa-laptop-medical mr-2"></i> Automotive Scanners</li>
+                          <li class="mb-2"><i class="fas fa-fan mr-2"></i> Decarbonizing Systems</li>
+                          <li><i class="fas fa-oil-can mr-2"></i> Oil Changers</li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
       </div>
       <div class="row">
-        <div class="col-md-4 services ftco-animate">
-          <div class="d-block d-flex">
-            <div class="icon d-flex justify-content-center align-items-center">
-              <img src="{% static 'icons/car-wash-equipments.png' %}" alt="Washing Equipment Icon" class="icon-img white-icon">
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Washing Equipment</h3>
-              <p>High-performance washing equipment designed for efficient, water-saving, and eco-friendly vehicle cleaning.</p>
-              <p><a href="#" class="btn-custom">View Catelogue</a></p>
-            </div>
+          <div class="col-md-4 mb-4">
+              <div class="product-category card h-100">
+                  <h5 class="card-header text-white">
+                      <i class="fas fa-arrow-up text-white mr-2"></i> Lifting Equipment
+                  </h5>
+                  <div class="card-body">
+                      <ul class="list-unstyled">
+                          <li class="mb-2"><i class="fas fa-car mr-2"></i> Hydraulic Lifts</li>
+                          <li class="mb-2"><i class="fas fa-car mr-2"></i> Two Post Lifts</li>
+                          <li><i class="fas fa-compress-alt mr-2"></i> Scissor Lifts</li>
+                      </ul>
+                  </div>
+              </div>
           </div>
-          <div class="d-block d-flex">
-            <div class="icon d-flex justify-content-center align-items-center">
-              <img src="{% static 'icons/promotion.png' %}" alt="Car Care Products Icon" class="icon-img white-icon">
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Car Care Products</h3>
-              <p>Premium car care solutions, including waxes, polishes, and cleaners, to protect and enhance your vehicle's finish.</p>
-              <p><a href="#" class="btn-custom">View Catelogue</a></p>
-            </div>
+          <div class="col-md-4 mb-4">
+              <div class="product-category card h-100">
+                  <h5 class="card-header text-white">
+                      <i class="fas fa-paint-roller text-white mr-2"></i> Paint & Body Shop Solutions
+                  </h5>
+                  <div class="card-body">
+                      <ul class="list-unstyled">
+                          <li class="mb-2"><i class="fas fa-spray-can mr-2"></i> Automotive Paint Booths</li>
+                          <li class="mb-2"><i class="fas fa-hammer mr-2"></i> Dent Pullers</li>
+                          <li><i class="fas fa-bolt mr-2"></i> MIG Welders</li>
+                      </ul>
+                  </div>
+              </div>
           </div>
-          <div class="d-block d-flex">
-            <div class="icon d-flex justify-content-center align-items-center">
-              <img src="{% static 'icons/car-lift.png' %}" alt="Washing Lift Icon" class="icon-img white-icon">
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Washing Lift</h3>
-              <p>Heavy-duty washing lifts for safe and efficient vehicle maintenance, designed for garages and workshops.</p>
-              <p><a href="#" class="btn-custom">View Catelogue</a></p>
-            </div>
+          <div class="col-md-4 mb-4">
+              <div class="product-category card h-100">
+                  <h5 class="card-header text-white">
+                      <i class="fas fa-spa text-white mr-2"></i> Car Spa & Accessories
+                  </h5>
+                  <div class="card-body">
+                      <ul class="list-unstyled">
+                          <li class="mb-2"><i class="fas fa-magic mr-2"></i> Paper Mats & Car Perfumes</li>
+                          <li class="mb-2"><i class="fas fa-hot-tub mr-2"></i> Steam Cleaners & Foam Wash Systems</li>
+                          <li><i class="fas fa-car mr-2"></i> Complete Car Spa Equipment</li>
+                      </ul>
+                  </div>
+              </div>
           </div>
-        </div>
-  
-        <div class="col-md-4 services ftco-animate">
-          <div class="d-block d-flex">
-            <div class="icon d-flex justify-content-center align-items-center">
-              <img src="{% static 'icons/wheels.png' %}" style="color:white;" alt="Wheel Balancer Icon" class="icon-img white-icon">
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Wheel Balancer</h3>
-              <p>Precision wheel balancers for accurate tire balancing, ensuring smoother rides and extended tire lifespan.</p>
-              <p><a href="#" class="btn-custom">View Catelogue</a></p>
-            </div>
-          </div>
-          <div class="d-block d-flex">
-            <div class="icon d-flex justify-content-center align-items-center">
-              <img src="{% static 'icons/car-wash.png' %}" alt="Automatic Car Washer Icon" class="icon-img white-icon">
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Automatic Car Washer</h3>
-              <p>Fully automatic car washers with advanced technology for fast, efficient, and scratch-free vehicle cleaning.</p>
-              <p><a href="#" class="btn-custom">View Catelogue</a></p>
-            </div>
-          </div>
-          <div class="d-block d-flex">
-            <div class="icon d-flex justify-content-center align-items-center">
-              <img src="{% static 'icons/tyre-change.png' %}" alt="Tyre Changer Icon" class="icon-img white-icon">
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Tyre Changer</h3>
-              <p>Robust tyre changers for quick and safe tire replacements, suitable for all vehicle types.</p>
-              <p><a href="#" class="btn-custom">View Catelogue</a></p>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-4 services ftco-animate">
-          <div class="d-block d-flex mb-5">
-            <div class="icon d-flex justify-content-center align-items-center">
-              <img src="{% static 'icons/car-washer-1.png' %}" alt="Washing Equipments Icon" class="icon-img white-icon">
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Car Washer</h3>
-              <p>Advanced car washing systems for thorough cleaning, designed for both small and large-scale operations.</p>
-              <p><a href="#" class="btn-custom">View Catelogue</a></p>
-            </div>
-          </div>
-          <div class="d-block d-flex">
-            <div class="icon d-flex justify-content-center align-items-center">
-              <img src="{% static 'icons/scanner.png' %}" alt="Carman Car Scanner Icon" class="icon-img white-icon">
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Carman Car Scanner</h3>
-              <p>Advanced diagnostic scanners for accurate vehicle health checks, engine diagnostics, and fault detection.</p>
-              <p><a href="#" class="btn-custom">View Catelogue</a></p>
-            </div>
-          </div>
-          <div class="d-block d-flex">
-            <div class="icon d-flex justify-content-center align-items-center">
-              <img src="{% static 'icons/air-compressor.png' %}" alt="Air Compressor Icon" class="icon-img white-icon">
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Air Compressor</h3>
-              <p>High-efficiency air compressors for tire inflation, painting, and other automotive applications.</p>
-              <p><a href="#" class="btn-custom">View Catelogue</a></p>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
-  </section>
+  </div>
+</section>
 
-  <style>
-    /* Round design for the icon container */
-    /* Make the icon white using CSS filter */
-    .white-icon {
-      filter: brightness(0) invert(1); /* Converts icon to white */
-    }
-    
-    /* Round design for the icon container */
-    .icon {
-      width: 60px; /* Adjust size of the round container */
-      height: 60px; /* Adjust size of the round container */
-      border-radius: 50%; /* Makes it round */
-      {% comment %} background-color: #007bff; /* Blue background for contrast */ {% endcomment %}
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-right: 15px; /* Space between icon and text */
-    }
-    
-    /* Smaller icon size */
-    .icon-img {
-      width: 30px; /* Adjust icon size */
-      height: 30px; /* Adjust icon size */
-      transition: transform 0.3s ease; /* Smooth hover effect */
-    }
-    
-    /* Hover effect for the icon */
-    .icon:hover .icon-img {
-      transform: scale(1.1); /* Slightly enlarge on hover */
-    }
-
-    
-    .services .icon img {
-      max-width: 100%; /* Ensure the icon fits within the container */
-      max-height: 100%;
-    }
-    
-    .services .media-body {
-      flex: 1; /* Allow the text to take up remaining space */
-    }
-    
-    /* Optional: Add hover effects for better interactivity */
-    .services .d-block.d-flex:hover {
-      transform: translateY(-5px);
-      transition: transform 0.3s ease;
-    }
-
-    .block-23 ul li, .block-23 ul li > a{
-    display: table;
-    line-height: 1.5;
-    margin-bottom: 0px !important;
+<style>
+  .tab-content {
+    height:420px;
   }
-  </style>
+  .p{
+    margin-bottom: 0rem!important;
+  }
+  .card-header{
+    border-radius: 28px !important;
+  }
+  .heading-section h2 {
+    color: #d10a11;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .heading-section h2:after {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 3px;
+    background: #d10a11;
+    bottom: -10px;
+    left: 20%;
+    border-radius: 3px;
+  }
+  
+  .product-category {
+    background: white;
+    border-radius: 28px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 11px -12px 9px 0px rgb(74 74 74 / 10%);
+    border: none;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(209, 10, 17, 0.15);
+  }
+  
+  .product-category .card-header {
+    background: #d10a11;
+    padding: 15px 20px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .product-category .card-header:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+  }
+  
+  .product-category:hover .card-header:after {
+    left: 100%;
+  }
+  
+  .product-category .card-body {
+    padding: 20px;
+    flex-grow: 1;
+    background: white;
+  }
+  
+  .product-category .list-unstyled {
+    padding-left: 0;
+    list-style: none;
+  }
+  
+  .product-category .list-unstyled li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(209, 10, 17, 0.1);
+    transition: all 0.2s ease;
+    color: #555;
+  }
+  
+  .product-category .list-unstyled li:hover {
+    color: #d10a11;
+    padding-left: 5px;
+  }
+  
+  .product-category .list-unstyled li i {
+    color: #d10a11;
+    transition: all 0.2s ease;
+  }
+  
+  .product-category .list-unstyled li:hover i {
+    transform: scale(1.2);
+  }
+  
+  .product-category .list-unstyled li:last-child {
+    border-bottom: none;
+  }
+</style>
 
-  {% endblock %}
+{% endblock %}
