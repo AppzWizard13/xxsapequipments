@@ -174,28 +174,28 @@
                     <!-- Additional Images (Thumbnails) -->
                     <div class="row mt-3 justify-content-center">
                         {% if product.images %}
-                            <div class="col-6 col-sm-2">
+                            <div class="col-6 col-sm-3">
                                 <img src="{{ product.images.url }}" class="img-fluid thumbnail-image active-thumbnail" onclick="changeImage(this, '{{ product.images.url }}', '{{ product.name }}')">
                             </div>
                         {% endif %}
                         {% if product.image_1 %}
-                            <div class="col-6 col-sm-2">
+                            <div class="col-6 col-sm-3">
                                 <img src="{{ product.image_1.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this, '{{ product.image_1.url }}', '{{ product.name }}')">
                             </div>
                         {% endif %}
                         {% if product.image_2 %}
-                            <div class="col-6 col-sm-2">
+                            <div class="col-6 col-sm-3">
                                 <img src="{{ product.image_2.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this, '{{ product.image_2.url }}', '{{ product.name }}')">
                             </div>
                         {% endif %}
                         {% if product.image_3 %}
-                            <div class="col-6 col-sm-2">
+                            <div class="col-6 col-sm-3">
                                 <img src="{{ product.image_3.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this, '{{ product.image_3.url }}', '{{ product.name }}')">
                             </div>
                         {% endif %}
 
                         {% if product.ytlink_image and product.youtube_url %}
-                        <div class="col-6 col-sm-2">
+                        <div class="col-6 col-sm-3">
                             <div class="position-relative d-inline-block pt-1 custom-youtube-thumbnail" style="cursor: pointer;" onclick="showYouTubeInMain('{{ product.youtube_url }}')">
                                 <!-- Font Awesome YouTube Icon -->
                                 <i class="fab fa-youtube text-danger" style="position: absolute; top: 5px; left: 5px; font-size: 24px; z-index: 2; background:transparent;"></i>
@@ -211,7 +211,13 @@
                     // Function to change main image when thumbnails are clicked
                     function changeImage(element, imageUrl, altText) {
                         // Reset main media container to image mode
+                        const blogEntry = document.querySelector('.blog-entry');
                         const mainContainer = document.getElementById('mainMediaContainer');
+
+                        // Set height for image display
+                        if (blogEntry) {
+                            blogEntry.style.height = '400px';
+                        }
                         
                         // Create new image element with all necessary attributes and handlers
                         const img = document.createElement('img');
@@ -237,11 +243,15 @@
                     // Function to show YouTube video in main area
                     function showYouTubeInMain(youtubeUrl) {
                         const mainContainer = document.getElementById('mainMediaContainer');
+                        const blogEntry = document.querySelector('.blog-entry');
                         const videoId = extractVideoId(youtubeUrl);
                         
                         if (!videoId) {
                             console.error('Invalid YouTube URL');
                             return;
+                        }
+                        if (blogEntry) {
+                            blogEntry.style.height = '275px';
                         }
                         
                         const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
@@ -313,6 +323,10 @@
                     .custom-youtube-thumbnail {
                         position: relative;
                     }
+                    #mainMediaContainer{
+                        height: 250px;
+                    }
+
                     .ratio.ratio-16x9 {
                         /* Ensure proper aspect ratio for videos */
                         position: relative;
