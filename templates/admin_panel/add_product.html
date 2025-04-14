@@ -80,6 +80,24 @@
             </div>
             {% endif %}
           </div>
+
+          <div class="col-md-4 mt-3">
+            <label for="ytlink_image" class="form-label">Youtube Thumbnail</label>
+            {{ form.ytlink_image }}
+            {% if form.instance.ytlink_image %}
+            <div class="mt-2">
+              <img src="{{ form.instance.ytlink_image.url }}" class="img-thumbnail" width="120">
+            </div>
+            {% endif %}
+          </div>
+
+
+
+        </div>
+
+        <div class="mb-3">
+          <label for="youtube_url" class="form-label">Product youtube url</label>
+          {{ form.youtube_url }}
         </div>
 
         <div class="mb-3">

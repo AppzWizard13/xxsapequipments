@@ -161,37 +161,173 @@
         </div>
 
         <div class="row mb-5">
-            <!-- Main Image Section -->
-            <div class="col-md-6 ftco-animate">
-                <div class="blog-entry align-self-stretch">
-                    <!-- Main Image with Click Event -->
-                    <img id="mainImage" src="{{ product.images.url }}" alt="{{ product.name }}" class="img-fluid main-product-image" data-toggle="modal" data-target="#imageModal" onclick="updateModalImage(this.src)">
+                <!-- Main Image Section -->
+                <div class="col-md-6 ftco-animate">
+                    <div class="blog-entry align-self-stretch">
+                        <!-- Main Image/Video Area -->
+                        <div id="mainMediaContainer">
+                            <!-- Default main image -->
+                            <img id="mainImage" src="{{ product.images.url }}" alt="{{ product.name }}" class="img-fluid main-product-image" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage(this.src)">
+                        </div>
+                    </div>
+
+                    <!-- Additional Images (Thumbnails) -->
+                    <div class="row mt-3 justify-content-center">
+                        {% if product.images %}
+                            <div class="col-6 col-sm-2">
+                                <img src="{{ product.images.url }}" class="img-fluid thumbnail-image active-thumbnail" onclick="changeImage(this, '{{ product.images.url }}', '{{ product.name }}')">
+                            </div>
+                        {% endif %}
+                        {% if product.image_1 %}
+                            <div class="col-6 col-sm-2">
+                                <img src="{{ product.image_1.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this, '{{ product.image_1.url }}', '{{ product.name }}')">
+                            </div>
+                        {% endif %}
+                        {% if product.image_2 %}
+                            <div class="col-6 col-sm-2">
+                                <img src="{{ product.image_2.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this, '{{ product.image_2.url }}', '{{ product.name }}')">
+                            </div>
+                        {% endif %}
+                        {% if product.image_3 %}
+                            <div class="col-6 col-sm-2">
+                                <img src="{{ product.image_3.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this, '{{ product.image_3.url }}', '{{ product.name }}')">
+                            </div>
+                        {% endif %}
+
+                        {% if product.ytlink_image and product.youtube_url %}
+                        <div class="col-6 col-sm-2">
+                            <div class="position-relative d-inline-block pt-1 custom-youtube-thumbnail" style="cursor: pointer;" onclick="showYouTubeInMain('{{ product.youtube_url }}')">
+                                <!-- Font Awesome YouTube Icon -->
+                                <i class="fab fa-youtube text-danger" style="position: absolute; top: 5px; left: 5px; font-size: 24px; z-index: 2; background:transparent;"></i>
+                                <!-- Thumbnail Image -->
+                                <img src="{{ product.ytlink_image.url }}" class="img-fluid thumbnail-image youtube-thumb" style="z-index: 1;">
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
 
-                <!-- Additional Images (Thumbnails) -->
-                <div class="row mt-3 justify-content-center">
-                    {% if product.images %}
-                        <div class="col-3">
-                            <img src="{{ product.images.url }}" class="img-fluid thumbnail-image active-thumbnail" onclick="changeImage(this)">
-                        </div>
-                    {% endif %}
-                    {% if product.image_1 %}
-                        <div class="col-3">
-                            <img src="{{ product.image_1.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
-                        </div>
-                    {% endif %}
-                    {% if product.image_2 %}
-                        <div class="col-3">
-                            <img src="{{ product.image_2.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
-                        </div>
-                    {% endif %}
-                    {% if product.image_3 %}
-                        <div class="col-3">
-                            <img src="{{ product.image_3.url }}" class="img-fluid thumbnail-image" onclick="changeImage(this)">
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
+                <script>
+                    // Function to change main image when thumbnails are clicked
+                    function changeImage(element, imageUrl, altText) {
+                        // Reset main media container to image mode
+                        const mainContainer = document.getElementById('mainMediaContainer');
+                        
+                        // Create new image element with all necessary attributes and handlers
+                        const img = document.createElement('img');
+                        img.id = 'mainImage';
+                        img.src = imageUrl;
+                        img.alt = altText;
+                        img.className = 'img-fluid main-product-image';
+                        img.setAttribute('data-bs-toggle', 'modal');
+                        img.setAttribute('data-bs-target', '#imageModal');
+                        img.onclick = function() { updateModalImage(this.src); };
+                        
+                        // Clear container and add new image
+                        mainContainer.innerHTML = '';
+                        mainContainer.appendChild(img);
+                        
+                        // Update active thumbnail
+                        document.querySelectorAll('.thumbnail-image').forEach(img => {
+                            img.classList.remove('active-thumbnail');
+                        });
+                        element.classList.add('active-thumbnail');
+                    }
+
+                    // Function to show YouTube video in main area
+                    function showYouTubeInMain(youtubeUrl) {
+                        const mainContainer = document.getElementById('mainMediaContainer');
+                        const videoId = extractVideoId(youtubeUrl);
+                        
+                        if (!videoId) {
+                            console.error('Invalid YouTube URL');
+                            return;
+                        }
+                        
+                        const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                        
+                        // Create video container
+                        const videoContainer = document.createElement('div');
+                        videoContainer.className = 'ratio ratio-16x9';
+                        
+                        const iframe = document.createElement('iframe');
+                        iframe.src = embedUrl;
+                        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                        iframe.setAttribute('allowfullscreen', '');
+                        
+                        videoContainer.appendChild(iframe);
+                        
+                        // Clear container and add video
+                        mainContainer.innerHTML = '';
+                        mainContainer.appendChild(videoContainer);
+                        
+                        // Update active thumbnail
+                        document.querySelectorAll('.thumbnail-image').forEach(img => {
+                            img.classList.remove('active-thumbnail');
+                        });
+                        
+                        // Add active class to YouTube thumbnail if found
+                        const youtubeThumb = document.querySelector('.youtube-thumb');
+                        if (youtubeThumb) {
+                            youtubeThumb.classList.add('active-thumbnail');
+                        }
+                    }
+
+                    // Helper function to extract video ID from URL
+                    function extractVideoId(url) {
+                        // Handle various YouTube URL formats
+                        if (!url) return null;
+                        
+                        // If URL is already an embed code, extract the video ID
+                        const embedMatch = url.match(/embed\/([^?]+)/);
+                        if (embedMatch) return embedMatch[1];
+                        
+                        // Standard URL patterns
+                        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                        const match = url.match(regExp);
+                        return (match && match[2].length === 11) ? match[2] : null;
+                    }
+
+                    // Function to update modal image (should be defined elsewhere)
+                    function updateModalImage(src) {
+                        // Your existing modal image update function
+                        console.log('Updating modal image with:', src);
+                        // Example: document.getElementById('modalImage').src = src;
+                    }
+                </script>
+
+                <style>
+                    /* Add any necessary styles */
+                    .main-product-image {
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    }
+                    .thumbnail-image {
+                        cursor: pointer;
+                        border: 2px solid transparent;
+                        transition: all 0.3s ease;
+                    }
+                    .thumbnail-image:hover, .active-thumbnail {
+                        border-color: #007bff;
+                    }
+                    .custom-youtube-thumbnail {
+                        position: relative;
+                    }
+                    .ratio.ratio-16x9 {
+                        /* Ensure proper aspect ratio for videos */
+                        position: relative;
+                        width: 100%;
+                        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+                    }
+                    .ratio.ratio-16x9 iframe {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                    }
+                </style>
+
 
             <!-- Product Details Section -->
             <div class="col-md-6 ftco-animate">
@@ -562,18 +698,7 @@
         document.getElementById('modalImage').src = imageSrc;
     }
 
-    function changeImage(element) {
-        var mainImage = document.getElementById("mainImage");
-        mainImage.src = element.src;
 
-        // Remove active class from all thumbnails
-        document.querySelectorAll(".thumbnail-image").forEach(img => {
-            img.classList.remove("active-thumbnail");
-        });
-
-        // Add active class to clicked thumbnail
-        element.classList.add("active-thumbnail");
-    }
 </script>
 
 <!-- CSS for Styling -->

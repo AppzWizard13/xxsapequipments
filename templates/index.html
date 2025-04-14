@@ -53,7 +53,7 @@
 		/* Apply Poppins globally */
 
 		:root {
-			--primary-red: #dd1010; /* Power Red */
+			--primary-red: #ff0000; /* Power Red */
 			--light-gray: #a3a3a3; /* Light metallic gray */
 			--text-light: #f2f2f2; /* Near white text */
 			--charcoal-dark: #3d3d3d; /* Dark accent */
@@ -81,7 +81,7 @@
 			font-size: 18px;
 		}
 		.heading{
-			color: #dd1010 !important;
+			color: #ff0000 !important;
 		}
 
 		
@@ -599,7 +599,7 @@
 					<div class="col-md-3 d-flex align-items-center">
 						<a class="navbar-brand mb-3" href="{% url 'home' %}">
 							<img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
-							<span class="company-name pt-4 px-2">SAP Equipments & Tools</span>
+							<span class="company-name pt-4 px-2">SAP EQUIPMENTS & TOOLS</span>
 						</a>
 					</div>
 					<div class="col-md-5">
@@ -1141,9 +1141,9 @@
 			opacity: 0.9;
 			color: white;
 		}
-		.modal-backdrop {
+		{% comment %} .modal-backdrop {
 			background-color: transparent !important;
-		}
+		} {% endcomment %}
 
 
 
@@ -1156,21 +1156,6 @@
 			{% for banner in banners %}
 			<div class="slider-item" style="background-image: url({{ banner.image.url }});">
 				<div class="overlay"></div>
-				<!-- Floating images container -->
-				{% comment %} <div class="ds-floating-images">
-					{% if banner.image_1 and banner.image_1.url and banner.image_1.url.strip %}
-						<img src="{{ banner.image_1.url }}" class="ds-float-img ds-float-img-1" alt="">
-					{% endif %}
-					{% if banner.image_2 and banner.image_2.url and banner.image_2.url.strip %}
-						<img src="{{ banner.image_2.url }}" class="ds-float-img ds-float-img-2" alt="">
-					{% endif %}
-					{% if banner.image_3 and banner.image_3.url and banner.image_3.url.strip %}
-						<img src="{{ banner.image_3.url }}" class="ds-float-img ds-float-img-3" alt="">
-					{% endif %}
-					{% if banner.image_4 and banner.image_4.url and banner.image_4.url.strip %}
-						<img src="{{ banner.image_4.url }}" class="ds-float-img ds-float-img-4" alt="">
-					{% endif %}
-				</div> {% endcomment %}
 				<div class="container">
 					<div class="row no-gutters slider-text align-items-center justify-content-start">
 						{% if banner.image_1 and banner.image_1.url and banner.image_1.url.strip %}
