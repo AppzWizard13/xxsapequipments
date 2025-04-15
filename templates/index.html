@@ -540,6 +540,7 @@
 		.company-name {
 			white-space: nowrap; /* Prevent the company name from wrapping to a new line */
 			font-weight: bolder !important;
+			font-size: 35px !important;
 		}
 
 		/* Responsive adjustments for mobile view */
@@ -557,6 +558,7 @@
 			.company-name {
 				text-align: bottom; /* Center-align the company name */
 				font-weight: bolder;
+				font-size: 16px !important;
 			}
 		}
 		.social-media {
@@ -594,15 +596,16 @@
   </head>
   <body>
 		<div class="wrap" style="padding-block: 25px !important;">
-	    <div class="container">
-				<div class="row justify-content-between">
-					<div class="col-md-3 d-flex align-items-center">
+	    <div class="container-fluid">
+				<div class="row justify-content-end">
+					<div class="col-md-6 d-flex align-items-center">
 						<a class="navbar-brand mb-3" href="{% url 'home' %}">
 							<img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
-							<span class="company-name pt-4 px-2">SAP EQUIPMENTS & TOOLS</span>
+							<span class="company-name pt-3 px-5 mx-5">SAP EQUIPMENTS & TOOLS</span>
 						</a>
 					</div>
-					<div class="col-md-6">
+					
+					<div class="col-md-4">
 						<style>
 						  .black-text {
 							color: black !important;
