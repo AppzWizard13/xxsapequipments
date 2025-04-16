@@ -142,8 +142,9 @@
 
       // Update modal content
       document.getElementById('productName').textContent = productName;
-      document.getElementById('confirmDeleteBtn').href = "/delete-product/" + productId + "/";
+      document.getElementById('confirmDeleteBtn').href = "/product/delete/" + productId + "/";
     });
   });
 </script>
+
 {% endblock %}

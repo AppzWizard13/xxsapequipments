@@ -244,6 +244,9 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('product_list')
 
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
     def delete(self, request, *args, **kwargs):
         product = self.get_object()
         product_name = product.name
@@ -253,6 +256,7 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
     def handle_no_permission(self):
         return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
 # Frontend Views
 class ProductGridView(ListView):
     model = Product

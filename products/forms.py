@@ -1,6 +1,6 @@
 from django import forms
 from .models import *
-
+from .utils import compress_image  # or wherever your compress_image function is
 from django import forms
 from .models import Category
 

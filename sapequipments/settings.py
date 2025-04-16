@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',   # If running locally
     'http://127.0.0.1:8000'    # If running locally
-    'https://d273-2401-4900-6276-f5e6-e5dc-5687-cae8-1fb1.ngrok-free.app'
+    'https://e4cf-2401-4900-629a-8774-a5b1-aa53-18ee-853f.ngrok-free.app/'
 ]
 
 AUTH_USER_MODEL ='accounts.CustomUser'
