@@ -1175,6 +1175,7 @@
 			<div class="slider-item" style="background-image: url({{ banner.image.url }});">
 				<div class="overlay"></div>
 				<div class="container">
+					{% if banner.enable_floating == True %}
 					<div class="row no-gutters slider-text align-items-center justify-content-start">
 						{% if banner.image_1 and banner.image_1.url and banner.image_1.url.strip %}
 							<img src="{{ banner.image_1.url }}" class="ds-float-img ds-float-img-1" alt="">
@@ -1189,6 +1190,7 @@
 							<img src="{{ banner.image_4.url }}" class="ds-float-img ds-float-img-4" alt="">
 						{% endif %}
 					</div>
+					{% endif %}
 				</div>
 			</div>
 			{% empty %}
@@ -1673,10 +1675,10 @@
 		<style>
 			.bg-intro .intro-box {
 				padding: 10px 0;
-				height: 80px;
+				height: 60px;
 			}
 			.intro-wrap {
-				margin-top: -80px;
+				margin-top: -60px;
 			} 
 			/* Round design for the icon container */
 			/* Make the icon white using CSS filter */

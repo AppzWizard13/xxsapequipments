@@ -59,7 +59,7 @@
         <div class="mb-3">
           <label for="bannerImage" class="form-label">Main Banner Image (Compressed)</label>
           <input type="file" class="form-control {% if form.image.errors %}is-invalid{% endif %}" 
-                 id="bannerImage" name="image" accept="image/*">
+                id="bannerImage" name="image" accept="image/*">
           <div class="invalid-feedback">
             {{ form.image.errors.0 }}
           </div>
@@ -70,6 +70,20 @@
           </div>
           {% endif %}
         </div>
+
+        <!-- Enable Floating Checkbox -->
+        <div class="form-check mb-3">
+          <input class="form-check-input {% if form.enable_floating.errors %}is-invalid{% endif %}" 
+                type="checkbox" id="enableFloating" name="enable_floating"
+                {% if form.enable_floating.value %}checked{% endif %}>
+          <label class="form-check-label" for="enableFloating">
+            Enable Floating
+          </label>
+          <div class="invalid-feedback">
+            {{ form.enable_floating.errors.0 }}
+          </div>
+        </div>
+
 
         <!-- Floating Cloud Images -->
         <div class="row">

@@ -19,7 +19,8 @@
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th>Series</th>
+              <th>Series</th>\
+              <th>Floating Status</th>
               <th>Image</th>
               <th class="text-center">Actions</th>
             </tr>
@@ -30,6 +31,14 @@
               <td>{{ banner.id }}</td>
               <td>{{ banner.name }}</td>
               <td>{{ banner.series }}</td>
+              <td>
+                {% if banner.enable_floating %}
+                  <button class="btn btn-success" disabled>Enabled</button>
+                {% else %}
+                  <button class="btn btn-secondary" disabled>Disabled</button>
+                {% endif %}
+              </td>
+              
               <td><img src="{{ banner.image.url }}" alt="{{ banner.name }}" width="100"></td>
               <td class="text-center">
                 <a href="{% url 'banner_edit' banner.id %}" class="btn btn-info btn-sm">Edit</a>

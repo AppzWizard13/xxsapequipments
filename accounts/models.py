@@ -90,6 +90,7 @@ class Banner(models.Model):
     name = models.CharField(max_length=255)
     series = models.IntegerField()  # Changed to IntegerField
     image = models.ImageField(upload_to='banners/')
+    enable_floating = models.BooleanField(default=False)
     image_1 = models.ImageField(upload_to='banners/')
     image_2 = models.ImageField(upload_to='banners/')
     image_3 = models.ImageField(upload_to='banners/')

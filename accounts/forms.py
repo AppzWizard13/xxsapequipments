@@ -134,10 +134,11 @@ from .models import Banner
 class BannerForm(forms.ModelForm):
     class Meta:
         model = Banner
-        fields = ['name', 'series', 'image', 'image_1', 'image_2', 'image_3', 'image_4']
+        fields = ['name', 'series', 'image','enable_floating', 'image_1', 'image_2', 'image_3', 'image_4']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'series': forms.NumberInput(attrs={'class': 'form-control'}),
+            # 'enable_floating': forms.CheckboxInput(attrs={'class': 'form-control'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'image_1': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'image_2': forms.ClearableFileInput(attrs={'class': 'form-control'}),
@@ -147,6 +148,7 @@ class BannerForm(forms.ModelForm):
         labels = {
             'name': 'Banner Name',
             'series': 'Series Number',
+            'enable_floating': 'Show Floating Images',
             'image': 'Main Banner Image (Compressed)',
             'image_1': 'Floating Cloud Image (Left)',
             'image_2': 'Floating Cloud Image (Right)',
