@@ -355,19 +355,24 @@
                                     <strong style="font-size: 18px; color: #555;">&nbsp;{{ product.price }}&nbsp;&nbsp; INR</strong>
                                 </p>
                             </div>
+                            {% if product.catalogues %}
                             <div style="text-align: right;">
                                 <p style="font-size: 12px; color: black; vertical-align: middle;">
                                     <strong>Download Our Catalogue</strong>
                                 </p>
                             </div>
+                            {% endif %}
                         </div>
                     </h5>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <p><strong>Category:</strong> {{ product.category.name }}</p>
                         <!-- Assuming your static files are served correctly -->
-                        <a href="{% static 'pdf/sapet_catelogue.pdf' %}" download class="pdf-download-button">
+                        {% if product.catalogues %}
+                        <a href="{{ product.catalogues.url }}" download class="pdf-download-button">
                             <i class="fa fa-file-pdf-o" style="font-size: 40px; color: red; vertical-align: middle;"></i>
                         </a>
+                        {% endif %}
+                        
                     </div>
                     {% if product.subcategory %}
                         <p><strong>Subcategory:</strong> {{ product.subcategory.name }}</p>

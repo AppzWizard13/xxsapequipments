@@ -50,8 +50,7 @@ class Product(models.Model):
     ytlink_image = models.ImageField(upload_to='product_images/', blank=True, null=True)
     youtube_url = models.CharField(max_length=5000)
     popup_image = models.ImageField(upload_to='product_images/', blank=True, null=True)
-
-    catalogues = models.CharField(max_length=255, blank=True, null=True)
+    catalogues = models.FileField(upload_to='catalogues/', blank=True, null=True)
     supplier_location = models.TextField(
         blank=True, 
         null=True,

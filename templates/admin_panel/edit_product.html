@@ -19,15 +19,13 @@
           {{ form.sku }}
         </div>
 
-
-
         <div class="mb-3">
           <label for="category" class="form-label">Category</label>
           {{ form.category }}
         </div>
 
         <div class="mb-3">
-          <label for="subcategory" class="form-label">subcategory</label>
+          <label for="subcategory" class="form-label">Subcategory</label>
           {{ form.subcategory }}
         </div>
 
@@ -60,20 +58,31 @@
         <div class="mb-3 mt-2">
           <label for="popup_image" class="form-label mt-3">Pop Up Image</label>
           {{ form.popup_image }}
-          <img id="previewImage3" class="img-fluid mt-2 rounded" style="max-width: 100px; display: none;">
+          <img id="previewPopup" class="img-fluid mt-2 rounded" style="max-width: 100px; display: none;">
         </div>
 
         <div class="mb-3 mt-2">
-          <label for="ytlink_image" class="form-label mt-3">Youtube Thumbnail</label>
+          <label for="ytlink_image" class="form-label mt-3">YouTube Thumbnail</label>
           {{ form.ytlink_image }}
-          <img id="previewImage3" class="img-fluid mt-2 rounded" style="max-width: 100px; display: none;">
+          <img id="previewYTThumb" class="img-fluid mt-2 rounded" style="max-width: 100px; display: none;">
         </div>
 
         <div class="mb-3">
-          <label for="youtube_url" class="form-label">Product youtube url</label>
+          <label for="youtube_url" class="form-label">Product YouTube URL</label>
           {{ form.youtube_url }}
         </div>
 
+        <div class="mb-3">
+          <label for="catalogues" class="form-label">Product Catalogue (PDF)</label>
+          {{ form.catalogues }}
+          {% if form.instance.catalogues %}
+            <div class="mt-2">
+              <a href="{{ form.instance.catalogues.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                Download Current Catalogue
+              </a>
+            </div>
+          {% endif %}
+        </div>
 
         <div class="mb-3">
           <label for="is_active" class="form-label">Is Active</label>
@@ -81,7 +90,7 @@
         </div>
 
         <div class="mb-3">
-          <label for="price" class="form-label">Price (INR )</label>
+          <label for="price" class="form-label">Price (INR)</label>
           {{ form.price }}
         </div>
 
@@ -139,6 +148,12 @@
     });
     document.querySelector("[name='image_3']").addEventListener("change", function() {
         previewImage(this, "previewImage3");
+    });
+    document.querySelector("[name='popup_image']").addEventListener("change", function() {
+        previewImage(this, "previewPopup");
+    });
+    document.querySelector("[name='ytlink_image']").addEventListener("change", function() {
+        previewImage(this, "previewYTThumb");
     });
 </script>
 {% endblock %}

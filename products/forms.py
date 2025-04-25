@@ -36,6 +36,7 @@ class subcategoryForm(forms.ModelForm):
 
 from django import forms
 from .models import Product
+from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from markdownx.widgets import MarkdownxWidget
 
@@ -45,12 +46,15 @@ class ProductForm(forms.ModelForm):
     image_3 = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
     popup_image = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control mb-3'}))
     ytlink_image = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control mb-3'}))
+    catalogues = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))  # ✅ Optional PDF upload
 
     class Meta:
         model = Product
         fields = [
-            'name', 'is_active', 'images', 'image_1', 'image_2', 'image_3','popup_image', 'catalogues','supplier_location','youtube_url',
-            'category', 'price', 'subcategory', 'specifications', 'description', 'additional_information', 'sku', 'ytlink_image'
+            'name', 'is_active', 'images', 'image_1', 'image_2', 'image_3', 'popup_image',
+            'catalogues', 'supplier_location', 'youtube_url', 'category', 'price',
+            'subcategory', 'specifications', 'description', 'additional_information',
+            'sku', 'ytlink_image'
         ]
         widgets = {
             'specifications': MarkdownxWidget(attrs={'class': 'form-control'}),
@@ -62,7 +66,15 @@ class ProductForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'sku': forms.TextInput(attrs={'class': 'form-control'}),
             'youtube_url': forms.TextInput(attrs={'class': 'form-control'}),
-            'catalogues': forms.TextInput(attrs={'class': 'form-control'}),
             'supplier_location': forms.TextInput(attrs={'class': 'form-control'}),
             'images': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+
+    def clean_catalogues(self):
+        catalogue = self.cleaned_data.get('catalogues', None)
+        if catalogue:
+            if catalogue.size > 300 * 1024:  # 300 KB in bytes
+                raise ValidationError("Catalogue file size should not exceed 300KB.")
+            if not catalogue.name.endswith('.pdf'):
+                raise ValidationError("Only PDF files are allowed for catalogues.")
+        return catalogue
