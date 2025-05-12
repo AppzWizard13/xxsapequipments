@@ -39,6 +39,10 @@ from .models import Product
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from markdownx.widgets import MarkdownxWidget
+from django.conf import settings
+import os
+
+
 
 class ProductForm(forms.ModelForm):
     image_1 = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
@@ -73,8 +77,17 @@ class ProductForm(forms.ModelForm):
     def clean_catalogues(self):
         catalogue = self.cleaned_data.get('catalogues', None)
         if catalogue:
-            if catalogue.size > 300 * 1024:  # 300 KB in bytes
-                raise ValidationError("Catalogue file size should not exceed 300KB.")
-            if not catalogue.name.endswith('.pdf'):
-                raise ValidationError("Only PDF files are allowed for catalogues.")
+            try:
+                if catalogue.size > 300 * 1024:
+                    raise ValidationError("Catalogue file size should not exceed 300KB.")
+                if not catalogue.name.endswith('.pdf'):
+                    raise ValidationError("Only PDF files are allowed for catalogues.")
+            except FileNotFoundError:
+                raise ValidationError("The uploaded catalogue file is missing. Please upload a new file.")
+        else:
+            # If editing and file might have been deleted on disk
+            if self.instance and self.instance.catalogues:
+                full_path = os.path.join(settings.MEDIA_ROOT, str(self.instance.catalogues))
+                if not os.path.exists(full_path):
+                    raise ValidationError("The existing catalogue file is missing. Please upload a new one.")
         return catalogue
