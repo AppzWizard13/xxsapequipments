@@ -43,7 +43,7 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     
     # Images
-    images = models.ImageField(upload_to='product_images/')
+    images = models.ImageField(upload_to='product_images/', blank=True, null=True)
     image_1 = models.ImageField(upload_to='product_images/', blank=True, null=True)
     image_2 = models.ImageField(upload_to='product_images/', blank=True, null=True)
     image_3 = models.ImageField(upload_to='product_images/', blank=True, null=True)

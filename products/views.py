@@ -232,10 +232,17 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         return response
 
     def form_invalid(self, form):
+        print("Form is invalid")
+        print("Form errors:", form.errors)
+        print("Form cleaned data:", form.cleaned_data if hasattr(form, 'cleaned_data') else "No cleaned_data")
+        
         for field, errors in form.errors.items():
             for error in errors:
+                print("errorerrorerrorerror", error)
+                print("fieldfieldfieldfield", field)
                 messages.error(self.request, f"{field}: {error}")
         return super().form_invalid(form)
+
 
     def handle_no_permission(self):
         return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())

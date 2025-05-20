@@ -37,11 +37,9 @@ class subcategoryForm(forms.ModelForm):
 from django import forms
 from .models import Product
 from django.core.exceptions import ValidationError
-from django.utils.safestring import mark_safe
 from markdownx.widgets import MarkdownxWidget
 from django.conf import settings
 import os
-
 
 
 class ProductForm(forms.ModelForm):
@@ -75,19 +73,26 @@ class ProductForm(forms.ModelForm):
         }
 
     def clean_catalogues(self):
-        catalogue = self.cleaned_data.get('catalogues', None)
+        catalogue = self.cleaned_data.get('catalogues')
+
         if catalogue:
-            try:
-                if catalogue.size > 300 * 1024:
-                    raise ValidationError("Catalogue file size should not exceed 300KB.")
-                if not catalogue.name.endswith('.pdf'):
-                    raise ValidationError("Only PDF files are allowed for catalogues.")
-            except FileNotFoundError:
-                raise ValidationError("The uploaded catalogue file is missing. Please upload a new file.")
-        else:
-            # If editing and file might have been deleted on disk
-            if self.instance and self.instance.catalogues:
-                full_path = os.path.join(settings.MEDIA_ROOT, str(self.instance.catalogues))
-                if not os.path.exists(full_path):
-                    raise ValidationError("The existing catalogue file is missing. Please upload a new one.")
-        return catalogue
+            # Validate size
+            if catalogue.size > 300 * 1024:
+                raise ValidationError("Catalogue file size should not exceed 300KB.")
+            # Validate file type
+            if not catalogue.name.lower().endswith('.pdf'):
+                raise ValidationError("Only PDF files are allowed for catalogues.")
+            return catalogue
+
+        # If no new file uploaded, check if instance has an existing valid file
+        if self.instance and self.instance.catalogues:
+            full_path = os.path.join(settings.MEDIA_ROOT, str(self.instance.catalogues))
+            if os.path.exists(full_path):
+                return self.instance.catalogues
+            else:
+                # File reference exists in DB but actual file is missing
+                return None  # gracefully ignore missing file
+
+        return None
+
+
