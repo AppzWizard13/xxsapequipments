@@ -63,15 +63,18 @@
           {% for product in products %}
           <div class="blog-entry d-flex flex-column">
             <a href="{% url 'product_detail' product.id %}" class="block-20">
-              <img src="{{ product.images.url|default:'/static/images/placeholder.jpg' }}" 
-                alt="{{ product.name }}" class="product-image">
+              {% if product.images %}
+                <img src="{{ product.images.url }}" alt="{{ product.name }}" class="product-image">
+              {% else %}
+                <img src="/static/images/placeholder.jpg" alt="No Image" class="product-image">
+              {% endif %}
             </a>
             <div class="text d-flex flex-column flex-grow-1 justify-content-between p-3">
               <h3 class="heading text-center">
                 <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
               </h3>
-              <p class="text-muted text-center flex-grow-1">{{ product.description|truncatewords:8 }}</p>
-              <p class="text-center font-weight-bold mt-auto"><strong>Price:</strong> {{ product.price }}  &nbsp; INR </p>
+              {# <p class="text-muted text-center flex-grow-1">{{ product.description|truncatewords:8 }}</p> #}
+              <p class="text-center font-weight-bold mt-auto"><strong>Price:</strong> INR {{ product.price }}</p>
             </div>
           </div>
           {% empty %}

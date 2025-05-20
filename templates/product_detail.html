@@ -136,7 +136,12 @@
         window.open(whatsappUrl, '_blank');
     }
 </script>
-<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ product.images.url }}'); background-position: center; background-size: cover; background-repeat: no-repeat; height: 50%;">
+<section class="hero-wrap hero-wrap-2" 
+    style="background-image: url('{% if product.images %}{{ product.images.url }}{% else %}/static/images/placeholder.jpg{% endif %}'); 
+           background-position: center; 
+           background-size: cover; 
+           background-repeat: no-repeat; 
+           height: 50%;">
     <div class="overlay"></div>    
     <div class="container">
         <div class="row no-gutters slider-text align-items-end">
@@ -166,10 +171,22 @@
                     <div class="blog-entry align-self-stretch">
                         <!-- Main Image/Video Area -->
                         <div id="mainMediaContainer">
-                            <!-- Default main image -->
-                            <img id="mainImage" src="{{ product.images.url }}" alt="{{ product.name }}" class="img-fluid main-product-image" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage(this.src)">
+                            {% if product.images %}
+                                <img id="mainImage" src="{{ product.images.url }}" alt="{{ product.name }}" 
+                                    class="img-fluid main-product-image" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#imageModal" 
+                                    onclick="updateModalImage(this.src)">
+                            {% else %}
+                                <img id="mainImage" src="/static/images/placeholder.jpg" alt="No Image Available" 
+                                    class="img-fluid main-product-image" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#imageModal" 
+                                    onclick="updateModalImage(this.src)">
+                            {% endif %}
                         </div>
                     </div>
+
 
                     <!-- Additional Images (Thumbnails) -->
                     <div class="row mt-3 justify-content-center">
@@ -644,11 +661,15 @@
                 {% for item in same_subcategory_products %}
                     <div class="blog-entry">
                         <a href="{% url 'product_detail' item.id %}" class="block-20">
-                            <img src="{{ item.images.url|default:'/static/images/placeholder.jpg' }}" class="product-image">
+                            {% if item.images %}
+                                <img src="{{ item.images.url }}" class="product-image" alt="{{ item.name }}">
+                            {% else %}
+                                <img src="/static/images/placeholder.jpg" class="product-image" alt="No Image Available">
+                            {% endif %}
                         </a>
                         <div class="text">
                             <h3 class="heading"><a href="{% url 'product_detail' item.id %}">{{ item.name }}</a></h3>
-                            <p><strong>Price:</strong> {{ item.price }}   &nbsp; INR</p>
+                            <p><strong>Price:</strong> {{ item.price }} &nbsp; INR</p>
                         </div>
                     </div>
                 {% empty %}
@@ -667,11 +688,15 @@
                 {% for item in same_category_products %}
                     <div class="blog-entry">
                         <a href="{% url 'product_detail' item.id %}" class="block-20">
-                            <img src="{{ item.images.url|default:'/static/images/placeholder.jpg' }}" class="product-image">
+                            {% if item.images %}
+                                <img src="{{ item.images.url }}" class="product-image" alt="{{ item.name }}">
+                            {% else %}
+                                <img src="/static/images/placeholder.jpg" class="product-image" alt="No Image Available">
+                            {% endif %}
                         </a>
                         <div class="text">
                             <h3 class="heading"><a href="{% url 'product_detail' item.id %}">{{ item.name }}</a></h3>
-                            <p><strong>Price:</strong>  {{ item.price }}   &nbsp; INR</p>
+                            <p><strong>Price:</strong> {{ item.price }} &nbsp; INR</p>
                         </div>
                     </div>
                 {% empty %}
@@ -680,6 +705,7 @@
             </div>
         </div>
         {% endif %}
+
     </div>
 </section>
 
