@@ -2,50 +2,44 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 import logging
 import atexit
-import requests  # Make sure to import requests
+import requests
 
 # Initialize logger
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+# List of URLs to self-ping
+PING_URLS = [
+    'https://codespikestudio.onrender.com/',
+    'https://iron-suite.onrender.com/'
+]
 
-# Setup logger
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
-
-# Dummy self_ping function
 def self_ping():
     """
-    Function to send a GET request to self-ping the server.
-    Adjust the URL to your actual endpoint.
+    Sends a GET request to each URL in the PING_URLS list to keep them awake.
     """
-    ping_url = 'https://codespikestudio.onrender.com/'  # Replace with your actual URL
-    try:
-        response = requests.get(ping_url)
-        print(f"Pinging URL: {ping_url}")
-        if response.status_code == 200:
-            logger.info(f"Self-ping successful! URL: {ping_url}")
+    for url in PING_URLS:
+        try:
+            response = requests.get(url)
+            print(f"Pinging URL: {url}")
+            if response.status_code == 200:
+                logger.info(f"Self-ping successful: {url}")
+            else:
+                logger.warning(f"Self-ping failed for {url} with status code {response.status_code}")
+        except Exception as e:
+            logger.error(f"Error during self-ping for {url}: {e}")
 
-        else:
-            logger.warning(f"Self-ping failed with status code {response.status_code}")
-    except Exception as e:
-        logger.error(f"Error during self-ping: {e}")
-
-
-# Function to start the scheduler
 def start():
+    """
+    Starts the background scheduler that pings the URLs periodically.
+    """
     scheduler = BackgroundScheduler()
-
-    # Add self-ping to the scheduler, for example, every 15 seconds
-    scheduler.add_job(self_ping, IntervalTrigger(seconds=15))  # Self-ping every 15 seconds
-    
-    # Start the scheduler
+    scheduler.add_job(self_ping, IntervalTrigger(seconds=15))  # Ping every 15 seconds
     scheduler.start()
     logger.info("Scheduler started.")
 
-    # Shut down the scheduler when exiting the app
+    # Ensure scheduler shuts down properly on exit
     atexit.register(lambda: scheduler.shutdown())
 
-# Call start() to run the scheduler
 if __name__ == "__main__":
     start()
