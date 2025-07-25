@@ -10,8 +10,8 @@ logging.basicConfig(level=logging.INFO)
 
 # List of URLs to self-ping
 PING_URLS = [
-    'https://codespikestudio.onrender.com/',
-    'https://iron-suite.onrender.com/'
+    'https://codespikestudiobase.onrender.com/',
+    'https://iron-board.onrender.com/'
 ]
 
 def self_ping():
