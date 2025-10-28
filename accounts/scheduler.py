@@ -13,7 +13,7 @@ PING_URLS = [
     'https://codespikestudiobase.onrender.com/',
     'https://iron-board.onrender.com/',
     'https://iron-board-1zi5.onrender.com',
-    'https://task-management-system-uuzq.onrender.com',
+    'https://task-management-system-jhfi.onrender.com',
 ]
 
 def self_ping():
