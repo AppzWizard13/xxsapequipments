@@ -32,6 +32,8 @@ import zipfile
 from io import BytesIO
 from .models import Review, Banner
 from .forms import ReviewForm, BannerForm
+from django.shortcuts import render
+
 
 logger = logging.getLogger(__name__)
 
@@ -475,3 +477,7 @@ class DownloadAllMediaView(LoginRequiredMixin, View):
 
     def handle_no_permission(self):
         return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+
+
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)

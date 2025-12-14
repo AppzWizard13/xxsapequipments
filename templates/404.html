@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 - Page Not Found</title>
+
+<!-- Bootstrap 5 CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --primary-red: #dc3545;
+    --dark: #0f172a;
+    --light: #f8fafc;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #1e293b 0%, #020617 70%);
+    color: var(--light);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Stars */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(1px 1px at 70% 80%, white, transparent),
+        radial-gradient(1.5px 1.5px at 40% 60%, white, transparent),
+        radial-gradient(1px 1px at 90% 20%, white, transparent);
+    animation: twinkle 6s infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.4; }
+    to { opacity: 0.8; }
+}
+
+/* 404 */
+.error-code {
+    font-size: 10rem;
+    font-weight: 800;
+    color: var(--primary-red);
+    text-shadow:
+        0 0 20px rgba(220,53,69,.6),
+        0 0 60px rgba(220,53,69,.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Text box */
+.error-box {
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid var(--primary-red);
+    padding: 30px;
+    border-radius: 16px;
+    animation: fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Buttons */
+.btn-red {
+    background: linear-gradient(135deg, #dc3545, #ff4d5a);
+    border: none;
+    color: white;
+    padding: 12px 34px;
+    font-weight: 600;
+    transition: all .3s ease;
+}
+
+.btn-red:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(220,53,69,.4);
+}
+
+.btn-outline-light:hover {
+    background: white;
+    color: #020617;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container position-relative">
+    <div class="row align-items-center justify-content-center text-center text-md-start">
+        
+        <!-- 404 -->
+        <div class="col-md-6 mb-4 mb-md-0 text-center">
+            <div class="error-code">404</div>
+        </div>
+
+        <!-- Message -->
+        <div class="col-md-5">
+            <div class="error-box">
+                <h2 class="fw-bold mb-3">Lost in Space 🚀</h2>
+                <p class="lead mb-4">
+                    The page you’re searching for drifted into the void.
+                    It may have been moved, deleted, or never existed.
+                </p>
+
+                <div class="d-flex gap-3 flex-wrap justify-content-center justify-content-md-start">
+                    <a href="/" class="btn btn-red rounded-pill">Back Home</a>
+                    <!-- <a href="/contact" class="btn btn-outline-light rounded-pill">Report Issue</a> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

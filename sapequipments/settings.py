@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-36#s_0_%3y9r$_y_gtkto-0toii4-updm)^8p5)1&l^_+2tb+x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -138,38 +139,30 @@ LOGOUT_REDIRECT_URL = '/login/'  # Redirects to login page after logout
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 
 # MEDIAFILE
 MEDIA_URL = '/media/'
-
-
 MEDIA_DIRS = [ os.path.join(BASE_DIR, 'media') ]
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'sapequipments',
-    'API_KEY': '628779972621648',
-    'API_SECRET': 'sNLM0EYtycdFW5xmFx63_Prqn4k'
-}
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': 'sapequipments',
+#     'API_KEY': '628779972621648',
+#     'API_SECRET': 'sNLM0EYtycdFW5xmFx63_Prqn4k'
+# }
 # CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@dmwtvzith
 # CLOUDINARY_URL=cloudinary://CLOUDINARY_API_KEY:CLOUDINARY_API_SECRET@dmwtvzith
 
 USERNAME_PREFIX = "EMP"
-
-
-STATICFILES_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# STATICFILES_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
