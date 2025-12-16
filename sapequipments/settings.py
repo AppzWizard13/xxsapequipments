@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-36#s_0_%3y9r$_y_gtkto-0toii4-updm)^8p5)1&l^_+2tb+x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -156,13 +159,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': 'sapequipments',
-#     'API_KEY': '628779972621648',
-#     'API_SECRET': 'sNLM0EYtycdFW5xmFx63_Prqn4k'
-# }
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": "sapequipments",
+    "API_KEY": "628779972621648",
+    "API_SECRET": "sNLM0EYtycdFW5xmFx63_Prqn4k",
+}
 # CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@dmwtvzith
 # CLOUDINARY_URL=cloudinary://CLOUDINARY_API_KEY:CLOUDINARY_API_SECRET@dmwtvzith
 
 USERNAME_PREFIX = "EMP"
-# STATICFILES_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
