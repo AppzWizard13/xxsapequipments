@@ -1,2444 +1,2440 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-	<!-- Google Tag Manager -->
-	<script>
-		(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-		'https://www.googletagmanager.com/gtm.js?id=GTM-KGTTZXV7'+dl;
-		f.parentNode.insertBefore(j,f);
-		})(window,document,'script','dataLayer','GTM-KGTTZXV7');
-	</script>
-	<!-- End Google Tag Manager -->
+	{% load static %}
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<!-- 1. GTM Script placed at the very top of Head -->
+		<script>
+			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id=GTM-KGTTZXV7'+dl;
+			f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-KGTTZXV7');
+		</script>
+		<!-- End Google Tag Manager -->
 
-    <title>SAP Equipments & Tools</title>
-    <meta charset="utf-8">
-	<link rel="icon" type="image/png" href="{% static 'images/main_logo.png' %}">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
- 
-    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
-
-    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
-    <link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
-
-    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-	<style>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
-		/* Define Theme Variables */
-		body {
-		font-family: 'Poppins', sans-serif !important;
-		}
+		<!-- 2. Wrap Meta and Title in a block so children can extend them without deleting GTM -->
+		{% block metatags %}
+		<title>{% block title %}SAP Equipments & Tools{% endblock %}</title>
+		<link rel="icon" type="image/png" href="{% static 'images/main_logo.png' %}">
+		{% endblock %}
 
-		body {
-			width: 100%; /* Adjust width to compensate for the scale */
-			height: 90%;
-			transform-origin: top left; /* Ensure the scaling starts from the top-left corner */
-			{% comment %} zoom: 0.8;  {% endcomment %}
-			margin: 0; /* Remove default margin */
-			overflow: auto; /* Prevent scrollbars from appearing */
-			margin-bottom: -1437px;
-		}
-		h1, h2, h3, h4, h5, h6 {
-		font-family: 'Poppins', sans-serif;
-		font-weight: 600;
-		}
-		
-		p, span, a, button {
-		font-family: 'Poppins', sans-serif;
-		font-weight: 400;
-		}
-		/* Apply Poppins globally */
+		<!-- CSS Assets -->
+		<link href="fonts.googleapis.com" rel="stylesheet">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+		<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+		<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+		<link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
+		<link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<style>
+			
+			/* Define Theme Variables */
+			body {
+			font-family: 'Poppins', sans-serif !important;
+			}
 
-		:root {
-			--primary-red: #ff0000; /* Power Red */
-			--light-gray: #a3a3a3; /* Light metallic gray */
-			--text-light: #f2f2f2; /* Near white text */
-			--charcoal-dark: #3d3d3d; /* Dark accent */
-			--button-hover-red: #b80c0c; /* Button hover effect */
-		}
-		
-		/* Global Background */
-		body {
-			{% comment %} background: linear-gradient(to right, var(--light-gray), var(--charcoal-dark)); {% endcomment %}
-			color: var(--charcoal-dark);
+			body {
+				width: 100%; /* Adjust width to compensate for the scale */
+				height: 90%;
+				transform-origin: top left; /* Ensure the scaling starts from the top-left corner */
+				{% comment %} zoom: 0.8;  {% endcomment %}
+				margin: 0; /* Remove default margin */
+				overflow: auto; /* Prevent scrollbars from appearing */
+				margin-bottom: -1437px;
+			}
+			h1, h2, h3, h4, h5, h6 {
 			font-family: 'Poppins', sans-serif;
-		}
-		
-		/* Headings */
-		h1, h2, h3 {
-			color: #020101 !important;
-			font-weight: 700;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-		}
-		
-		/* Subheadings */
-		.subheading {
-			color: var(--primary-red); !important;
-			font-size: 18px;
-		}
-		.heading{
-			color: #ff0000 !important;
-		}
-
-		
-		/* Navbar */
-		.navbar {
-			{% comment %} border-bottom: 3px solid var(--primary-red); {% endcomment %}
-			{% comment %} border-top: 1px solid var(--light-gray); {% endcomment %}
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-		  }
-		
-		/* Ensures all text inside the navbar is white */
-		.navbar, 
-		.navbar a, 
-		.navbar .nav-link, 
-		.navbar .navbar-brand, 
-		.navbar .navbar-toggler-icon, 
-		.navbar .dropdown-menu, 
-		.navbar .dropdown-item {
-			color: black !important;
-		}
-		
-		/* Ensures navbar brand/logo text is white */
-		.navbar-brand {
-			font-size: 20px;
-			font-weight: bold;
-			color: white !important;
-		}
-		
-		/* Navbar links hover effect */
-		.navbar .nav-link:hover,
-		.navbar .dropdown-item:hover {
-			{% comment %} color: var(--primary-red) !important; {% endcomment %}
-		}
-		
-
-		
-		/* Ensures dropdown menu has a dark background */
-		.navbar .dropdown-menu {
-			background: white !important;
-			border: none;
-			z-index: 20 !important; /* Ensures it appears above other elements */
-			position: absolute !important; /* Helps ensure proper stacking */
-		}
-		
-		/* Ensures dropdown items are white */
-		.navbar .dropdown-item {
-			color: white !important;
-		}
-		
-		/* Navbar toggler (mobile menu button) */
-		.navbar-toggler {
-			border: none !important;
-			z-index: 30 !important; /* Keeps it on top */
-		}
-		
-		/* Navbar toggler icon (hamburger menu) */
-		.navbar-toggler-icon {
-			filter: invert(1); /* Makes it white */
-		}
-		
-		/* Ensures navbar is above the slider */
-		.navbar {
-			position: relative;
-			z-index: 50 !important;
-		}
-		.nav-item.active .nav-link {
-			color: white !important;
-			font-weight: 600 !important; /* Make the text bold */
-		}
-
-		.nav-item.active .nav-link {
-			color: white !important;
-			font-weight: 600 !important; /* Make the text bold */
-		}
-		.ftco-navbar-light .navbar-nav > .nav-item > .nav-link{
-			font-weight: 600 !important; /* Make the text bold */
-		}
-		
-		
-		
-		/* Buttons */
-		.btn-primary {
-			background: var(--primary-red) !important;
-			border: none;
-			color: white !important;
-			font-weight: bold;
-			padding: 12px 24px;
-			border-radius: 4px;
-			text-transform: uppercase;
-			transition: all 0.3s ease-in-out;
-			box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-		}
-		.services .icon {
-			background: var(--charcoal-dark) !important;
-		}
-		.bg-intro{
-			background: var(--charcoal-dark) !important;
-		}
-		.bg-intro:after{
-			background: white !important;
-		}
-		.intro {
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		  }
-
-		.bg-catelogue {
-			background: var(--primary-red) !important;
-			border: none;
-			color: white !important;
-		}
-		.bg-catelogue:hover {
-			background: var(--primary-red) !important;
-			border: none;
-			color: white !important;
-		}
-		
-		
-		.btn-primary:hover {
-			background: var(--button-hover-red) !important;
-			color: white !important;
-		}
-		
-		/* Secondary Buttons */
-		.btn-secondary {
-			background: var(--light-gray) !important;
-			color: black !important;
-			border: none;
-		}
-		
-		.btn-secondary:hover {
-			background: var(--primary-red) !important;
-			color: white !important;
-		}
-		
-		/* Cards */
-		.card {
-			background: var(--text-light);
-			border: 2px solid var(--charcoal-dark);
-			border-radius: 8px;
-			box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-			color: black;
-			padding: 20px;
-		}
-		
-		/* Footer */
-		.footer {
-			background: var(--charcoal-dark);
-			color: var(--text-light);
-			padding: 20px;
-			text-align: center;
-		}
-		/* Product Section Background */
-		.custom-product-section {
-			padding: 50px 0 !important;
-		}
-
-		/* Product Grid */
-		.product-grid {
-			display: grid !important;
-		
-			gap: 20px !important;
-			justify-content: center !important;
-		}
-
-		/* Product Card */
-		.blog-entry {
-			color: var(--charcoal-dark);
-			border-radius: 5px !important;
-			overflow: hidden !important;
-			transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out !important;
-			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important;
-		}
-
-		/* Product Image */
-		.blog-entry .block-20 {
-			display: block !important;
-			width: 100% !important;
-			height: 220px !important; /* Fixed height for uniformity */
-			overflow: hidden !important;
-			border-bottom: 3px solid var(--primary-red) !important;
-		}
-
-		.blog-entry .block-20 img {
-			width: 100% !important;
-			height: 100% !important;
-			object-fit: cover !important; /* Ensure images maintain aspect ratio */
-			transition: transform 0.3s ease-in-out !important;
-		}
-
-		/* Image Hover Effect */
-		.blog-entry:hover .block-20 img {
-			transform: scale(1.1) !important; /* Zoom effect */
-		}
-
-		/* Product Text */
-		.blog-entry .text {
-			padding: 15px !important;
-			text-align: left !important;
-			color: black !important;
-		}
-
-		/* Product Title */
-		.blog-entry .heading a {
-			font-size: 15px !important;
-			font-weight: bold !important;
-			text-transform: uppercase !important;
-			transition: color 0.3s ease-in-out !important;
-		}
-
-		.blog-entry .heading a:hover {
-			color: var(--primary-red) !important;
-		}
-
-		/* Product Description */
-		.blog-entry p {
-			font-size: 14px !important;
-			{% comment %} color: #d1d1d1 !important; {% endcomment %}
-			margin-bottom: 10px !important;
-		}
-
-		/* Price */
-		.blog-entry p strong {
-			color: var(--primary-red) !important;
-			font-weight: bold !important;
-		}
-
-		/* Hover Effect */
-		.blog-entry:hover {
-			transform: translateY(-5px) !important;
-			box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3) !important;
-		}
-
-
-
-		/* Section Heading */
-		.heading-section-white h2 {
-			font-size: 28px !important;
-			font-weight: bold !important;
-			color: #020101 !important;
-		}
-
-		/* Testimonial Card */
-		.testimony-wrap {
-			background: white !important;
-			border-radius: 10px !important;
-			padding: 20px !important;
-			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
-			transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
-		}
-
-		/* Quote Icon */
-		.testimony-wrap .icon {
-			font-size: 24px !important;
-			color: var(--primary-red) !important;
-		}
-
-		/* Testimonial Text */
-		.testimony-wrap .text {
-			font-size: 16px !important;
-			color: #555 !important;
-		}
-
-		/* User Image */
-		.testimony-wrap .user-img {
-			width: 50px !important;
-			height: 50px !important;
-			border-radius: 50% !important;
-			background-size: cover !important;
-			background-position: center !important;
-			border: 2px solid var(--primary-red) !important;
-		}
-
-		/* User Name */
-		.testimony-wrap .name {
-			font-size: 18px !important;
-			font-weight: bold !important;
-			color: #222 !important;
-		}
-
-		/* User Position */
-		.testimony-wrap .position {
-			font-size: 14px !important;
-			color: #777 !important;
-		}
-
-		/* Hover Effect */
-		.testimony-wrap:hover {
-			transform: translateY(-3px) !important;
-			box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15) !important;
-		}
-		.ftco-heading-2{
-			color:grey !important;
-			font-size: 16px !important;
-		}
-		/* Tab navigation styles */
-		.nav-pills .nav-link {
-			border-radius: 8px;
-			transition: all 0.3s ease;
-		}
-		.nav-pills .nav-link.active {
-			background-color: #d8232a !important;
-			color: #fff !important;
-			box-shadow: 0px 4px 10px rgba(216, 35, 42, 0.3);
-		}
-		.nav-pills .nav-link:hover {
-			background-color: #d8232a !important;
-			color: #fff !important;
-		}
-	
-		/* Tab Navigation */
-		.nav-pills .nav-link {
-			font-size: 16px !important;
-			font-weight: bold !important;
-			{% comment %} color: white !important; {% endcomment %}
-			text-transform: uppercase !important;
-			background-color: var(--primary-dark) !important;
-			transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out !important;
-			border-radius: 8px !important;
-			padding: 10px 15px !important;
-		}
-		
-		.nav-pills .nav-link.active,
-		.nav-pills .nav-link:hover {
-			background-color: var(--primary-red) !important;
-			color: #fff !important;
-			box-shadow: 0px 4px 10px rgba(216, 35, 42, 0.3) !important;
-		}
-		
-		/* Tab Content */
-		.tab-content {
-			border-radius: 10px !important;
-			background: white !important;
-			color: black !important;
-			padding: 20px !important;
-			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3) !important;
-		}
-		
-		.tab-content-inner p {
-			font-size: 14px !important;
-			color: black !important;
-		}
-		
-		.tab-content-inner ul li {
-			font-size: 14px !important;
-			color: black !important;
-			margin-bottom: 8px !important;
-		}
-		
-		/* Hover Effects */
-		.tab-content-inner p strong,
-		.tab-content-inner ul li strong {
-			color: var(--primary-red) !important;
-		}
-		
-		.tab-content-inner p.text-secondary {
-			font-style: italic !important;
-			color: #999 !important;
-		}
-		.blog-entry {
-			display: flex;
-			flex-direction: column;
-			height: 100%;
-			background: #fff;
-			border-radius: 8px;
-			overflow: hidden;
-			box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-			transition: transform 0.3s ease-in-out;
-		}
-		
-		.blog-entry:hover {
-			transform: translateY(-5px);
-			box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
-		}
-		
-		.blog-entry .text {
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-			padding: 15px;
-		}
-		
-		.blog-entry .heading a {
-			font-size: 18px;
-			font-weight: bold;
-			color: black;
-			text-transform: uppercase;
-			text-align: center;
-			transition: color 0.3s ease-in-out;
-		}
-		
-		.blog-entry .heading a:hover {
-			color: var(--primary-red);
-		}
-		
-		.blog-entry p {
-			font-size: 14px;
-			color: #555;
-			margin-bottom: 10px;
-			text-align: center;
-		}
-		
-		.blog-entry p strong {
-			color: var(--primary-red);
-			font-weight: bold;
-		}
-		.ftco-counter{
-			background: #202020 !important;
-		}
-		.wrap .top-wrap .text{
-			color: lightgrey;
-			font-weight:bolder !important;
-		}
-		.wrap{
-			background: #f7f7f7  !important;
-		}
-		.navbar, .navbar a, .navbar .nav-link, .navbar .navbar-brand, .navbar .navbar-toggler-icon, .navbar .dropdown-menu, .navbar .dropdown-item {
-			color: black !important;
-		}
-		
-		.navbar .nav-link:hover, .navbar .nav-link:focus, .navbar .dropdown-item:hover, .navbar .dropdown-item:focus {
-			color: white !important;
-		}
-		
-		.logo-img {
-			max-height: 60px; /* Adjust as needed */
-			width: auto;
-		}
-		.footer .ftco-footer-widget h2{
-			margin-bottom: 10px !important;
-		}
-		.dropdown-submenu {
-			position: relative;
-		}
-		
-		.dropdown-submenu .dropdown-menu {
-			top: 0;
-			left: 100%;
-			margin-top: -1px;
-			display: none;
-		}
-		
-		.dropdown-submenu .dropdown-menu.show {
-			display: block;
-		}
-		/* Ensure the logo and company name are on the same line */
-		.navbar-brand {
-			display: flex;
-			align-items: center;
-			justify-content: flex-start;
-		}
-
-		.logo-img {
-			margin-right: 8px; /* Add some space between the logo and the company name */
-		}
-
-		.company-name {
-			white-space: nowrap; /* Prevent the company name from wrapping to a new line */
-			font-weight: bolder !important;
-			font-size: 35px !important;
-		}
-		@media (max-width: 1390px) {
-			.company-name {
-				text-align: bottom; /* Center-align the company name */
-				font-weight: bolder;
-				font-size: 20px !important;
+			font-weight: 600;
 			}
-		}
-		@media (max-width: 1390px) {
-			.company-name {
-				text-align: bottom; /* Center-align the company name */
-				font-weight: bolder;
-				font-size: 20px !important;
-				margin-left:10px  !important;
+			
+			p, span, a, button {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 400;
 			}
-		}
+			/* Apply Poppins globally */
 
-		/* Responsive adjustments for mobile view */
-		@media (max-width: 768px) {
+			:root {
+				--primary-red: #ff0000; /* Power Red */
+				--light-gray: #a3a3a3; /* Light metallic gray */
+				--text-light: #f2f2f2; /* Near white text */
+				--charcoal-dark: #3d3d3d; /* Dark accent */
+				--button-hover-red: #b80c0c; /* Button hover effect */
+			}
+			
+			/* Global Background */
+			body {
+				{% comment %} background: linear-gradient(to right, var(--light-gray), var(--charcoal-dark)); {% endcomment %}
+				color: var(--charcoal-dark);
+				font-family: 'Poppins', sans-serif;
+			}
+			
+			/* Headings */
+			h1, h2, h3 {
+				color: #020101 !important;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+			}
+			
+			/* Subheadings */
+			.subheading {
+				color: var(--primary-red); !important;
+				font-size: 18px;
+			}
+			.heading{
+				color: #ff0000 !important;
+			}
+
+			
+			/* Navbar */
+			.navbar {
+				{% comment %} border-bottom: 3px solid var(--primary-red); {% endcomment %}
+				{% comment %} border-top: 1px solid var(--light-gray); {% endcomment %}
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+			}
+			
+			/* Ensures all text inside the navbar is white */
+			.navbar, 
+			.navbar a, 
+			.navbar .nav-link, 
+			.navbar .navbar-brand, 
+			.navbar .navbar-toggler-icon, 
+			.navbar .dropdown-menu, 
+			.navbar .dropdown-item {
+				color: black !important;
+			}
+			
+			/* Ensures navbar brand/logo text is white */
 			.navbar-brand {
-				flex-direction: column; /* Stack the logo and company name vertically on small screens */
-				align-items: center; /* Center-align the items */
+				font-size: 20px;
+				font-weight: bold;
+				color: white !important;
+			}
+			
+			/* Navbar links hover effect */
+			.navbar .nav-link:hover,
+			.navbar .dropdown-item:hover {
+				{% comment %} color: var(--primary-red) !important; {% endcomment %}
+			}
+			
+
+			
+			/* Ensures dropdown menu has a dark background */
+			.navbar .dropdown-menu {
+				background: white !important;
+				border: none;
+				z-index: 20 !important; /* Ensures it appears above other elements */
+				position: absolute !important; /* Helps ensure proper stacking */
+			}
+			
+			/* Ensures dropdown items are white */
+			.navbar .dropdown-item {
+				color: white !important;
+			}
+			
+			/* Navbar toggler (mobile menu button) */
+			.navbar-toggler {
+				border: none !important;
+				z-index: 30 !important; /* Keeps it on top */
+			}
+			
+			/* Navbar toggler icon (hamburger menu) */
+			.navbar-toggler-icon {
+				filter: invert(1); /* Makes it white */
+			}
+			
+			/* Ensures navbar is above the slider */
+			.navbar {
+				position: relative;
+				z-index: 50 !important;
+			}
+			.nav-item.active .nav-link {
+				color: white !important;
+				font-weight: 600 !important; /* Make the text bold */
+			}
+
+			.nav-item.active .nav-link {
+				color: white !important;
+				font-weight: 600 !important; /* Make the text bold */
+			}
+			.ftco-navbar-light .navbar-nav > .nav-item > .nav-link{
+				font-weight: 600 !important; /* Make the text bold */
+			}
+			
+			
+			
+			/* Buttons */
+			.btn-primary {
+				background: var(--primary-red) !important;
+				border: none;
+				color: white !important;
+				font-weight: bold;
+				padding: 12px 24px;
+				border-radius: 4px;
+				text-transform: uppercase;
+				transition: all 0.3s ease-in-out;
+				box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+			}
+			.services .icon {
+				background: var(--charcoal-dark) !important;
+			}
+			.bg-intro{
+				background: var(--charcoal-dark) !important;
+			}
+			.bg-intro:after{
+				background: white !important;
+			}
+			.intro {
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			}
+
+			.bg-catelogue {
+				background: var(--primary-red) !important;
+				border: none;
+				color: white !important;
+			}
+			.bg-catelogue:hover {
+				background: var(--primary-red) !important;
+				border: none;
+				color: white !important;
+			}
+			
+			
+			.btn-primary:hover {
+				background: var(--button-hover-red) !important;
+				color: white !important;
+			}
+			
+			/* Secondary Buttons */
+			.btn-secondary {
+				background: var(--light-gray) !important;
+				color: black !important;
+				border: none;
+			}
+			
+			.btn-secondary:hover {
+				background: var(--primary-red) !important;
+				color: white !important;
+			}
+			
+			/* Cards */
+			.card {
+				background: var(--text-light);
+				border: 2px solid var(--charcoal-dark);
+				border-radius: 8px;
+				box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+				color: black;
+				padding: 20px;
+			}
+			
+			/* Footer */
+			.footer {
+				background: var(--charcoal-dark);
+				color: var(--text-light);
+				padding: 20px;
+				text-align: center;
+			}
+			/* Product Section Background */
+			.custom-product-section {
+				padding: 50px 0 !important;
+			}
+
+			/* Product Grid */
+			.product-grid {
+				display: grid !important;
+			
+				gap: 20px !important;
+				justify-content: center !important;
+			}
+
+			/* Product Card */
+			.blog-entry {
+				color: var(--charcoal-dark);
+				border-radius: 5px !important;
+				overflow: hidden !important;
+				transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out !important;
+				box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important;
+			}
+
+			/* Product Image */
+			.blog-entry .block-20 {
+				display: block !important;
+				width: 100% !important;
+				height: 220px !important; /* Fixed height for uniformity */
+				overflow: hidden !important;
+				border-bottom: 3px solid var(--primary-red) !important;
+			}
+
+			.blog-entry .block-20 img {
+				width: 100% !important;
+				height: 100% !important;
+				object-fit: cover !important; /* Ensure images maintain aspect ratio */
+				transition: transform 0.3s ease-in-out !important;
+			}
+
+			/* Image Hover Effect */
+			.blog-entry:hover .block-20 img {
+				transform: scale(1.1) !important; /* Zoom effect */
+			}
+
+			/* Product Text */
+			.blog-entry .text {
+				padding: 15px !important;
+				text-align: left !important;
+				color: black !important;
+			}
+
+			/* Product Title */
+			.blog-entry .heading a {
+				font-size: 15px !important;
+				font-weight: bold !important;
+				text-transform: uppercase !important;
+				transition: color 0.3s ease-in-out !important;
+			}
+
+			.blog-entry .heading a:hover {
+				color: var(--primary-red) !important;
+			}
+
+			/* Product Description */
+			.blog-entry p {
+				font-size: 14px !important;
+				{% comment %} color: #d1d1d1 !important; {% endcomment %}
+				margin-bottom: 10px !important;
+			}
+
+			/* Price */
+			.blog-entry p strong {
+				color: var(--primary-red) !important;
+				font-weight: bold !important;
+			}
+
+			/* Hover Effect */
+			.blog-entry:hover {
+				transform: translateY(-5px) !important;
+				box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3) !important;
+			}
+
+
+
+			/* Section Heading */
+			.heading-section-white h2 {
+				font-size: 28px !important;
+				font-weight: bold !important;
+				color: #020101 !important;
+			}
+
+			/* Testimonial Card */
+			.testimony-wrap {
+				background: white !important;
+				border-radius: 10px !important;
+				padding: 20px !important;
+				box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
+				transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+			}
+
+			/* Quote Icon */
+			.testimony-wrap .icon {
+				font-size: 24px !important;
+				color: var(--primary-red) !important;
+			}
+
+			/* Testimonial Text */
+			.testimony-wrap .text {
+				font-size: 16px !important;
+				color: #555 !important;
+			}
+
+			/* User Image */
+			.testimony-wrap .user-img {
+				width: 50px !important;
+				height: 50px !important;
+				border-radius: 50% !important;
+				background-size: cover !important;
+				background-position: center !important;
+				border: 2px solid var(--primary-red) !important;
+			}
+
+			/* User Name */
+			.testimony-wrap .name {
+				font-size: 18px !important;
+				font-weight: bold !important;
+				color: #222 !important;
+			}
+
+			/* User Position */
+			.testimony-wrap .position {
+				font-size: 14px !important;
+				color: #777 !important;
+			}
+
+			/* Hover Effect */
+			.testimony-wrap:hover {
+				transform: translateY(-3px) !important;
+				box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15) !important;
+			}
+			.ftco-heading-2{
+				color:grey !important;
+				font-size: 16px !important;
+			}
+			/* Tab navigation styles */
+			.nav-pills .nav-link {
+				border-radius: 8px;
+				transition: all 0.3s ease;
+			}
+			.nav-pills .nav-link.active {
+				background-color: #d8232a !important;
+				color: #fff !important;
+				box-shadow: 0px 4px 10px rgba(216, 35, 42, 0.3);
+			}
+			.nav-pills .nav-link:hover {
+				background-color: #d8232a !important;
+				color: #fff !important;
+			}
+		
+			/* Tab Navigation */
+			.nav-pills .nav-link {
+				font-size: 16px !important;
+				font-weight: bold !important;
+				{% comment %} color: white !important; {% endcomment %}
+				text-transform: uppercase !important;
+				background-color: var(--primary-dark) !important;
+				transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out !important;
+				border-radius: 8px !important;
+				padding: 10px 15px !important;
+			}
+			
+			.nav-pills .nav-link.active,
+			.nav-pills .nav-link:hover {
+				background-color: var(--primary-red) !important;
+				color: #fff !important;
+				box-shadow: 0px 4px 10px rgba(216, 35, 42, 0.3) !important;
+			}
+			
+			/* Tab Content */
+			.tab-content {
+				border-radius: 10px !important;
+				background: white !important;
+				color: black !important;
+				padding: 20px !important;
+				box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3) !important;
+			}
+			
+			.tab-content-inner p {
+				font-size: 14px !important;
+				color: black !important;
+			}
+			
+			.tab-content-inner ul li {
+				font-size: 14px !important;
+				color: black !important;
+				margin-bottom: 8px !important;
+			}
+			
+			/* Hover Effects */
+			.tab-content-inner p strong,
+			.tab-content-inner ul li strong {
+				color: var(--primary-red) !important;
+			}
+			
+			.tab-content-inner p.text-secondary {
+				font-style: italic !important;
+				color: #999 !important;
+			}
+			.blog-entry {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				background: #fff;
+				border-radius: 8px;
+				overflow: hidden;
+				box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+				transition: transform 0.3s ease-in-out;
+			}
+			
+			.blog-entry:hover {
+				transform: translateY(-5px);
+				box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+			}
+			
+			.blog-entry .text {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				padding: 15px;
+			}
+			
+			.blog-entry .heading a {
+				font-size: 18px;
+				font-weight: bold;
+				color: black;
+				text-transform: uppercase;
+				text-align: center;
+				transition: color 0.3s ease-in-out;
+			}
+			
+			.blog-entry .heading a:hover {
+				color: var(--primary-red);
+			}
+			
+			.blog-entry p {
+				font-size: 14px;
+				color: #555;
+				margin-bottom: 10px;
+				text-align: center;
+			}
+			
+			.blog-entry p strong {
+				color: var(--primary-red);
+				font-weight: bold;
+			}
+			.ftco-counter{
+				background: #202020 !important;
+			}
+			.wrap .top-wrap .text{
+				color: lightgrey;
+				font-weight:bolder !important;
+			}
+			.wrap{
+				background: #f7f7f7  !important;
+			}
+			.navbar, .navbar a, .navbar .nav-link, .navbar .navbar-brand, .navbar .navbar-toggler-icon, .navbar .dropdown-menu, .navbar .dropdown-item {
+				color: black !important;
+			}
+			
+			.navbar .nav-link:hover, .navbar .nav-link:focus, .navbar .dropdown-item:hover, .navbar .dropdown-item:focus {
+				color: white !important;
+			}
+			
+			.logo-img {
+				max-height: 60px; /* Adjust as needed */
+				width: auto;
+			}
+			.footer .ftco-footer-widget h2{
+				margin-bottom: 10px !important;
+			}
+			.dropdown-submenu {
+				position: relative;
+			}
+			
+			.dropdown-submenu .dropdown-menu {
+				top: 0;
+				left: 100%;
+				margin-top: -1px;
+				display: none;
+			}
+			
+			.dropdown-submenu .dropdown-menu.show {
+				display: block;
+			}
+			/* Ensure the logo and company name are on the same line */
+			.navbar-brand {
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
 			}
 
 			.logo-img {
-				margin-right: 0; /* Remove horizontal margin */
-				margin-bottom: 4px; /* Add some vertical space between the logo and company name */
+				margin-right: 8px; /* Add some space between the logo and the company name */
 			}
 
 			.company-name {
-				text-align: bottom; /* Center-align the company name */
-				font-weight: bolder;
-				font-size: 16px !important;
+				white-space: nowrap; /* Prevent the company name from wrapping to a new line */
+				font-weight: bolder !important;
+				font-size: 35px !important;
 			}
-		}
-		.social-media {
-			display: flex;
-			align-items: center; /* Vertically center the social media icons */
-		  }
-		  
-		  .social-media div {
-			display: flex;
-			flex-direction: column; /* Stack the icons vertically */
-			align-items: flex-end; /* Align the icons to the end (right side) */
-		  }
-		  
-		  .social-media a {
-			margin-bottom: 10px; /* Add some space between the icons */
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		  }
-		  
-		  .social-media span {
-			background-color: transparent !important;
-		  }
-		  .ftco-navbar-light {
-			background: white !important;
-			color: black !important;
-		}
-		.ftco-navbar-light .navbar-toggler{
-			color: black !important;
-		}
-	
-
-	</style> 
-	
-  </head>
-  <body>
-
-		<!-- Google Tag Manager (noscript) -->
-		<noscript>
-			<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGTTZXV7" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-		</noscript>
-		<!-- End Google Tag Manager (noscript) -->
-
-		<div class="wrap" style="padding-block: 25px !important;">
-	    <div class="container-fluid">
-				<div class="row justify-content" style="justify-content: space-evenly !important">
-					<div class="col-md-6 d-flex align-items-center">
-						<a class="navbar-brand mb-3" href="{% url 'home' %}">
-							<img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
-							<span class="company-name pt-3 pl-3 pr-5 ">SAP EQUIPMENTS & TOOLS </span>
-						</a>
-					</div>
-					
-					<div class="col-md-4">
-						<style>
-						  .black-text {
-							color: black !important;
-						  }
-						</style>
-						
-						<div class="row mx-5 ml-5">
-							<div class="mx-0 px-0 col ml-3">
-								<div class="top-wrap d-flex">
-								  {% comment %} <div class="icon d-flex align-items-center justify-content-center black-text"><span class="fa fa-location-arrow"></span></div> {% endcomment %}
-								  <div class="text">
-									<strong class="black-text">Address</strong>
-									<span style="font-size:10px;" class="black-text">APA Building, S.F. No. 65/2,Mahathmagandhi Road, Nethajipuram,<br> Neelikonampalayam Post,<br> Coimbatore- 641033</span>
-								  </div>
-								</div>
-							  </div>
-							  <div class="mx-0 px-0 col ml-1">
-								<div class="top-wrap d-flex">
-								  <div class="text">
-									<strong class="black-text">Call us</strong>
-									<span class="black-text">+91 9940100506</span>
-								  </div>
-								</div>
-								<div class="top-wrap d-flex">
-								  <div class="text">
-									<strong class="black-text">GSTIN</strong>
-									<span class="black-text">33BHTPR6598F1ZI</span>
-								  </div>
-								</div>
-							  </div>
-						  <div class="mx-0 px-0 col-auto">
-							<div class="social-media">
-							  <div class="d-flex flex-column align-items-end">
-								<a href="https://www.facebook.com/share/1C9Ek4FTJW/" class="d-flex align-items-center justify-content-center black-text">
-								  <span style="background-color: transparent !important; height:20px !important; weight:20px !important;" class="fab fa-facebook black-text">
-									<i class="sr-only">Facebook</i>
-								  </span>
-								</a>
-								<a href="https://youtube.com/@sapequipmentandtoolscoimbatore?si=0qKYIzJDYqfo82W8" class="d-flex align-items-center justify-content-center black-text">
-								  <span style="background-color: transparent !important; height:20px !important; weight:20px !important;" class="fab fa-youtube black-text">
-									<i class="sr-only">Youtube</i>
-								  </span>
-								</a>
-								<a href="https://www.instagram.com/sapet.cbe?igsh=bTEzM3F1cW5hbXRm" class="d-flex align-items-center justify-content-center black-text">
-								  <span style="background-color: transparent !important; height:20px !important; weight:20px !important;" class="fab fa-instagram black-text">
-									<i class="sr-only">Instagram</i>
-								  </span>
-								</a>
-							  </div>
-							</div>
-						  </div>
-						</div>
-					  </div>
-
-				</div>
-			</div>
-		</div>
-		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-			<div class="container">
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="fa fa-bars " style="color:black"></span> Menu
-				</button>
-				<div class="collapse navbar-collapse" id="ftco-nav">
-					<!-- Close button for mobile menu -->
-					<button type="button" class="close-menu d-lg-none" aria-label="Close menu">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-							<a href="{% url 'home' %}" class="nav-link">Home</a>
-						</li>
-						<li  class="nav-item {% if request.resolver_match.url_name == 'services' %}active{% endif %}">
-							<a style="color:black!important;" href="{% url 'services' %}" class="nav-link">Services</a>
-						</li>
-						<li class="nav-item {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
-							<a style="color:black!important;" href="{% url 'about' %}" class="nav-link">About</a>
-						</li>
-						<li class="nav-item d-block d-lg-none">
-							<a href="#" class="nav-link" role="button" data-toggle="modal" data-target="#appointmentModal" aria-expanded="false">
-								Enquire Now
-							</a>
-						</li>
-						{% if categories_with_products %}
-						<!-- Mega Dropdown Menu - Modified for mobile -->
-						<li class="nav-item dropdown mega-dropdown">
-							<a class="nav-link dropdown-toggle" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="pointer-events: none;">
-								Products 
-							  </a>
-							<div class="dropdown-menu mega-menu p-4" aria-labelledby="categoriesDropdown">
-								<div class="container-fluid" style="position:relative !important;">
-									<div class="row">
-										<!-- Categories Columns -->
-										{% for category_data in categories_with_products %}
-										<div class="col-lg-3 col-md-6 mb-3 mb-md-0 mt-3">
-											<div class="category-card">
-												<h5 class="category-title">
-													<a href="{% url 'products_by_category' category_data.category.id %}" class="text-dark" style="color:black!important;">
-														<i class="fas fa-{{ category_data.category.icon|default:'tag' }} mr-2"></i>
-														{{ category_data.category.name }}
-													</a>
-												</h5>
-												
-												<div class="category-products mt-3">
-													{% if category_data.products %}
-													{% for product in category_data.products %}
-													<a href="{% url 'product_detail' product.id %}" class="d-block py-2 product-item">
-														<div class="media">
-															<div class="media-body d-flex align-items-center">
-																<span class="bullet-in mr-2">•</span>
-																<h5 class="produc-title mt-0 mb-1">{{ product.name|truncatechars:22 }}</h5>
-															</div>
-														</div>
-													</a>
-													{% endfor %}
-													{% else %}
-													<div class="text-muted py-2" style="font-size: 0.70rem;">No products available</div>
-													{% endif %}
-												</div>
-											</div>
-										</div>
-										{% endfor %}
-									</div>
-								</div>
-							</div>
-						</li>
-						{% endif %}
-						{% if request.user.is_authenticated %}
-						<li class="nav-item d-none d-lg-block {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-							<a href="{% url 'dashboard' %}" class="nav-link">Admin Panel</a>
-						</li>
-						{% endif %}
-						<li class="nav-item d-none d-lg-block active">
-							<a href="#" class="nav-link" style="margin-left:150px;" role="button" data-toggle="modal" data-target="#appointmentModal" aria-expanded="false">
-								Enquire Now
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<style>
-			/* Style for the close button */
-			.close-menu {
-				position: absolute;
-				right: 15px;
-				top: 10px;
-				background: transparent;
-				border: none;
-				font-size: 1.5rem;
-				color: white;
-				cursor: pointer;
-				z-index: 1050;
-				display: none;
+			@media (max-width: 1390px) {
+				.company-name {
+					text-align: bottom; /* Center-align the company name */
+					font-weight: bolder;
+					font-size: 20px !important;
+				}
+			}
+			@media (max-width: 1390px) {
+				.company-name {
+					text-align: bottom; /* Center-align the company name */
+					font-weight: bolder;
+					font-size: 20px !important;
+					margin-left:10px  !important;
+				}
 			}
 
-			/* Show close button when mobile menu is open */
-			.navbar-collapse.show .close-menu {
-				display: block;
-			}
-
-			/* Adjust mega menu for mobile */
-			@media (max-width: 991px) {
-				.mega-dropdown .dropdown-menu {
-					position: static !important;
-					width: 100%;
-					margin-top: 0;
-					border: none;
-					background: #343a40;
-				}
-				
-				.mega-menu .container-fluid {
-					padding: 0;
-				}
-				
-				.mega-menu .row {
-					margin: 0;
-				}
-				
-				.mega-menu .col-lg-3 {
-					padding: 0;
-				}
-				
-				.category-card {
-					padding: 15px;
-					border-bottom: 1px solid rgba(255,255,255,0.1);
-				}
-				
-				.category-title a {
-					color: white !important;
-				}
-				
-				.product-item {
-					color: rgba(255,255,255,0.7);
-				}
-				
-				.product-item:hover {
-					color: white;
-				}
-			}
-			/* Mega Dropdown Styles */
-			.mega-dropdown {
-				position: static !important;
-			}
-			.bullet-in {
-				color: #dc3545; /* Red color to match your theme */
-				font-size: 1.2rem;
-				line-height: 1;
-			}
-			
-			.mega-menu {
-				width: 100%;
-				left: 0 !important;
-				right: 0 !important;
-				box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-				border: none !important;
-				border-radius: 0 0 8px 8px !important;
-				border-top: 3px solid #dc3545 !important;
-			}
-			
-			.category-card {
-				padding: 0 15px;
-				{% comment %} border-left: 1px solid #535353; {% endcomment %}
-			}
-			
-			.category-title {
-				font-size: 0.85rem;
-				font-weight: 00;
-				padding-bottom: 8px;
-				border-bottom: 1px dashed #cbcbcb;
-			}
-			
-			.produc-title {
-				font-size: 0.8rem !important;
-				color: black !important;
-				font-weight: 600;
-			}
-			
-			.category-title a:hover {
-				color: #dc3545 !important;
-				text-decoration: none;
-			}
-			
-			.product-item {
-				transition: all 0.2s;
-				border-radius: 4px;
-				color: #333;
-			}
-			
-			.product-item:hover {
-				background-color: red;
-				transform: translateX(3px);
-				text-decoration: none;
-			}
-			
-			/* Animation for dropdown */
-			@keyframes fadeInDropdown {
-				from { opacity: 0; transform: translateY(10px); }
-				to { opacity: 1; transform: translateY(0); }
-			}
-			
-			.mega-menu {
-				animation: fadeInDropdown 0.3s ease-out;
-			}
-			
-			/* Mobile-specific styles */
-			@media (max-width: 992px) {
-				.navbar-toggler {
-					padding: 0.5rem 0.75rem;
-					font-size: 1rem;
-				}
-				
-				.mega-menu {
-					position: fixed !important;
-					top: 56px !important;
-					left: 0 !important;
-					right: 0 !important;
-					max-height: calc(100vh - 56px);
-					overflow-y: auto;
-					z-index: 1050;
-				}
-				
-				.category-card {
-					border-left: none;
-					border-bottom: 1px solid #eee;
-					padding-bottom: 15px;
-					margin-bottom: 15px;
-				}
-				
-				.mega-menu .container-fluid {
-					padding-left: 15px;
-					padding-right: 15px;
-				}
-				
-				.mega-menu .row {
-					margin-left: -15px;
-					margin-right: -15px;
-				}
-				
-				.mega-menu [class^="col-"] {
-					padding-left: 15px;
-					padding-right: 15px;
-				}
-				
-				/* Make dropdown full width on mobile */
-				.dropdown-menu {
-					width: 100%;
-				}
-				
-				/* Adjust product items for mobile */
-				.product-item {
-					padding: 8px 0;
-				}
-				
-				/* Hide the desktop "Enquire Now" button */
-				.nav-item.d-none.d-lg-block {
-					display: none !important;
-				}
-			}
-			
-			/* For very small screens */
-			@media (max-width: 576px) {
-				.mega-menu {
-					padding: 10px !important;
-				}
-				
-				.category-card {
-					padding: 0 5px;
-				}
-				
-				.produc-title {
-					font-size: 0.7rem !important;
-				}
-			}
-		</style>
-		
-
-		<script>
-			// Close mobile menu when clicking the close button
-			document.querySelector('.close-menu').addEventListener('click', function() {
-				document.querySelector('.navbar-collapse').classList.remove('show');
-			});
-			
-			// Ensure dropdowns work on mobile
-			document.querySelectorAll('.dropdown-toggle').forEach(function(element) {
-				element.addEventListener('click', function(e) {
-					if (window.innerWidth < 992) {
-						e.preventDefault();
-						const dropdownMenu = this.nextElementSibling;
-						if (dropdownMenu.style.display === 'block') {
-							dropdownMenu.style.display = 'none';
-						} else {
-							document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
-								menu.style.display = 'none';
-							});
-							dropdownMenu.style.display = 'block';
-						}
-					}
-				});
-			});
-			
-			// Close dropdowns when clicking outside on mobile
-			document.addEventListener('click', function(e) {
-				if (window.innerWidth < 992) {
-					if (!e.target.closest('.dropdown')) {
-						document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
-							menu.style.display = 'none';
-						});
-					}
-				}
-			});
-			</script>
-		
-		<script>
-		// Optional: Close mega menu when clicking outside
-		$(document).ready(function() {
-			$(document).click(function(event) {
-				if (!$(event.target).closest('.mega-dropdown').length) {
-					$('.mega-menu').removeClass('show');
-					$('#categoriesDropdown').attr('aria-expanded', 'false');
-				}
-			});
-			
-			// Better handling for mobile dropdowns
-			if ($(window).width() < 992) {
-				$('.mega-dropdown > .dropdown-toggle').on('click', function(e) {
-					e.preventDefault();
-					$(this).parent().toggleClass('show');
-					$(this).next('.dropdown-menu').toggleClass('show');
-					$(this).attr('aria-expanded', $(this).attr('aria-expanded') === 'true' ? 'false' : 'true');
-				});
-			}
-		});
-		</script>
-		
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-{% comment %} 		
-	<script>
-		$(document).ready(function () {
-			// Navbar toggle functionality
-			$('.navbar-toggler').on('click', function () {
-				let $navCollapse = $('.navbar-collapse');
-				let isExpanded = $navCollapse.hasClass('show');
-		
-				$navCollapse.toggleClass('show', !isExpanded);
-				$(this).attr('aria-expanded', !isExpanded);
-			});
-		
-			// Close navbar when clicking outside
-			$(document).on('click', function (e) {
-				let $nav = $('.navbar-collapse');
-				if ($nav.hasClass('show') && !$(e.target).closest('.navbar-collapse, .navbar-toggler').length) {
-					$nav.removeClass('show');
-					$('.navbar-toggler').attr('aria-expanded', 'false');
-				}
-			});
-		
-			// Prevent navbar from closing when clicking inside the category dropdown
-			$('.category-item').on('click', function (e) {
-				e.preventDefault();
-				e.stopPropagation();
-		
-				let categoryId = $(this).data('category-id');
-				let $menu = $(this).next('.product-menu');
-		
-				// Hide other dropdowns
-				$('.product-menu').not($menu).hide().removeData('loaded');
-		
-				if ($menu.is(':visible')) {
-					$menu.hide();
-					
-					return;
-				}
-		
-				if (!$menu.data('loaded')) {
-					loadProducts(categoryId, $menu);
-				}
-		
-				// Position the product dropdown
-				let position = $(this).position();
-				$menu.css({
-					top: position.top,
-					left: $(this).outerWidth() + 5,
-					display: 'block'
-				});
-			});
-		
-			$(document).on('click', function (e) {
-				if (!$(e.target).closest('.dropdown-menu, .category-item').length) {
-					$('.product-menu').hide();
-				}
-			});
-		
-			function loadProducts(categoryId, $container) {
-				$container.html('<div class="dropdown-item py-2"><div class="loading-indicator"></div></div>');
-		
-				$.ajax({
-					url: `/fetch-products/${categoryId}/`,
-					method: 'GET',
-					success: function (response) {
-						if (!response || response.length === 0) {
-							$container.html('<div class="dropdown-item py-2 text-muted">No products found</div>');
-							return;
-						}
-						let items = response.map(product => `
-							<a class="dropdown-item py-2" href="/products/${product.id}/">
-								${product.name}
-								${product.price ? `<span class="float-right text-muted">$${product.price}</span>` : ''}
-							</a>
-						`);
-						$container.html(items.join('')).data('loaded', true);
-					},
-					error: function () {
-						$container.html('<div class="dropdown-item py-2 text-danger">Failed to load products</div>');
-					}
-				});
-			}
-		});
-	</script>
-    <!-- END nav -->
-	  {% endcomment %}
-
-	 <!-- Floating Action Buttons -->
-
-	 
-	<div class="fab-container">
-		<a href="https://wa.me/+919940100506" class="fab whatsapp" target="_blank">
-			<i class="fab fa-whatsapp"></i>  <!-- WhatsApp Icon -->
-		</a>
-		<a href="tel:+919940100506" class="fab phone">
-			<i class="fas fa-phone"></i>  <!-- Phone Icon -->
-		</a>
-	</div>
-
-	<!-- Include FontAwesome for Icons -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-	<!-- Floating Button Styles -->
-	<style>
-		.fab-container {
-			position: fixed;
-			bottom: 100px;
-			right: 30px;
-			display: flex;
-			flex-direction: column;
-			gap: 20px;
-			z-index: 1000;
-		}
-
-		.fab {
-			width: 60px;
-			height: 60px;
-			background-color: #25D366; /* WhatsApp Green */
-			color: white;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			text-decoration: none;
-			font-size: 24px;
-			transition: all 0.3s ease-in-out;
-		}
-
-		/* Increase only the WhatsApp icon size */
-		.fab.whatsapp i {
-			font-size: 32px; /* Bigger WhatsApp Icon */
-		}
-
-		.fab.phone {
-			background-color: #007bff; /* Blue for Phone */
-		}
-
-		.fab:hover {
-			transform: scale(1.1);
-			opacity: 0.9;
-			color: white;
-		}
-		{% comment %} .modal-backdrop {
-			background-color: transparent !important;
-		} {% endcomment %}
-
-
-
-	</style>
-
-
-	{% block content %}
-	<div class="hero-wrap">
-		<div class="custom-slider">
-			{% for banner in banners %}
-			<div class="slider-item" style="background-image: url({{ banner.image.url }});">
-				<div class="overlay"></div>
-				<div class="container">
-					{% if banner.enable_floating == True %}
-					<div class="row no-gutters slider-text align-items-center justify-content-start">
-						{% if banner.image_1 and banner.image_1.url and banner.image_1.url.strip %}
-							<img src="{{ banner.image_1.url }}" class="ds-float-img ds-float-img-1" alt="">
-						{% endif %}
-						{% if banner.image_2 and banner.image_2.url and banner.image_2.url.strip %}
-							<img src="{{ banner.image_2.url }}" class="ds-float-img ds-float-img-2" alt="">
-						{% endif %}
-						{% if banner.image_3 and banner.image_3.url and banner.image_3.url.strip %}
-							<img src="{{ banner.image_3.url }}" class="ds-float-img ds-float-img-3" alt="">
-						{% endif %}
-						{% if banner.image_4 and banner.image_4.url and banner.image_4.url.strip %}
-							<img src="{{ banner.image_4.url }}" class="ds-float-img ds-float-img-4" alt="">
-						{% endif %}
-					</div>
-					{% endif %}
-				</div>
-			</div>
-			{% empty %}
-			<!-- Default banner (no floating images) -->
-			<div class="slider-item" style="background-image: url({% static 'images/default-banner.jpg' %});">
-				<div class="overlay"></div>
-				<div class="container">
-					<div class="row no-gutters slider-text align-items-center justify-content-start">
-						<div class="col-md-6 ftco-animate">
-							<div class="text w-100"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			{% endfor %}
-			
-			<!-- Navigation -->
-			<button class="slider-nav prev">‹</button>
-			<button class="slider-nav next">›</button> 
-			<div class="slider-dots"></div>
-		</div>
-		
-		<style>
-			.ds-floating-images img[src=""] {
-				display: none !important;
-			}
-			.ds-floating-images {
-				position: absolute;
-				width: 100%;
-				height: 100%;
-				top: 0;
-				left: 0;
-				z-index: 6;
-				pointer-events: none;
-			}
-			.ds-float-img {
-				position: absolute;
-				filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
-				opacity: 0.9;
-				max-width: 150px;
-				height: auto;
-				transition: all 0.3s ease;
-			}
-			
-			/* Animation for all floating images in the same slider item */
-			.slider-item.hovering .ds-float-img {
-				opacity: 1 !important;
-				filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4)) !important;
-				cursor: pointer;
-				animation: floatAnimation 6s infinite ease-in-out;
-			}
-			
-			.overlay {
-				display: none;
-			}
-			
-			.ds-float-img-1 {
-				width: 120px;
-				top: 10%;
-				left: 10%;
-				animation-delay: 0s;
-			}
-			
-			.ds-float-img-2 {
-				width: 150px;
-				top: 60%;
-				right: 10%;
-				left: auto;
-				animation-delay: 1s;
-			}
-			
-			.ds-float-img-3 {
-				width: 120px;
-				top: 10%;
-				right: 10%;
-				left: auto;
-				animation-delay: 1.5s;
-			}
-			
-			.ds-float-img-4 {
-				width: 150px;
-				top: 60%;
-				left: 10%;
-				animation-delay: 0.5s;
-			}
-			
-			@keyframes floatAnimation {
-				0% {
-					transform: translateY(0) rotate(0deg);
-				}
-				25% {
-					transform: translateY(-15px) rotate(3deg);
-				}
-				50% {
-					transform: translateY(0) rotate(0deg);
-				}
-				75% {
-					transform: translateY(-10px) rotate(-2deg);
-				}
-				100% {
-					transform: translateY(0) rotate(0deg);
-				}
-			}
-		</style>
-		
-		<script>
-			document.addEventListener('DOMContentLoaded', function() {
-				const floatImages = document.querySelectorAll('.ds-float-img');
-				
-				floatImages.forEach(image => {
-					// Add hover effect to all floating images
-					image.addEventListener('mouseenter', function() {
-						// Find the closest slider-item and add the 'hovering' class
-						const sliderItem = this.closest('.slider-item');
-						sliderItem.classList.add('hovering');
-					});
-					
-					// Remove hover effect
-					image.addEventListener('mouseleave', function() {
-						const sliderItem = this.closest('.slider-item');
-						sliderItem.classList.remove('hovering');
-					});
-				});
-			});
-		</script>
-	  <style>
-		
-		/* 16:9 Aspect Ratio Container */
-		.custom-slider {
-		  position: relative;
-		  width: 100%;
-		  padding-top: 60.25%; /* 16:9 Aspect Ratio */
-		  overflow: hidden;
-		}
-	  
-		/* Slider Items with Z-Index Control */
-		.slider-item {
-		  position: absolute;
-		  top: 0;
-		  left: 0;
-		  width: 100%;
-		  height: 100%;
-		  background-size: cover;
-		  background-position: center;
-		  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
-		  transform: translateX(100%);
-		  opacity: 0;
-		  z-index: 1; /* Default z-index for inactive slides */
-		}
-	  
-		.slider-item.active {
-		  transform: translateX(0);
-		  opacity: 1;
-		  z-index: 3; /* Highest for current active slide */
-		}
-	  
-		.slider-item.prev-slide {
-		  transform: translateX(-100%);
-		  opacity: 0;
-		  z-index: 2; /* Middle layer for smoother transitions */
-		}
-	  
-		/* Overlay stays on top */
-		.overlay {
-		  position: absolute;
-		  top: 0;
-		  left: 0;
-		  width: 100%;
-		  height: 100%;
-		  background: rgba(0, 0, 0, 0.3);
-		  z-index: 4; /* Above slides but below content */
-		}
-	  
-		/* Content stays on top */
-		 .container {
-		  position: relative;
-		  z-index: 5;
-		  height: 100%;
-		} 
-	  
-		/* Navigation */
-		.slider-nav {
-		  position: absolute;
-		  top: 50%;
-		  transform: translateY(-50%);
-		  z-index: 10;
-		  background: rgba(0,0,0,0.5);
-		  color: white;
-		  border: none;
-		  width: 50px;
-		  height: 80px;
-		  font-size: 30px;
-		  cursor: pointer;
-		  transition: all 0.3s;
-		}
-	  
-		.slider-nav:hover {
-		  background: rgba(0,0,0,0.8);
-		}
-	  
-		.slider-nav.prev {
-		  left: 20px;
-		}
-	  
-		.slider-nav.next {
-		  right: 20px;
-		}
-	  
-		/* Dots */
-		.slider-dots {
-		  position: absolute;
-		  bottom: 100px;
-		  left: 0;
-		  right: 0;
-		  display: flex;
-		  justify-content: center;
-		  z-index: 10;
-		  gap: 20px;
-		}
-	  
-		.slider-dots .dot {
-		  width: 12px;
-		  height: 12px;
-		  border-radius: 50%;
-		  background: rgba(255,255,255,0.5);
-		  cursor: pointer;
-		  transition: all 0.3s;
-		}
-	  
-		.slider-dots .dot.active {
-		  background: white;
-		  transform: scale(1.2);
-		}
-
-	  </style>
-	  
-	  <script>
-
-
-		
-
-
-		
-	  document.addEventListener('DOMContentLoaded', function() {
-		const slider = document.querySelector('.custom-slider');
-		const slides = document.querySelectorAll('.slider-item');
-		const prevBtn = document.querySelector('.slider-nav.prev');
-		const nextBtn = document.querySelector('.slider-nav.next');
-		const dotsContainer = document.querySelector('.slider-dots');
-		
-		let currentIndex = 0;
-		let slideInterval;
-		const slideDuration = 15000; // 15 seconds
-	  
-		function initSlider() {
-		  // Create dots
-		  slides.forEach((_, index) => {
-			const dot = document.createElement('div');
-			dot.classList.add('dot');
-			if (index === 0) dot.classList.add('active');
-			dot.addEventListener('click', () => goToSlide(index));
-			dotsContainer.appendChild(dot);
-		  });
-	  
-		  // Activate first slide
-		  if (slides.length > 0) {
-			slides[0].classList.add('active');
-		  }
-	  
-		  startAutoSlide();
-		  prevBtn.addEventListener('click', prevSlide);
-		  nextBtn.addEventListener('click', nextSlide);
-		}
-	  
-		function goToSlide(index) {
-		  if (index === currentIndex) return;
-		  
-		  clearInterval(slideInterval);
-		  
-		  const currentSlide = slides[currentIndex];
-		  const nextSlide = slides[index];
-		  
-		  // Prepare animation classes
-		  currentSlide.classList.remove('active');
-		  currentSlide.classList.add('prev-slide');
-		  
-		  nextSlide.classList.add('active');
-		  
-		  // Update current index
-		  currentIndex = index;
-		  updateDots();
-		  
-		  // Cleanup classes after animation
-		  setTimeout(() => {
-			currentSlide.classList.remove('prev-slide');
-		  }, 800); // Match CSS transition duration
-		  
-		  startAutoSlide();
-		}
-	  
-		function nextSlide() {
-		  const nextIndex = (currentIndex + 1) % slides.length;
-		  goToSlide(nextIndex);
-		}
-	  
-		function prevSlide() {
-		  const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
-		  goToSlide(prevIndex);
-		}
-	  
-		function updateDots() {
-		  const dots = document.querySelectorAll('.slider-dots .dot');
-		  dots.forEach((dot, index) => {
-			dot.classList.toggle('active', index === currentIndex);
-		  });
-		}
-	  
-		function startAutoSlide() {
-		  slideInterval = setInterval(nextSlide, slideDuration);
-		}
-	  
-		// Initialize
-		initSlider();
-	  
-		// Pause on hover
-		slider.addEventListener('mouseenter', () => clearInterval(slideInterval));
-		slider.addEventListener('mouseleave', startAutoSlide);
-	  });
-	  </script>
-
-
-
-	  <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-body" style="background:#636060">
-					<!-- Appointment Section -->
-					<section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img">
-						<div class="container">
-							<div class="row d-md-flex justify-content-end">
-								<div class="col-md-12 col-lg-12 half p-3 py-5 pl-lg-5 ftco-animate heading-section heading-section-white">
-									<span class="subheading">Talk to Our Sales Team</span>
-									<h2 class="mb-4">Let's discuss your needs and how we can help</h2>
-									<form action="#" class="appointment" id="appointmentForm">
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													<input type="text" class="form-control" name="name" placeholder="Your Name" required>
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group">
-													<input type="email" class="form-control" name="email" placeholder="Your Email" required>
-												</div>
-											</div>
-											
-											<div class="col-md-6">
-												<div class="form-group">
-													<input type="text" class="form-control" name="phone" placeholder="Phone Number" required>
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group">
-													<input type="text" class="form-control" name="city" placeholder="city" required>
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group">
-													<select class="form-control" name="category" required>
-														{% for category in total_categories %}
-														<option value="{{ category.name }}">{{ category.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group">
-													<select class="form-control" name="referral" required>
-														<option value="">How did you hear about us?</option>
-														<option value="Google">Google</option>
-														<option value="Referral">Referral</option>
-														<option value="Social Media">Social Media</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-md-12">
-												<div class="form-group">
-													<textarea name="message" id="" cols="30" rows="4" class="form-control" placeholder="Your Message" required></textarea>
-												</div>
-											</div>
-											<div class="col-md-12">
-												<div class="form-group">
-													<input type="button" value="Submit via Email" class="btn btn-dark py-3 px-4" onclick="submitViaEmail()">
-													<input type="button" value="Submit via WhatsApp" class="btn btn-dark py-3 px-4" onclick="submitViaWhatsApp()">
-												</div>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</section>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<script>
-		function submitViaEmail() {
-			// Collect form data
-			var formData = new FormData(document.getElementById('appointmentForm'));
-			var name = formData.get('name');
-			var email = formData.get('email');
-			var phone = formData.get('phone');
-			var city = formData.get('city');
-			var category = formData.get('category');
-			var referral = formData.get('referral');
-			var message = formData.get('message');
-		
-			// Format the email content (CLIENT'S PERSPECTIVE)
-			var toEmail = "sales@sapetindiapvtltd.in";
-			var subject = `Quotation Request for ${category}`;
-			var body = `Dear Supplier,\n\n` +
-					   `I am interested in your ${category} products and would like to request a quotation.\n\n` +
-					   `My Details:\n` +
-					   `- Name: ${name}\n` +
-					   `- Email: ${email}\n` +
-					   `- Phone: ${phone}\n` +
-					   `- City: ${city}\n` +
-					   `- How I found you: ${referral}\n\n` +
-					   `My Requirements:\n${message}\n\n` +
-					   `Kindly provide product details and pricing at your earliest convenience.\n\n` +
-					   `Best regards,\n${name}`;
-		
-			// Encode and send
-			var mailtoUrl = `mailto:${toEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-			window.location.href = mailtoUrl;
-		}
-		
-		function submitViaWhatsApp() {
-			// Collect form data
-			var formData = new FormData(document.getElementById('appointmentForm'));
-			var name = formData.get('name');
-			var phone = formData.get('phone');
-			var city = formData.get('city');
-			var category = formData.get('category');
-			var referral = formData.get('referral');
-			var message = formData.get('message');
-		
-			// Format WhatsApp message (CLIENT'S PERSPECTIVE)
-			var whatsappMessage = `Dear Supplier,\n\n` +
-								 `I'm interested in your *${category}* products and need a quotation.\n\n` +
-								 `*My Details:*\n` +
-								 `- Name: ${name}\n` +
-								 `- Phone: ${phone}\n` +
-								 `- City: ${city}\n` +
-								 `- Reference: ${referral}\n\n` +
-								 `*My Requirements:*\n${message}\n\n` +
-								 `Please share product details and pricing.\n\n` +
-								 `Best regards,\n${name}`;
-		
-			var whatsappUrl = `https://wa.me/9940100506?text=${encodeURIComponent(whatsappMessage)}`;
-			window.open(whatsappUrl, '_blank');
-		}
-	</script>
-		<section class="intro">
-			<div class="container intro-wrap">
-				<div class="row no-gutters">
-					<div class="col-md-12 col-lg-9 bg-intro d-sm-flex align-items-center align-items-stretch">
-						<div class="intro-box d-flex align-items-center" style="color:grey; background: white;">
-							<div class="icon d-flex align-items-center justify-content-center">
-								<i class="flaticon-repair" style="color:black !important;"></i>
-							</div>
-							<h2 class="ml-2" style="color:grey !important;" id="mobile-hidden">Gear up for innovation.<span style="color:red;"> &nbsp;Let's enhance it now!</span></h2>
-						</div>
-						<a href="{% static 'pdf/sapet_catelogue.pdf' %}" download  class="bg-catelogue btn-custom d-flex align-items-center"><span>Get Our Catelogue</span></a>
-					</div>
-				</div>
-			</div>
-		</section>
-		
-		<style>
-			.bg-intro .intro-box {
-				padding: 10px 0;
-				height: 60px;
-			}
-			.intro-wrap {
-				margin-top: -60px;
-			} 
-			/* Round design for the icon container */
-			/* Make the icon white using CSS filter */
-			.white-icon {
-				filter: brightness(100) invert(1); /* Converts icon to white */
-			}
-		
-			/* Hide "Are you ready?" text on mobile */
+			/* Responsive adjustments for mobile view */
 			@media (max-width: 768px) {
-				.intro-wrap {
-					margin-top: 0px;
-				} 
-				.intro-wrap{
-					width: 100%;
-					padding-right: 0px !important;
-					padding-left: 0px !important;
-					margin-right: auto;
-					margin-left: auto;
+				.navbar-brand {
+					flex-direction: column; /* Stack the logo and company name vertically on small screens */
+					align-items: center; /* Center-align the items */
 				}
-				.slider-dots {
-					bottom: 15px !important;
+
+				.logo-img {
+					margin-right: 0; /* Remove horizontal margin */
+					margin-bottom: 4px; /* Add some vertical space between the logo and company name */
+				}
+
+				.company-name {
+					text-align: bottom; /* Center-align the company name */
+					font-weight: bolder;
+					font-size: 16px !important;
 				}
 			}
-		</style>
-
-		<style>
-
-			
-			/* Round design for the icon container */
-			.icon {
-			  padding-inline:5px;
-			  display: flex;
-			  justify-content: center;
-			  align-items: center;
-			  
+			.social-media {
+				display: flex;
+				align-items: center; /* Vertically center the social media icons */
 			}
 			
-			/* Smaller icon size */
-			.icon-img {
-			  width: 15px; /* Adjust icon size */
-			  height: 15px; /* Adjust icon size */
-			  transition: transform 0.3s ease; /* Smooth hover effect */
-			  padding: 5px;
+			.social-media div {
+				display: flex;
+				flex-direction: column; /* Stack the icons vertically */
+				align-items: flex-end; /* Align the icons to the end (right side) */
 			}
 			
-			/* Hover effect for the icon */
-			.icon:hover .icon-img {
-			  transform: scale(1.03); /* Slightly enlarge on hover */
-			}
-
-			
-			.services .icon img {
-			  max-width: 100%; /* Ensure the icon fits within the container */
-			  max-height: 100%;
-			}
-			
-			.services .media-body {
-			  flex: 1; /* Allow the text to take up remaining space */
-			}
-			
-			/* Optional: Add hover effects for better interactivity */
-			.services .d-block.d-flex:hover {
-			  transform: translateY(-5px);
-			  transition: transform 0.3s ease;
-			}
-
-			.block-23 ul li, .block-23 ul li > a{
-			display: block;
-			line-height: 1.5;
-			margin-bottom: 0px !important;
-			}
-			.services .media-body p {
-				height: 100px; /* Adjust the height as needed */
-				overflow: hidden;
-				text-overflow: ellipsis;
-				display: -webkit-box;
-				-webkit-line-clamp: 3; /* Limits text to 3 lines */
-				-webkit-box-orient: vertical;
-			}
-			/* Ensure uniform height for the heading (category name) */
-			.services .heading {
-				font-size: 14px !important;
-				font-weight: bold;
-				height: 50px; /* Adjust this as needed */
+			.social-media a {
+				margin-bottom: 10px; /* Add some space between the icons */
 				display: flex;
 				align-items: center;
 				justify-content: center;
 			}
+			
+			.social-media span {
+				background-color: transparent !important;
+			}
+			.ftco-navbar-light {
+				background: white !important;
+				color: black !important;
+			}
+			.ftco-navbar-light .navbar-toggler{
+				color: black !important;
+			}
+		
+
+		</style> 
+		
+	</head>
+	<body>
+
+			<!-- 3. GTM Noscript (Mandatory for SEO/Tracking accuracy) -->
+			<noscript><iframe src="www.googletagmanager.com"
+			height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+			<!-- End Google Tag Manager (noscript) -->
+
+			<div class="wrap" style="padding-block: 25px !important;">
+			<div class="container-fluid">
+					<div class="row justify-content" style="justify-content: space-evenly !important">
+						<div class="col-md-6 d-flex align-items-center">
+							<a class="navbar-brand mb-3" href="{% url 'home' %}">
+								<img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
+								<span class="company-name pt-3 pl-3 pr-5 ">SAP EQUIPMENTS & TOOLS </span>
+							</a>
+						</div>
+						
+						<div class="col-md-4">
+							<style>
+							.black-text {
+								color: black !important;
+							}
+							</style>
+							
+							<div class="row mx-5 ml-5">
+								<div class="mx-0 px-0 col ml-3">
+									<div class="top-wrap d-flex">
+									{% comment %} <div class="icon d-flex align-items-center justify-content-center black-text"><span class="fa fa-location-arrow"></span></div> {% endcomment %}
+									<div class="text">
+										<strong class="black-text">Address</strong>
+										<span style="font-size:10px;" class="black-text">APA Building, S.F. No. 65/2,Mahathmagandhi Road, Nethajipuram,<br> Neelikonampalayam Post,<br> Coimbatore- 641033</span>
+									</div>
+									</div>
+								</div>
+								<div class="mx-0 px-0 col ml-1">
+									<div class="top-wrap d-flex">
+									<div class="text">
+										<strong class="black-text">Call us</strong>
+										<span class="black-text">+91 9940100506</span>
+									</div>
+									</div>
+									<div class="top-wrap d-flex">
+									<div class="text">
+										<strong class="black-text">GSTIN</strong>
+										<span class="black-text">33BHTPR6598F1ZI</span>
+									</div>
+									</div>
+								</div>
+							<div class="mx-0 px-0 col-auto">
+								<div class="social-media">
+								<div class="d-flex flex-column align-items-end">
+									<a href="https://www.facebook.com/share/1C9Ek4FTJW/" class="d-flex align-items-center justify-content-center black-text">
+									<span style="background-color: transparent !important; height:20px !important; weight:20px !important;" class="fab fa-facebook black-text">
+										<i class="sr-only">Facebook</i>
+									</span>
+									</a>
+									<a href="https://youtube.com/@sapequipmentandtoolscoimbatore?si=0qKYIzJDYqfo82W8" class="d-flex align-items-center justify-content-center black-text">
+									<span style="background-color: transparent !important; height:20px !important; weight:20px !important;" class="fab fa-youtube black-text">
+										<i class="sr-only">Youtube</i>
+									</span>
+									</a>
+									<a href="https://www.instagram.com/sapet.cbe?igsh=bTEzM3F1cW5hbXRm" class="d-flex align-items-center justify-content-center black-text">
+									<span style="background-color: transparent !important; height:20px !important; weight:20px !important;" class="fab fa-instagram black-text">
+										<i class="sr-only">Instagram</i>
+									</span>
+									</a>
+								</div>
+								</div>
+							</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+				<div class="container">
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="fa fa-bars " style="color:black"></span> Menu
+					</button>
+					<div class="collapse navbar-collapse" id="ftco-nav">
+						<!-- Close button for mobile menu -->
+						<button type="button" class="close-menu d-lg-none" aria-label="Close menu">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+								<a href="{% url 'home' %}" class="nav-link">Home</a>
+							</li>
+							<li  class="nav-item {% if request.resolver_match.url_name == 'services' %}active{% endif %}">
+								<a style="color:black!important;" href="{% url 'services' %}" class="nav-link">Services</a>
+							</li>
+							<li class="nav-item {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+								<a style="color:black!important;" href="{% url 'about' %}" class="nav-link">About</a>
+							</li>
+							<li class="nav-item d-block d-lg-none">
+								<a href="#" class="nav-link" role="button" data-toggle="modal" data-target="#appointmentModal" aria-expanded="false">
+									Enquire Now
+								</a>
+							</li>
+							{% if categories_with_products %}
+							<!-- Mega Dropdown Menu - Modified for mobile -->
+							<li class="nav-item dropdown mega-dropdown">
+								<a class="nav-link dropdown-toggle" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="pointer-events: none;">
+									Products 
+								</a>
+								<div class="dropdown-menu mega-menu p-4" aria-labelledby="categoriesDropdown">
+									<div class="container-fluid" style="position:relative !important;">
+										<div class="row">
+											<!-- Categories Columns -->
+											{% for category_data in categories_with_products %}
+											<div class="col-lg-3 col-md-6 mb-3 mb-md-0 mt-3">
+												<div class="category-card">
+													<h5 class="category-title">
+														<a href="{% url 'products_by_category' category_data.category.id %}" class="text-dark" style="color:black!important;">
+															<i class="fas fa-{{ category_data.category.icon|default:'tag' }} mr-2"></i>
+															{{ category_data.category.name }}
+														</a>
+													</h5>
+													
+													<div class="category-products mt-3">
+														{% if category_data.products %}
+														{% for product in category_data.products %}
+														<a href="{% url 'product_detail' product.id %}" class="d-block py-2 product-item">
+															<div class="media">
+																<div class="media-body d-flex align-items-center">
+																	<span class="bullet-in mr-2">•</span>
+																	<h5 class="produc-title mt-0 mb-1">{{ product.name|truncatechars:22 }}</h5>
+																</div>
+															</div>
+														</a>
+														{% endfor %}
+														{% else %}
+														<div class="text-muted py-2" style="font-size: 0.70rem;">No products available</div>
+														{% endif %}
+													</div>
+												</div>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</li>
+							{% endif %}
+							{% if request.user.is_authenticated %}
+							<li class="nav-item d-none d-lg-block {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+								<a href="{% url 'dashboard' %}" class="nav-link">Admin Panel</a>
+							</li>
+							{% endif %}
+							<li class="nav-item d-none d-lg-block active">
+								<a href="#" class="nav-link" style="margin-left:150px;" role="button" data-toggle="modal" data-target="#appointmentModal" aria-expanded="false">
+									Enquire Now
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<style>
+				/* Style for the close button */
+				.close-menu {
+					position: absolute;
+					right: 15px;
+					top: 10px;
+					background: transparent;
+					border: none;
+					font-size: 1.5rem;
+					color: white;
+					cursor: pointer;
+					z-index: 1050;
+					display: none;
+				}
+
+				/* Show close button when mobile menu is open */
+				.navbar-collapse.show .close-menu {
+					display: block;
+				}
+
+				/* Adjust mega menu for mobile */
+				@media (max-width: 991px) {
+					.mega-dropdown .dropdown-menu {
+						position: static !important;
+						width: 100%;
+						margin-top: 0;
+						border: none;
+						background: #343a40;
+					}
+					
+					.mega-menu .container-fluid {
+						padding: 0;
+					}
+					
+					.mega-menu .row {
+						margin: 0;
+					}
+					
+					.mega-menu .col-lg-3 {
+						padding: 0;
+					}
+					
+					.category-card {
+						padding: 15px;
+						border-bottom: 1px solid rgba(255,255,255,0.1);
+					}
+					
+					.category-title a {
+						color: white !important;
+					}
+					
+					.product-item {
+						color: rgba(255,255,255,0.7);
+					}
+					
+					.product-item:hover {
+						color: white;
+					}
+				}
+				/* Mega Dropdown Styles */
+				.mega-dropdown {
+					position: static !important;
+				}
+				.bullet-in {
+					color: #dc3545; /* Red color to match your theme */
+					font-size: 1.2rem;
+					line-height: 1;
+				}
+				
+				.mega-menu {
+					width: 100%;
+					left: 0 !important;
+					right: 0 !important;
+					box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+					border: none !important;
+					border-radius: 0 0 8px 8px !important;
+					border-top: 3px solid #dc3545 !important;
+				}
+				
+				.category-card {
+					padding: 0 15px;
+					{% comment %} border-left: 1px solid #535353; {% endcomment %}
+				}
+				
+				.category-title {
+					font-size: 0.85rem;
+					font-weight: 00;
+					padding-bottom: 8px;
+					border-bottom: 1px dashed #cbcbcb;
+				}
+				
+				.produc-title {
+					font-size: 0.8rem !important;
+					color: black !important;
+					font-weight: 600;
+				}
+				
+				.category-title a:hover {
+					color: #dc3545 !important;
+					text-decoration: none;
+				}
+				
+				.product-item {
+					transition: all 0.2s;
+					border-radius: 4px;
+					color: #333;
+				}
+				
+				.product-item:hover {
+					background-color: red;
+					transform: translateX(3px);
+					text-decoration: none;
+				}
+				
+				/* Animation for dropdown */
+				@keyframes fadeInDropdown {
+					from { opacity: 0; transform: translateY(10px); }
+					to { opacity: 1; transform: translateY(0); }
+				}
+				
+				.mega-menu {
+					animation: fadeInDropdown 0.3s ease-out;
+				}
+				
+				/* Mobile-specific styles */
+				@media (max-width: 992px) {
+					.navbar-toggler {
+						padding: 0.5rem 0.75rem;
+						font-size: 1rem;
+					}
+					
+					.mega-menu {
+						position: fixed !important;
+						top: 56px !important;
+						left: 0 !important;
+						right: 0 !important;
+						max-height: calc(100vh - 56px);
+						overflow-y: auto;
+						z-index: 1050;
+					}
+					
+					.category-card {
+						border-left: none;
+						border-bottom: 1px solid #eee;
+						padding-bottom: 15px;
+						margin-bottom: 15px;
+					}
+					
+					.mega-menu .container-fluid {
+						padding-left: 15px;
+						padding-right: 15px;
+					}
+					
+					.mega-menu .row {
+						margin-left: -15px;
+						margin-right: -15px;
+					}
+					
+					.mega-menu [class^="col-"] {
+						padding-left: 15px;
+						padding-right: 15px;
+					}
+					
+					/* Make dropdown full width on mobile */
+					.dropdown-menu {
+						width: 100%;
+					}
+					
+					/* Adjust product items for mobile */
+					.product-item {
+						padding: 8px 0;
+					}
+					
+					/* Hide the desktop "Enquire Now" button */
+					.nav-item.d-none.d-lg-block {
+						display: none !important;
+					}
+				}
+				
+				/* For very small screens */
+				@media (max-width: 576px) {
+					.mega-menu {
+						padding: 10px !important;
+					}
+					
+					.category-card {
+						padding: 0 5px;
+					}
+					
+					.produc-title {
+						font-size: 0.7rem !important;
+					}
+				}
+			</style>
+			
+
+			<script>
+				// Close mobile menu when clicking the close button
+				document.querySelector('.close-menu').addEventListener('click', function() {
+					document.querySelector('.navbar-collapse').classList.remove('show');
+				});
+				
+				// Ensure dropdowns work on mobile
+				document.querySelectorAll('.dropdown-toggle').forEach(function(element) {
+					element.addEventListener('click', function(e) {
+						if (window.innerWidth < 992) {
+							e.preventDefault();
+							const dropdownMenu = this.nextElementSibling;
+							if (dropdownMenu.style.display === 'block') {
+								dropdownMenu.style.display = 'none';
+							} else {
+								document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
+									menu.style.display = 'none';
+								});
+								dropdownMenu.style.display = 'block';
+							}
+						}
+					});
+				});
+				
+				// Close dropdowns when clicking outside on mobile
+				document.addEventListener('click', function(e) {
+					if (window.innerWidth < 992) {
+						if (!e.target.closest('.dropdown')) {
+							document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
+								menu.style.display = 'none';
+							});
+						}
+					}
+				});
+				</script>
+			
+			<script>
+			// Optional: Close mega menu when clicking outside
+			$(document).ready(function() {
+				$(document).click(function(event) {
+					if (!$(event.target).closest('.mega-dropdown').length) {
+						$('.mega-menu').removeClass('show');
+						$('#categoriesDropdown').attr('aria-expanded', 'false');
+					}
+				});
+				
+				// Better handling for mobile dropdowns
+				if ($(window).width() < 992) {
+					$('.mega-dropdown > .dropdown-toggle').on('click', function(e) {
+						e.preventDefault();
+						$(this).parent().toggleClass('show');
+						$(this).next('.dropdown-menu').toggleClass('show');
+						$(this).attr('aria-expanded', $(this).attr('aria-expanded') === 'true' ? 'false' : 'true');
+					});
+				}
+			});
+			</script>
+			
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+	{% comment %} 		
+		<script>
+			$(document).ready(function () {
+				// Navbar toggle functionality
+				$('.navbar-toggler').on('click', function () {
+					let $navCollapse = $('.navbar-collapse');
+					let isExpanded = $navCollapse.hasClass('show');
+			
+					$navCollapse.toggleClass('show', !isExpanded);
+					$(this).attr('aria-expanded', !isExpanded);
+				});
+			
+				// Close navbar when clicking outside
+				$(document).on('click', function (e) {
+					let $nav = $('.navbar-collapse');
+					if ($nav.hasClass('show') && !$(e.target).closest('.navbar-collapse, .navbar-toggler').length) {
+						$nav.removeClass('show');
+						$('.navbar-toggler').attr('aria-expanded', 'false');
+					}
+				});
+			
+				// Prevent navbar from closing when clicking inside the category dropdown
+				$('.category-item').on('click', function (e) {
+					e.preventDefault();
+					e.stopPropagation();
+			
+					let categoryId = $(this).data('category-id');
+					let $menu = $(this).next('.product-menu');
+			
+					// Hide other dropdowns
+					$('.product-menu').not($menu).hide().removeData('loaded');
+			
+					if ($menu.is(':visible')) {
+						$menu.hide();
+						
+						return;
+					}
+			
+					if (!$menu.data('loaded')) {
+						loadProducts(categoryId, $menu);
+					}
+			
+					// Position the product dropdown
+					let position = $(this).position();
+					$menu.css({
+						top: position.top,
+						left: $(this).outerWidth() + 5,
+						display: 'block'
+					});
+				});
+			
+				$(document).on('click', function (e) {
+					if (!$(e.target).closest('.dropdown-menu, .category-item').length) {
+						$('.product-menu').hide();
+					}
+				});
+			
+				function loadProducts(categoryId, $container) {
+					$container.html('<div class="dropdown-item py-2"><div class="loading-indicator"></div></div>');
+			
+					$.ajax({
+						url: `/fetch-products/${categoryId}/`,
+						method: 'GET',
+						success: function (response) {
+							if (!response || response.length === 0) {
+								$container.html('<div class="dropdown-item py-2 text-muted">No products found</div>');
+								return;
+							}
+							let items = response.map(product => `
+								<a class="dropdown-item py-2" href="/products/${product.id}/">
+									${product.name}
+									${product.price ? `<span class="float-right text-muted">$${product.price}</span>` : ''}
+								</a>
+							`);
+							$container.html(items.join('')).data('loaded', true);
+						},
+						error: function () {
+							$container.html('<div class="dropdown-item py-2 text-danger">Failed to load products</div>');
+						}
+					});
+				}
+			});
+		</script>
+		<!-- END nav -->
+		{% endcomment %}
+
+		<!-- Floating Action Buttons -->
+
+		
+		<div class="fab-container">
+			<a href="https://wa.me/+919940100506" class="fab whatsapp" target="_blank">
+				<i class="fab fa-whatsapp"></i>  <!-- WhatsApp Icon -->
+			</a>
+			<a href="tel:+919940100506" class="fab phone">
+				<i class="fas fa-phone"></i>  <!-- Phone Icon -->
+			</a>
+		</div>
+
+		<!-- Include FontAwesome for Icons -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+		<!-- Floating Button Styles -->
+		<style>
+			.fab-container {
+				position: fixed;
+				bottom: 100px;
+				right: 30px;
+				display: flex;
+				flex-direction: column;
+				gap: 20px;
+				z-index: 1000;
+			}
+
+			.fab {
+				width: 60px;
+				height: 60px;
+				background-color: #25D366; /* WhatsApp Green */
+				color: white;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-decoration: none;
+				font-size: 24px;
+				transition: all 0.3s ease-in-out;
+			}
+
+			/* Increase only the WhatsApp icon size */
+			.fab.whatsapp i {
+				font-size: 32px; /* Bigger WhatsApp Icon */
+			}
+
+			.fab.phone {
+				background-color: #007bff; /* Blue for Phone */
+			}
+
+			.fab:hover {
+				transform: scale(1.1);
+				opacity: 0.9;
+				color: white;
+			}
+			{% comment %} .modal-backdrop {
+				background-color: transparent !important;
+			} {% endcomment %}
+
+
 
 		</style>
-		  
-		<style>
-			.category-grid-container {
-				display: grid;
-				grid-template-columns: repeat(5, 1fr); /* Adjusted to fit 5 items per row */
-			  }
-			  .category-grid-item {
-				position: relative;
-				overflow: hidden;
-				transition: transform 0.3s ease;
-				height: 200px;
-			  }
-			  .category-grid-item:hover {
-				transform: translateY(-5px);
-				box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-			  }
-			  .category-grid-item img {
-				width: 100%;
-				height: 100%;
-				object-fit: inherit; /* Ensures the image covers the entire container */
-				{% comment %} border-radius: 8px 8px 0 0; {% endcomment %}
-			  }
-			  .category-grid-item .category-title {
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				background: rgba(0, 0, 0, 0.5);
-				color: white;
-				padding: 10px;
-				opacity: 0;
-				transition: opacity 0.3s ease;
-			  }
-			  .category-grid-item:hover .category-title {
-				opacity: 1;
-			  }
-		  </style>
-		  
-		  <div class="category-grid-container">
-			{% for category in total_categories %}
-			{% if category.shortcut_image %}
-			<div class="category-grid-item">
-				
-			  <img src="{{ category.shortcut_image.url }}" 
-				   alt="{{ category.name }}" 
-				   class="icon-img" style="padding: 0px !important;"
-				   loading="lazy">
-				   <a href="{% url 'products_by_category' category.id %}" style="text-decoration: none; color: inherit;">
-					<div class="category-title">{{ category.name }}</div>
-				</a>
-				
-			</div>
-			{% endif %}
-			{% endfor %}
-		  </div>
-   	
 
-		<section class="ftco-section testimony-section bg-light">
-			<div class="container">
-				<div class="row justify-content-center pb-5">
-					<div class="col-md-7 heading-section text-center ftco-animate">
-						<span class="subheading">Premium Automotive Solutions</span>
-						<h2>Our Services</h2>
-					</div>
-				</div>
-				
-				<div class="row">
-					{% for category in total_categories %}
-					<div class="col-md-4 services ftco-animate" style="min-height: 200px;">
-						<div class="d-block d-flex align-items-center">
-							<div class="icon d-flex justify-content-center align-items-center" style="min-width: 50px; min-height: 50px;">
-								{% if category.image %}
-								<img src="{{ category.image.url }}" 
-									 alt="{{ category.name }}" 
-									 class="icon-img white-icon" 
-									 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" 
-									 loading="lazy">
-								{% else %}
-								<img src="{% static 'icons/category.png' %}" 
-									 alt="Category Icon" 
-									 class="icon-img white-icon" 
-									 style="width: 50px; height: 50px;" 
-									 loading="lazy">
-								{% endif %}
-							</div>
-							<div class="media-body pl-3">
-								<!-- Make the title clickable -->
-								<a href="{% url 'products_by_category' category.id %}" style="text-decoration: none; color: inherit;">
-									<h3 class="heading">{{ category.name }}</h3>
-								</a>
-								<p style="margin-bottom: 0;">{{ category.description }}</p>
-							</div>
+
+		{% block content %}
+		<div class="hero-wrap">
+			<div class="custom-slider">
+				{% for banner in banners %}
+				<div class="slider-item" style="background-image: url({{ banner.image.url }});">
+					<div class="overlay"></div>
+					<div class="container">
+						{% if banner.enable_floating == True %}
+						<div class="row no-gutters slider-text align-items-center justify-content-start">
+							{% if banner.image_1 and banner.image_1.url and banner.image_1.url.strip %}
+								<img src="{{ banner.image_1.url }}" class="ds-float-img ds-float-img-1" alt="">
+							{% endif %}
+							{% if banner.image_2 and banner.image_2.url and banner.image_2.url.strip %}
+								<img src="{{ banner.image_2.url }}" class="ds-float-img ds-float-img-2" alt="">
+							{% endif %}
+							{% if banner.image_3 and banner.image_3.url and banner.image_3.url.strip %}
+								<img src="{{ banner.image_3.url }}" class="ds-float-img ds-float-img-3" alt="">
+							{% endif %}
+							{% if banner.image_4 and banner.image_4.url and banner.image_4.url.strip %}
+								<img src="{{ banner.image_4.url }}" class="ds-float-img ds-float-img-4" alt="">
+							{% endif %}
 						</div>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-		</section>
-		  
-		  
-   	
-    <section class="ftco-section">
-    	<div class="container">
-    		<div class="row d-flex no-gutters">
-    			<div class="col-md-6 d-flex">
-    				<div class="img img-video d-flex align-self-stretch align-items-center justify-content-center mb-4 mb-sm-0" style="background-image:url({% static 'images/about.jpg' %});">
-    					{% comment %} <a href="https://vimeo.com/45830194" class="icon-video popup-vimeo d-flex justify-content-center align-items-center">
-    						<span class="fa fa-play"></span>
-    					</a> {% endcomment %}
-    				</div>
-    			</div>
-				<div class="col-md-6 pl-md-5">
-					<div class="row justify-content-start py-5">
-						<div class="col-md-12 heading-section ftco-animate">
-							<span class="subheading">About Us</span>
-							<h2 class="mb-4">SAP Equipment and Tools India Pvt. Ltd. – Revolutionizing Vehicle Care & Workshop Solutions</h2>
-							<p>Welcome to SAP Equipment and Tools India Pvt. Ltd., a leading manufacturer of advanced water wash equipment, diagnostic tools, and workshop solutions for the automotive industry. With a strong commitment to innovation and excellence, we provide cutting-edge solutions designed to enhance vehicle maintenance, servicing, and repair efficiency.</p>
-							<h2 class="mb-4">Who We Are</h2>
-							<p>At SAP Equipment and Tools, we specialize in delivering high-quality automotive service equipment tailored to the needs of car wash centers, workshops, and garages. From advanced cleaning systems to state-of-the-art diagnostic tools, our solutions are built for durability, precision, and superior performance.</p>
-							<a href="about" class="btn btn-primary">Read More</a>
-						</div>
-					</div>
-				</div>
-	        </div>
-        </div>
-    	</div>
-    </section>
-	<section class="ftco-section custom-product-section bg-light mt-5 pt-5">
-		<div class="container">
-			<div class="row justify-content-center mb-4">
-				<div class="col-md-7 heading-section text-center ftco-animate">
-					<span class="subheading">Our Products</span>
-					<h2>Check our Products here</h2>
-				</div>
-			</div>
-	
-			<!-- Product Grid -->
-			<div class="product-grid">
-				{% for product in products %}
-				<div class="blog-entry d-flex flex-column">
-					<a href="{% url 'product_detail' product.id %}" class="block-20">
-						{% if product.images %}
-							<img src="{{ product.images.url }}" alt="{{ product.name }}" class="product-image">
-						{% else %}
-							<img src="/static/images/placeholder.jpg" alt="No Image" class="product-image">
 						{% endif %}
-					</a>
-					<div class="text d-flex flex-column flex-grow-1 justify-content-between p-3">
-						<h3 class="heading text-center">
-							<a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
-						</h3>
-						{# <p class="text-muted text-center flex-grow-1">{{ product.description|truncatewords:8 }}</p> #}
-						<p class="text-center font-weight-bold mt-auto"><strong>Price:</strong> INR {{ product.price }}</p>
 					</div>
 				</div>
 				{% empty %}
-				<p class="text-center">No products available.</p>
+				<!-- Default banner (no floating images) -->
+				<div class="slider-item" style="background-image: url({% static 'images/default-banner.jpg' %});">
+					<div class="overlay"></div>
+					<div class="container">
+						<div class="row no-gutters slider-text align-items-center justify-content-start">
+							<div class="col-md-6 ftco-animate">
+								<div class="text w-100"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 				{% endfor %}
+				
+				<!-- Navigation -->
+				<button class="slider-nav prev">‹</button>
+				<button class="slider-nav next">›</button> 
+				<div class="slider-dots"></div>
 			</div>
-
-		</div>
-	</section>
-	
-	<!-- CSS for Styling -->
-	<style>
-		/* Scoped Styles - Only Applies to .custom-product-section */
-		.custom-product-section .product-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-			gap: 20px;
-			justify-content: center;
-			padding: 20px;
-		}
-	
-		/* 4 products per row on large screens */
-		@media (min-width: 992px) { 
-			.custom-product-section .product-grid {
-				grid-template-columns: repeat(4, 1fr);
-			}
-		}
-	
-		/* 2 products per row on tablets */
-		@media (max-width: 991px) {
-			.custom-product-section .product-grid {
-				grid-template-columns: repeat(2, 1fr);
-			}
-		}
-	
-		/* 1 product per row on mobile */
-		@media (max-width: 576px) {
-			.custom-product-section .product-grid {
-				grid-template-columns: repeat(1, 1fr);
-			}
-		}
-	
-		/* Product Card */
-		.custom-product-section .blog-entry {
-			background: #fff;
-			text-align: center;
-			border-radius: 10px;
-			overflow: hidden;
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-			padding: 15px;
-			transition: transform 0.3s ease, box-shadow 0.3s ease;
-		}
-	
-		.custom-product-section .blog-entry:hover {
-			transform: translateY(-5px);
-			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-		}
-	
-		/* Square Product Image */
-		.custom-product-section .product-image {
+			
+			<style>
+				.ds-floating-images img[src=""] {
+					display: none !important;
+				}
+				.ds-floating-images {
+					position: absolute;
+					width: 100%;
+					height: 100%;
+					top: 0;
+					left: 0;
+					z-index: 6;
+					pointer-events: none;
+				}
+				.ds-float-img {
+					position: absolute;
+					filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+					opacity: 0.9;
+					max-width: 150px;
+					height: auto;
+					transition: all 0.3s ease;
+				}
+				
+				/* Animation for all floating images in the same slider item */
+				.slider-item.hovering .ds-float-img {
+					opacity: 1 !important;
+					filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4)) !important;
+					cursor: pointer;
+					animation: floatAnimation 6s infinite ease-in-out;
+				}
+				
+				.overlay {
+					display: none;
+				}
+				
+				.ds-float-img-1 {
+					width: 120px;
+					top: 10%;
+					left: 10%;
+					animation-delay: 0s;
+				}
+				
+				.ds-float-img-2 {
+					width: 150px;
+					top: 60%;
+					right: 10%;
+					left: auto;
+					animation-delay: 1s;
+				}
+				
+				.ds-float-img-3 {
+					width: 120px;
+					top: 10%;
+					right: 10%;
+					left: auto;
+					animation-delay: 1.5s;
+				}
+				
+				.ds-float-img-4 {
+					width: 150px;
+					top: 60%;
+					left: 10%;
+					animation-delay: 0.5s;
+				}
+				
+				@keyframes floatAnimation {
+					0% {
+						transform: translateY(0) rotate(0deg);
+					}
+					25% {
+						transform: translateY(-15px) rotate(3deg);
+					}
+					50% {
+						transform: translateY(0) rotate(0deg);
+					}
+					75% {
+						transform: translateY(-10px) rotate(-2deg);
+					}
+					100% {
+						transform: translateY(0) rotate(0deg);
+					}
+				}
+			</style>
+			
+			<script>
+				document.addEventListener('DOMContentLoaded', function() {
+					const floatImages = document.querySelectorAll('.ds-float-img');
+					
+					floatImages.forEach(image => {
+						// Add hover effect to all floating images
+						image.addEventListener('mouseenter', function() {
+							// Find the closest slider-item and add the 'hovering' class
+							const sliderItem = this.closest('.slider-item');
+							sliderItem.classList.add('hovering');
+						});
+						
+						// Remove hover effect
+						image.addEventListener('mouseleave', function() {
+							const sliderItem = this.closest('.slider-item');
+							sliderItem.classList.remove('hovering');
+						});
+					});
+				});
+			</script>
+		<style>
+			
+			/* 16:9 Aspect Ratio Container */
+			.custom-slider {
+			position: relative;
 			width: 100%;
-			height: 250px;
-			object-fit: cover;
-		}
-	
-		/* Text Area for Uniform Height */
-		.custom-product-section .text {
-			padding: 15px;
-			min-height: 120px;
-		}
-	
-		.custom-product-section .text h3 {
-			font-size: 1.2rem;
-			margin-bottom: 10px;
-		}
-	
-		.custom-product-section .text p {
-			font-size: 0.9rem;
-			color: #555;
-		}
-	
-		.custom-product-section .text a {
-			color: #020101;
-			text-decoration: none;
-		}
-	
-		.custom-product-section .text a:hover {
-			color: #007bff;
-		}
-		.testimony-wrap {
-			min-height: 320px; /* Ensures all cards have the same height */
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-			align-items: center;
-			padding: 20px;
-			text-align: center;
-		}
+			padding-top: 60.25%; /* 16:9 Aspect Ratio */
+			overflow: hidden;
+			}
 		
-		.testimony-wrap .text {
-			flex-grow: 1; /* Ensures the text section expands to fill space */
-			min-height: 150px; /* Keeps text areas uniform */
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-		}
-		
-		.testimony-wrap .d-flex {
-			align-items: center;
-			justify-content: center;
-		}
-		.testimony-wrap p {
-			font-size: 14px;
-			line-height: 1.5;
-		}
-		
-		.carousel-testimony .item {
-			display: flex;
-			justify-content: center;
-		}
-		.user-img {
-			width: 40px;  /* Fixed width */
-			height: 40px; /* Fixed height */
+			/* Slider Items with Z-Index Control */
+			.slider-item {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
 			background-size: cover;
 			background-position: center;
-			background-repeat: no-repeat;
-			border-radius: 50%;
-			border: 2px solid #fff;
+			transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+			transform: translateX(100%);
+			opacity: 0;
+			z-index: 1; /* Default z-index for inactive slides */
+			}
+		
+			.slider-item.active {
+			transform: translateX(0);
+			opacity: 1;
+			z-index: 3; /* Highest for current active slide */
+			}
+		
+			.slider-item.prev-slide {
+			transform: translateX(-100%);
+			opacity: 0;
+			z-index: 2; /* Middle layer for smoother transitions */
+			}
+		
+			/* Overlay stays on top */
+			.overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.3);
+			z-index: 4; /* Above slides but below content */
+			}
+		
+			/* Content stays on top */
+			.container {
+			position: relative;
+			z-index: 5;
+			height: 100%;
+			} 
+		
+			/* Navigation */
+			.slider-nav {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 10;
+			background: rgba(0,0,0,0.5);
+			color: white;
+			border: none;
+			width: 50px;
+			height: 80px;
+			font-size: 30px;
+			cursor: pointer;
+			transition: all 0.3s;
+			}
+		
+			.slider-nav:hover {
+			background: rgba(0,0,0,0.8);
+			}
+		
+			.slider-nav.prev {
+			left: 20px;
+			}
+		
+			.slider-nav.next {
+			right: 20px;
+			}
+		
+			/* Dots */
+			.slider-dots {
+			position: absolute;
+			bottom: 100px;
+			left: 0;
+			right: 0;
 			display: flex;
-			align-items: center;
 			justify-content: center;
-			font-size: 24px;
-			font-weight: bold;
-			text-transform: uppercase;
-			color: #fff;
-		}
+			z-index: 10;
+			gap: 20px;
+			}
 		
-		.default-img {
-			background-color: #3d3d3d; /* Placeholder color */
-		}
+			.slider-dots .dot {
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			background: rgba(255,255,255,0.5);
+			cursor: pointer;
+			transition: all 0.3s;
+			}
 		
-		.rating {
-			display: flex;
-			gap: 2px;
-		}
-		
-		.rating .fa-star {
-			color: lightgray;
-			font-size: 14px;
-		}
-		
-		.rating .fa-star.filled {
-			color: red;
-		}
-		/* Change the active carousel button color to red */
-		.owl-carousel .owl-dots .owl-dot.active span,
-		.owl-carousel .owl-dots .owl-dot:hover span {
-			background-color: red !important; /* Change to red */
-		}
+			.slider-dots .dot.active {
+			background: white;
+			transform: scale(1.2);
+			}
 
-		/* Optional: Change the default color of inactive dots */
-		.owl-carousel .owl-dots .owl-dot span {
-			background-color: #ccc; /* Default color for inactive dots */
-		}
+		</style>
+		
+		<script>
 
-		.testimony-section .owl-dots .owl-dot.active{
-			background-color: red !important; /* Change to red */
+
 			
-		}
-		.testimony-section .owl-dots .owl-dot.active:after{
-			border-color: red !important; /* Change to red */
 
-		}
-		.owl-carousel.home-slider .owl-dots .owl-dot.active{
 
-			background-color: red !important; /* Change to red */
-			border-color: red !important; /* Change to red */
-
-		}
-
+			
+		document.addEventListener('DOMContentLoaded', function() {
+			const slider = document.querySelector('.custom-slider');
+			const slides = document.querySelectorAll('.slider-item');
+			const prevBtn = document.querySelector('.slider-nav.prev');
+			const nextBtn = document.querySelector('.slider-nav.next');
+			const dotsContainer = document.querySelector('.slider-dots');
+			
+			let currentIndex = 0;
+			let slideInterval;
+			const slideDuration = 15000; // 15 seconds
 		
+			function initSlider() {
+			// Create dots
+			slides.forEach((_, index) => {
+				const dot = document.createElement('div');
+				dot.classList.add('dot');
+				if (index === 0) dot.classList.add('active');
+				dot.addEventListener('click', () => goToSlide(index));
+				dotsContainer.appendChild(dot);
+			});
 		
+			// Activate first slide
+			if (slides.length > 0) {
+				slides[0].classList.add('active');
+			}
+		
+			startAutoSlide();
+			prevBtn.addEventListener('click', prevSlide);
+			nextBtn.addEventListener('click', nextSlide);
+			}
+		
+			function goToSlide(index) {
+			if (index === currentIndex) return;
+			
+			clearInterval(slideInterval);
+			
+			const currentSlide = slides[currentIndex];
+			const nextSlide = slides[index];
+			
+			// Prepare animation classes
+			currentSlide.classList.remove('active');
+			currentSlide.classList.add('prev-slide');
+			
+			nextSlide.classList.add('active');
+			
+			// Update current index
+			currentIndex = index;
+			updateDots();
+			
+			// Cleanup classes after animation
+			setTimeout(() => {
+				currentSlide.classList.remove('prev-slide');
+			}, 800); // Match CSS transition duration
+			
+			startAutoSlide();
+			}
+		
+			function nextSlide() {
+			const nextIndex = (currentIndex + 1) % slides.length;
+			goToSlide(nextIndex);
+			}
+		
+			function prevSlide() {
+			const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+			goToSlide(prevIndex);
+			}
+		
+			function updateDots() {
+			const dots = document.querySelectorAll('.slider-dots .dot');
+			dots.forEach((dot, index) => {
+				dot.classList.toggle('active', index === currentIndex);
+			});
+			}
+		
+			function startAutoSlide() {
+			slideInterval = setInterval(nextSlide, slideDuration);
+			}
+		
+			// Initialize
+			initSlider();
+		
+			// Pause on hover
+			slider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+			slider.addEventListener('mouseleave', startAutoSlide);
+		});
+		</script>
 
-	</style>
-	
-	
-	<section class="ftco-section testimony-section">
-		<div class="container">
-			<div class="row justify-content-center pb-5 mb-3">
-				<div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
-					<span class="subheading" style="color:red !important;">Testimonies</span>
-					<h2>Happy Clients &amp; Feedbacks</h2>
+
+
+		<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-body" style="background:#636060">
+						<!-- Appointment Section -->
+						<section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img">
+							<div class="container">
+								<div class="row d-md-flex justify-content-end">
+									<div class="col-md-12 col-lg-12 half p-3 py-5 pl-lg-5 ftco-animate heading-section heading-section-white">
+										<span class="subheading">Talk to Our Sales Team</span>
+										<h2 class="mb-4">Let's discuss your needs and how we can help</h2>
+										<form action="#" class="appointment" id="appointmentForm">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<input type="text" class="form-control" name="name" placeholder="Your Name" required>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<input type="email" class="form-control" name="email" placeholder="Your Email" required>
+													</div>
+												</div>
+												
+												<div class="col-md-6">
+													<div class="form-group">
+														<input type="text" class="form-control" name="phone" placeholder="Phone Number" required>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<input type="text" class="form-control" name="city" placeholder="city" required>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<select class="form-control" name="category" required>
+															{% for category in total_categories %}
+															<option value="{{ category.name }}">{{ category.name }}</option>
+															{% endfor %}
+														</select>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<select class="form-control" name="referral" required>
+															<option value="">How did you hear about us?</option>
+															<option value="Google">Google</option>
+															<option value="Referral">Referral</option>
+															<option value="Social Media">Social Media</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group">
+														<textarea name="message" id="" cols="30" rows="4" class="form-control" placeholder="Your Message" required></textarea>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group">
+														<input type="button" value="Submit via Email" class="btn btn-dark py-3 px-4" onclick="submitViaEmail()">
+														<input type="button" value="Submit via WhatsApp" class="btn btn-dark py-3 px-4" onclick="submitViaWhatsApp()">
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
 				</div>
 			</div>
-			<div class="row ftco-animate">
-				<div class="col-md-12">
-					<div class="carousel-testimony owl-carousel ftco-owl">
-						{% for review in reviews %}
-						<div class="item">
-							<div class="testimony-wrap py-4">
+		</div>
+		
+		<script>
+			function submitViaEmail() {
+				// Collect form data
+				var formData = new FormData(document.getElementById('appointmentForm'));
+				var name = formData.get('name');
+				var email = formData.get('email');
+				var phone = formData.get('phone');
+				var city = formData.get('city');
+				var category = formData.get('category');
+				var referral = formData.get('referral');
+				var message = formData.get('message');
+			
+				// Format the email content (CLIENT'S PERSPECTIVE)
+				var toEmail = "sales@sapetindiapvtltd.in";
+				var subject = `Quotation Request for ${category}`;
+				var body = `Dear Supplier,\n\n` +
+						`I am interested in your ${category} products and would like to request a quotation.\n\n` +
+						`My Details:\n` +
+						`- Name: ${name}\n` +
+						`- Email: ${email}\n` +
+						`- Phone: ${phone}\n` +
+						`- City: ${city}\n` +
+						`- How I found you: ${referral}\n\n` +
+						`My Requirements:\n${message}\n\n` +
+						`Kindly provide product details and pricing at your earliest convenience.\n\n` +
+						`Best regards,\n${name}`;
+			
+				// Encode and send
+				var mailtoUrl = `mailto:${toEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+				window.location.href = mailtoUrl;
+			}
+			
+			function submitViaWhatsApp() {
+				// Collect form data
+				var formData = new FormData(document.getElementById('appointmentForm'));
+				var name = formData.get('name');
+				var phone = formData.get('phone');
+				var city = formData.get('city');
+				var category = formData.get('category');
+				var referral = formData.get('referral');
+				var message = formData.get('message');
+			
+				// Format WhatsApp message (CLIENT'S PERSPECTIVE)
+				var whatsappMessage = `Dear Supplier,\n\n` +
+									`I'm interested in your *${category}* products and need a quotation.\n\n` +
+									`*My Details:*\n` +
+									`- Name: ${name}\n` +
+									`- Phone: ${phone}\n` +
+									`- City: ${city}\n` +
+									`- Reference: ${referral}\n\n` +
+									`*My Requirements:*\n${message}\n\n` +
+									`Please share product details and pricing.\n\n` +
+									`Best regards,\n${name}`;
+			
+				var whatsappUrl = `https://wa.me/9940100506?text=${encodeURIComponent(whatsappMessage)}`;
+				window.open(whatsappUrl, '_blank');
+			}
+		</script>
+			<section class="intro">
+				<div class="container intro-wrap">
+					<div class="row no-gutters">
+						<div class="col-md-12 col-lg-9 bg-intro d-sm-flex align-items-center align-items-stretch">
+							<div class="intro-box d-flex align-items-center" style="color:grey; background: white;">
 								<div class="icon d-flex align-items-center justify-content-center">
-									<span class="fa fa-quote-left"></span>
+									<i class="flaticon-repair" style="color:black !important;"></i>
 								</div>
-								<div class="text">
-									<p class="mb-4">{{ review.review_content }}</p>
-									<div class="d-flex align-items-center justify-content-between">
-										<!-- Profile Image or Initial -->
-										{% if review.image %}
-										<div class="user-img" style="background-image: url({{ review.image.url }});">
-										</div>
-										{% else %}
-										<div class="user-img default-img d-flex align-items-center justify-content-center">
-											<span>{{ review.customer_name|first|upper }}</span>
-										</div>
-										{% endif %}
-	
-										<!-- Name and Star Rating -->
-										<div class="pl-3 flex-grow-1 d-flex flex-column align-items-end">
-											<p class="name m-0" style="font-size: 12px !important; max-width: 150px;">
-												{{ review.customer_name }}
-											</p>
-											<div class="rating mt-1">
-												{% for _ in "12345"|make_list %}
-												<span class="fa fa-star {% if forloop.counter <= review.review_rating %}filled{% endif %}"></span>
-												{% endfor %}
+								<h2 class="ml-2" style="color:grey !important;" id="mobile-hidden">Gear up for innovation.<span style="color:red;"> &nbsp;Let's enhance it now!</span></h2>
+							</div>
+							<a href="{% static 'pdf/sapet_catelogue.pdf' %}" download  class="bg-catelogue btn-custom d-flex align-items-center"><span>Get Our Catelogue</span></a>
+						</div>
+					</div>
+				</div>
+			</section>
+			
+			<style>
+				.bg-intro .intro-box {
+					padding: 10px 0;
+					height: 60px;
+				}
+				.intro-wrap {
+					margin-top: -60px;
+				} 
+				/* Round design for the icon container */
+				/* Make the icon white using CSS filter */
+				.white-icon {
+					filter: brightness(100) invert(1); /* Converts icon to white */
+				}
+			
+				/* Hide "Are you ready?" text on mobile */
+				@media (max-width: 768px) {
+					.intro-wrap {
+						margin-top: 0px;
+					} 
+					.intro-wrap{
+						width: 100%;
+						padding-right: 0px !important;
+						padding-left: 0px !important;
+						margin-right: auto;
+						margin-left: auto;
+					}
+					.slider-dots {
+						bottom: 15px !important;
+					}
+				}
+			</style>
+
+			<style>
+
+				
+				/* Round design for the icon container */
+				.icon {
+				padding-inline:5px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+				}
+				
+				/* Smaller icon size */
+				.icon-img {
+				width: 15px; /* Adjust icon size */
+				height: 15px; /* Adjust icon size */
+				transition: transform 0.3s ease; /* Smooth hover effect */
+				padding: 5px;
+				}
+				
+				/* Hover effect for the icon */
+				.icon:hover .icon-img {
+				transform: scale(1.03); /* Slightly enlarge on hover */
+				}
+
+				
+				.services .icon img {
+				max-width: 100%; /* Ensure the icon fits within the container */
+				max-height: 100%;
+				}
+				
+				.services .media-body {
+				flex: 1; /* Allow the text to take up remaining space */
+				}
+				
+				/* Optional: Add hover effects for better interactivity */
+				.services .d-block.d-flex:hover {
+				transform: translateY(-5px);
+				transition: transform 0.3s ease;
+				}
+
+				.block-23 ul li, .block-23 ul li > a{
+				display: block;
+				line-height: 1.5;
+				margin-bottom: 0px !important;
+				}
+				.services .media-body p {
+					height: 100px; /* Adjust the height as needed */
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 3; /* Limits text to 3 lines */
+					-webkit-box-orient: vertical;
+				}
+				/* Ensure uniform height for the heading (category name) */
+				.services .heading {
+					font-size: 14px !important;
+					font-weight: bold;
+					height: 50px; /* Adjust this as needed */
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+
+			</style>
+			
+			<style>
+				.category-grid-container {
+					display: grid;
+					grid-template-columns: repeat(5, 1fr); /* Adjusted to fit 5 items per row */
+				}
+				.category-grid-item {
+					position: relative;
+					overflow: hidden;
+					transition: transform 0.3s ease;
+					height: 200px;
+				}
+				.category-grid-item:hover {
+					transform: translateY(-5px);
+					box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+				}
+				.category-grid-item img {
+					width: 100%;
+					height: 100%;
+					object-fit: inherit; /* Ensures the image covers the entire container */
+					{% comment %} border-radius: 8px 8px 0 0; {% endcomment %}
+				}
+				.category-grid-item .category-title {
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					background: rgba(0, 0, 0, 0.5);
+					color: white;
+					padding: 10px;
+					opacity: 0;
+					transition: opacity 0.3s ease;
+				}
+				.category-grid-item:hover .category-title {
+					opacity: 1;
+				}
+			</style>
+			
+			<div class="category-grid-container">
+				{% for category in total_categories %}
+				{% if category.shortcut_image %}
+				<div class="category-grid-item">
+					
+				<img src="{{ category.shortcut_image.url }}" 
+					alt="{{ category.name }}" 
+					class="icon-img" style="padding: 0px !important;"
+					loading="lazy">
+					<a href="{% url 'products_by_category' category.id %}" style="text-decoration: none; color: inherit;">
+						<div class="category-title">{{ category.name }}</div>
+					</a>
+					
+				</div>
+				{% endif %}
+				{% endfor %}
+			</div>
+		
+
+			<section class="ftco-section testimony-section bg-light">
+				<div class="container">
+					<div class="row justify-content-center pb-5">
+						<div class="col-md-7 heading-section text-center ftco-animate">
+							<span class="subheading">Premium Automotive Solutions</span>
+							<h2>Our Services</h2>
+						</div>
+					</div>
+					
+					<div class="row">
+						{% for category in total_categories %}
+						<div class="col-md-4 services ftco-animate" style="min-height: 200px;">
+							<div class="d-block d-flex align-items-center">
+								<div class="icon d-flex justify-content-center align-items-center" style="min-width: 50px; min-height: 50px;">
+									{% if category.image %}
+									<img src="{{ category.image.url }}" 
+										alt="{{ category.name }}" 
+										class="icon-img white-icon" 
+										style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" 
+										loading="lazy">
+									{% else %}
+									<img src="{% static 'icons/category.png' %}" 
+										alt="Category Icon" 
+										class="icon-img white-icon" 
+										style="width: 50px; height: 50px;" 
+										loading="lazy">
+									{% endif %}
+								</div>
+								<div class="media-body pl-3">
+									<!-- Make the title clickable -->
+									<a href="{% url 'products_by_category' category.id %}" style="text-decoration: none; color: inherit;">
+										<h3 class="heading">{{ category.name }}</h3>
+									</a>
+									<p style="margin-bottom: 0;">{{ category.description }}</p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</section>
+			
+			
+		
+		<section class="ftco-section">
+			<div class="container">
+				<div class="row d-flex no-gutters">
+					<div class="col-md-6 d-flex">
+						<div class="img img-video d-flex align-self-stretch align-items-center justify-content-center mb-4 mb-sm-0" style="background-image:url({% static 'images/about.jpg' %});">
+							{% comment %} <a href="https://vimeo.com/45830194" class="icon-video popup-vimeo d-flex justify-content-center align-items-center">
+								<span class="fa fa-play"></span>
+							</a> {% endcomment %}
+						</div>
+					</div>
+					<div class="col-md-6 pl-md-5">
+						<div class="row justify-content-start py-5">
+							<div class="col-md-12 heading-section ftco-animate">
+								<span class="subheading">About Us</span>
+								<h2 class="mb-4">SAP Equipment and Tools India Pvt. Ltd. – Revolutionizing Vehicle Care & Workshop Solutions</h2>
+								<p>Welcome to SAP Equipment and Tools India Pvt. Ltd., a leading manufacturer of advanced water wash equipment, diagnostic tools, and workshop solutions for the automotive industry. With a strong commitment to innovation and excellence, we provide cutting-edge solutions designed to enhance vehicle maintenance, servicing, and repair efficiency.</p>
+								<h2 class="mb-4">Who We Are</h2>
+								<p>At SAP Equipment and Tools, we specialize in delivering high-quality automotive service equipment tailored to the needs of car wash centers, workshops, and garages. From advanced cleaning systems to state-of-the-art diagnostic tools, our solutions are built for durability, precision, and superior performance.</p>
+								<a href="about" class="btn btn-primary">Read More</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</section>
+		<section class="ftco-section custom-product-section bg-light mt-5 pt-5">
+			<div class="container">
+				<div class="row justify-content-center mb-4">
+					<div class="col-md-7 heading-section text-center ftco-animate">
+						<span class="subheading">Our Products</span>
+						<h2>Check our Products here</h2>
+					</div>
+				</div>
+		
+				<!-- Product Grid -->
+				<div class="product-grid">
+					{% for product in products %}
+					<div class="blog-entry d-flex flex-column">
+						<a href="{% url 'product_detail' product.id %}" class="block-20">
+							{% if product.images %}
+								<img src="{{ product.images.url }}" alt="{{ product.name }}" class="product-image">
+							{% else %}
+								<img src="/static/images/placeholder.jpg" alt="No Image" class="product-image">
+							{% endif %}
+						</a>
+						<div class="text d-flex flex-column flex-grow-1 justify-content-between p-3">
+							<h3 class="heading text-center">
+								<a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+							</h3>
+							{# <p class="text-muted text-center flex-grow-1">{{ product.description|truncatewords:8 }}</p> #}
+							<p class="text-center font-weight-bold mt-auto"><strong>Price:</strong> INR {{ product.price }}</p>
+						</div>
+					</div>
+					{% empty %}
+					<p class="text-center">No products available.</p>
+					{% endfor %}
+				</div>
+
+			</div>
+		</section>
+		
+		<!-- CSS for Styling -->
+		<style>
+			/* Scoped Styles - Only Applies to .custom-product-section */
+			.custom-product-section .product-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+				gap: 20px;
+				justify-content: center;
+				padding: 20px;
+			}
+		
+			/* 4 products per row on large screens */
+			@media (min-width: 992px) { 
+				.custom-product-section .product-grid {
+					grid-template-columns: repeat(4, 1fr);
+				}
+			}
+		
+			/* 2 products per row on tablets */
+			@media (max-width: 991px) {
+				.custom-product-section .product-grid {
+					grid-template-columns: repeat(2, 1fr);
+				}
+			}
+		
+			/* 1 product per row on mobile */
+			@media (max-width: 576px) {
+				.custom-product-section .product-grid {
+					grid-template-columns: repeat(1, 1fr);
+				}
+			}
+		
+			/* Product Card */
+			.custom-product-section .blog-entry {
+				background: #fff;
+				text-align: center;
+				border-radius: 10px;
+				overflow: hidden;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+				padding: 15px;
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+			}
+		
+			.custom-product-section .blog-entry:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+			}
+		
+			/* Square Product Image */
+			.custom-product-section .product-image {
+				width: 100%;
+				height: 250px;
+				object-fit: cover;
+			}
+		
+			/* Text Area for Uniform Height */
+			.custom-product-section .text {
+				padding: 15px;
+				min-height: 120px;
+			}
+		
+			.custom-product-section .text h3 {
+				font-size: 1.2rem;
+				margin-bottom: 10px;
+			}
+		
+			.custom-product-section .text p {
+				font-size: 0.9rem;
+				color: #555;
+			}
+		
+			.custom-product-section .text a {
+				color: #020101;
+				text-decoration: none;
+			}
+		
+			.custom-product-section .text a:hover {
+				color: #007bff;
+			}
+			.testimony-wrap {
+				min-height: 320px; /* Ensures all cards have the same height */
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				align-items: center;
+				padding: 20px;
+				text-align: center;
+			}
+			
+			.testimony-wrap .text {
+				flex-grow: 1; /* Ensures the text section expands to fill space */
+				min-height: 150px; /* Keeps text areas uniform */
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+			
+			.testimony-wrap .d-flex {
+				align-items: center;
+				justify-content: center;
+			}
+			.testimony-wrap p {
+				font-size: 14px;
+				line-height: 1.5;
+			}
+			
+			.carousel-testimony .item {
+				display: flex;
+				justify-content: center;
+			}
+			.user-img {
+				width: 40px;  /* Fixed width */
+				height: 40px; /* Fixed height */
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
+				border-radius: 50%;
+				border: 2px solid #fff;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 24px;
+				font-weight: bold;
+				text-transform: uppercase;
+				color: #fff;
+			}
+			
+			.default-img {
+				background-color: #3d3d3d; /* Placeholder color */
+			}
+			
+			.rating {
+				display: flex;
+				gap: 2px;
+			}
+			
+			.rating .fa-star {
+				color: lightgray;
+				font-size: 14px;
+			}
+			
+			.rating .fa-star.filled {
+				color: red;
+			}
+			/* Change the active carousel button color to red */
+			.owl-carousel .owl-dots .owl-dot.active span,
+			.owl-carousel .owl-dots .owl-dot:hover span {
+				background-color: red !important; /* Change to red */
+			}
+
+			/* Optional: Change the default color of inactive dots */
+			.owl-carousel .owl-dots .owl-dot span {
+				background-color: #ccc; /* Default color for inactive dots */
+			}
+
+			.testimony-section .owl-dots .owl-dot.active{
+				background-color: red !important; /* Change to red */
+				
+			}
+			.testimony-section .owl-dots .owl-dot.active:after{
+				border-color: red !important; /* Change to red */
+
+			}
+			.owl-carousel.home-slider .owl-dots .owl-dot.active{
+
+				background-color: red !important; /* Change to red */
+				border-color: red !important; /* Change to red */
+
+			}
+
+			
+			
+
+		</style>
+		
+		
+		<section class="ftco-section testimony-section">
+			<div class="container">
+				<div class="row justify-content-center pb-5 mb-3">
+					<div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
+						<span class="subheading" style="color:red !important;">Testimonies</span>
+						<h2>Happy Clients &amp; Feedbacks</h2>
+					</div>
+				</div>
+				<div class="row ftco-animate">
+					<div class="col-md-12">
+						<div class="carousel-testimony owl-carousel ftco-owl">
+							{% for review in reviews %}
+							<div class="item">
+								<div class="testimony-wrap py-4">
+									<div class="icon d-flex align-items-center justify-content-center">
+										<span class="fa fa-quote-left"></span>
+									</div>
+									<div class="text">
+										<p class="mb-4">{{ review.review_content }}</p>
+										<div class="d-flex align-items-center justify-content-between">
+											<!-- Profile Image or Initial -->
+											{% if review.image %}
+											<div class="user-img" style="background-image: url({{ review.image.url }});">
+											</div>
+											{% else %}
+											<div class="user-img default-img d-flex align-items-center justify-content-center">
+												<span>{{ review.customer_name|first|upper }}</span>
+											</div>
+											{% endif %}
+		
+											<!-- Name and Star Rating -->
+											<div class="pl-3 flex-grow-1 d-flex flex-column align-items-end">
+												<p class="name m-0" style="font-size: 12px !important; max-width: 150px;">
+													{{ review.customer_name }}
+												</p>
+												<div class="rating mt-1">
+													{% for _ in "12345"|make_list %}
+													<span class="fa fa-star {% if forloop.counter <= review.review_rating %}filled{% endif %}"></span>
+													{% endfor %}
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+							{% empty %}
+							<p class="text-center">No reviews available.</p>
+							{% endfor %}
 						</div>
-						{% empty %}
-						<p class="text-center">No reviews available.</p>
-						{% endfor %}
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	
-	
-	
-	
+		</section>
+		
+		
+		
+		
 
 
-    {% comment %} <section class="ftco-section bg-light">
-    	<div class="container">
-    		<div class="row justify-content-center pb-5 mb-3">
-          <div class="col-md-7 heading-section text-center ftco-animate">
-          	<span class="subheading">Price &amp; Plans</span>
-            <h2>Pricing</h2>
-          </div>
-        </div>
-    		<div class="row">
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-	          <div class="block-7">
-	            <div class="text-center">
-            	<span class="excerpt d-block">First PMS</span>
-	            <span class="price"><sup>$</sup> <span class="number">78.98</span></span>
-	            
-	            <div class="pricing-text">
-	              <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-	            </div>
-
-	            <a href="#" class="btn btn-secondary d-block px-2 py-3">Get Started</a>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col-md-6 col-lg-3 ftco-animate">
-	          <div class="block-7">
-	            <div class="text-center">
-            	<span class="excerpt d-block">Engine Diagnostics</span>
-	            <span class="price"><sup>$</sup> <span class="number">83.75</span></span>
-	            
-	            <div class="pricing-text">
-	              <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-	            </div>
-
-	            <a href="#" class="btn btn-secondary d-block px-2 py-3">Get Started</a>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col-md-6 col-lg-3 ftco-animate">
-	          <div class="block-7">
-	            <div class="text-center">
-            	<span class="excerpt d-block">Tow Truck</span>
-	            <span class="price"><sup>$</sup> <span class="number">85.00</span></span>
-	            
-	            <div class="pricing-text">
-	              <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-	            </div>
-
-	            <a href="#" class="btn btn-secondary d-block px-2 py-3">Get Started</a>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col-md-6 col-lg-3 ftco-animate">
-	          <div class="block-7">
-	            <div class="text-center">
-            	<span class="excerpt d-block">Car Wash</span>
-	            <span class="price"><sup>$</sup> <span class="number">30.50</span></span>
-	            
-	            <div class="pricing-text">
-	              <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-	            </div>
-
-	            <a href="#" class="btn btn-secondary d-block px-2 py-3">Get Started</a>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-    	</div>
-    </section> {% endcomment %}
-
-	
-    <section class="ftco-counter" id="section-counter">
-    	<div class="container">
+		{% comment %} <section class="ftco-section bg-light">
+			<div class="container">
+				<div class="row justify-content-center pb-5 mb-3">
+			<div class="col-md-7 heading-section text-center ftco-animate">
+				<span class="subheading">Price &amp; Plans</span>
+				<h2>Pricing</h2>
+			</div>
+			</div>
 				<div class="row">
-          <div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
-            <div class="block-18 text-center">
-              <div class="text">
-                <strong class="number" >5</strong>
-              </div>
-              <div class="text">
-              	<span>Years of Experienced</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
-            <div class="block-18 text-center">
-              <div class="text">
-                <strong class="number">400+</strong>
-              </div>
-              <div class="text">
-              	<span>Project completed</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
-            <div class="block-18 text-center">
-              <div class="text">
-                <strong class="number" >400+</strong>
-              </div>
-              <div class="text">
-              	<span>Happy Customers</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
-            <div class="block-18 text-center">
-              <div class="text">
-                <strong class="number" >8</strong>
-              </div>
-              <div class="text">
-              	<span>Award Winning</span>
-              </div>
-            </div>
-          </div>
-        </div>
-    	</div>
-    </section>
-	<section class="ftco-map ftco-no-pb">
-		<div class="container"  style="margin-block: 40px !important;">
-			<div class="row justify-content-center">
-				<div class="col-md-7 heading-section text-center ftco-animate">
-					<span class="subheading">Location</span>
-					<h2>Find Us on the Map</h2>
+					<div class="col-md-6 col-lg-3 ftco-animate">
+				<div class="block-7">
+					<div class="text-center">
+					<span class="excerpt d-block">First PMS</span>
+					<span class="price"><sup>$</sup> <span class="number">78.98</span></span>
+					
+					<div class="pricing-text">
+					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+					</div>
+
+					<a href="#" class="btn btn-secondary d-block px-2 py-3">Get Started</a>
+					</div>
+				</div>
+				</div>
+				<div class="col-md-6 col-lg-3 ftco-animate">
+				<div class="block-7">
+					<div class="text-center">
+					<span class="excerpt d-block">Engine Diagnostics</span>
+					<span class="price"><sup>$</sup> <span class="number">83.75</span></span>
+					
+					<div class="pricing-text">
+					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+					</div>
+
+					<a href="#" class="btn btn-secondary d-block px-2 py-3">Get Started</a>
+					</div>
+				</div>
+				</div>
+				<div class="col-md-6 col-lg-3 ftco-animate">
+				<div class="block-7">
+					<div class="text-center">
+					<span class="excerpt d-block">Tow Truck</span>
+					<span class="price"><sup>$</sup> <span class="number">85.00</span></span>
+					
+					<div class="pricing-text">
+					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+					</div>
+
+					<a href="#" class="btn btn-secondary d-block px-2 py-3">Get Started</a>
+					</div>
+				</div>
+				</div>
+				<div class="col-md-6 col-lg-3 ftco-animate">
+				<div class="block-7">
+					<div class="text-center">
+					<span class="excerpt d-block">Car Wash</span>
+					<span class="price"><sup>$</sup> <span class="number">30.50</span></span>
+					
+					<div class="pricing-text">
+					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+					</div>
+
+					<a href="#" class="btn btn-secondary d-block px-2 py-3">Get Started</a>
+					</div>
+				</div>
 				</div>
 			</div>
-		</div>
-		<div class="container-fluid px-md-0">
-			<div class="row no-gutters">
-				<div class="col-md-12 ftco-animate">
-					<!-- Google Map Embed using iframe with marker -->
-					<iframe 
-						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.287865356603!2d77.04236809999999!3d11.0170152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba857b9b8dac099%3A0x3262d6ec75101180!2sSAP%20EQUIPMENTS%20%26%20TOOLS!5e0!3m2!1sen!2sin!4v1741336541976!5m2!1sen!2sin&markers=color:red%7Clabel:SAP%7C11.0170152,77.0423681" 
-						width="100%" 
-						height="800" 
-						style="border:0;" 
-						allowfullscreen="" 
-						loading="lazy" 
-						referrerpolicy="no-referrer-when-downgrade">
-					</iframe>
-				</div>
-			</div> 
-		</div>
-	</section>
-
-	{% endblock %}
-
-
-	<footer class="footer ftco-section" style="background: #202020 !important;">
-		<div class="container px-3 px-md-5 py-4 py-lg-5">
-		  <div class="row g-4 g-lg-5 mb-5">
-			<!-- Logo and Info Column -->
-			<div class="col-12 col-md-6 col-lg-3">
-			  <div class="ftco-footer-widget mb-2 text-left mx-auto" style="max-width: 300px;">
-				<div class="d-flex align-items-left justify-content-center justify-content-md-start">
-				  <a class="navbar-brand mb-3" href="{% url 'home' %}">
-					<img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
-				  </a>
-				</div>
-				<p class="text-left"><b>Empowering garages with innovative tools, reliability, and global-quality solutions for every need.</b></p>
-				<div class="social-media">
-				  <p class="mb-0 d-flex justify-content-center justify-content-md-start">
-					<a href="https://www.facebook.com/share/1C9Ek4FTJW/" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-facebook"><i class="sr-only">Facebook</i></span></a>
-					<a href="https://youtube.com/@sapequipmentandtoolscoimbatore?si=0qKYIzJDYqfo82W8" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-youtube"><i class="sr-only">Youtube</i></span></a>
-					<a href="https://www.instagram.com/sapet.cbe?igsh=bTEzM3F1cW5hbXRm" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-instagram"><i class="sr-only">Instagram</i></span></a>
-				  </p>
-				</div>
-			  </div>
 			</div>
-	  
-			<!-- Services Column -->
-			<div class="col-12 col-md-6 col-lg-3">
-			  <div class="ftco-footer-widget text-left mx-auto" style="max-width: 300px;">
-				<h2 class="ftco-heading-2 mb-3">Our Services</h2>
-				<ul class="list-unstyled pl-0 ml-0">
-				  {% for category in total_categories %}
-				  <li class="mb-2 text-left">
-					<a href="#" class="py-1 d-block text-decoration-none">
-					  <span class="fa fa-check mr-2"></span>{{ category.name }}
+		</section> {% endcomment %}
+
+		
+		<section class="ftco-counter" id="section-counter">
+			<div class="container">
+					<div class="row">
+			<div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
+				<div class="block-18 text-center">
+				<div class="text">
+					<strong class="number" >5</strong>
+				</div>
+				<div class="text">
+					<span>Years of Experienced</span>
+				</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
+				<div class="block-18 text-center">
+				<div class="text">
+					<strong class="number">400+</strong>
+				</div>
+				<div class="text">
+					<span>Project completed</span>
+				</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
+				<div class="block-18 text-center">
+				<div class="text">
+					<strong class="number" >400+</strong>
+				</div>
+				<div class="text">
+					<span>Happy Customers</span>
+				</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
+				<div class="block-18 text-center">
+				<div class="text">
+					<strong class="number" >8</strong>
+				</div>
+				<div class="text">
+					<span>Award Winning</span>
+				</div>
+				</div>
+			</div>
+			</div>
+			</div>
+		</section>
+		<section class="ftco-map ftco-no-pb">
+			<div class="container"  style="margin-block: 40px !important;">
+				<div class="row justify-content-center">
+					<div class="col-md-7 heading-section text-center ftco-animate">
+						<span class="subheading">Location</span>
+						<h2>Find Us on the Map</h2>
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid px-md-0">
+				<div class="row no-gutters">
+					<div class="col-md-12 ftco-animate">
+						<!-- Google Map Embed using iframe with marker -->
+						<iframe 
+							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.287865356603!2d77.04236809999999!3d11.0170152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba857b9b8dac099%3A0x3262d6ec75101180!2sSAP%20EQUIPMENTS%20%26%20TOOLS!5e0!3m2!1sen!2sin!4v1741336541976!5m2!1sen!2sin&markers=color:red%7Clabel:SAP%7C11.0170152,77.0423681" 
+							width="100%" 
+							height="800" 
+							style="border:0;" 
+							allowfullscreen="" 
+							loading="lazy" 
+							referrerpolicy="no-referrer-when-downgrade">
+						</iframe>
+					</div>
+				</div> 
+			</div>
+		</section>
+
+		{% endblock %}
+
+
+		<footer class="footer ftco-section" style="background: #202020 !important;">
+			<div class="container px-3 px-md-5 py-4 py-lg-5">
+			<div class="row g-4 g-lg-5 mb-5">
+				<!-- Logo and Info Column -->
+				<div class="col-12 col-md-6 col-lg-3">
+				<div class="ftco-footer-widget mb-2 text-left mx-auto" style="max-width: 300px;">
+					<div class="d-flex align-items-left justify-content-center justify-content-md-start">
+					<a class="navbar-brand mb-3" href="{% url 'home' %}">
+						<img src="{% static 'images/main_logo.png' %}" alt="SAP Equipments & Tools" class="logo-img">
 					</a>
-				  </li>
-				  {% endfor %}
-				</ul>
-			  </div>
-			</div>
-	  
-			<!-- Contact Column -->
-			<div class="col-12 col-md-8 col-lg-4">
-			  <div class="ftco-footer-widget text-left mx-auto" style="max-width: 300px;">
-				<h2 class="ftco-heading-2 mb-3">Contact</h2>
-				<div class="block-23">
-				  <ul class="text-left pl-0 ml-0">
-					<li class="pb-2"><span class="icon fa fa-user"></span><span class="text">Rajagopal Radhakrishnan</span></li>
-					<li class="pb-2"><span class="icon fa fa-map-marker"></span><span class="text">APA Building, S.F. No. 65/2,Mahathmagandhi Road,Nethajipuram, Neelikonampalayam PostCoimbatore- 641033</span></li>
-					<li class="pb-2"><a href="#"><span class="icon fa fa-phone"></span><span class="text">+919940100506</span></a></li>
-					<li class="pb-2"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">sales@sapequipments.in</span></a></li>
-					<li class="pb-2"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">service@sapequipments.in</span></a></li>
-					<li class="pb-2"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">admin@sapequipments.in</span></a></li>
-				  </ul>
+					</div>
+					<p class="text-left"><b>Empowering garages with innovative tools, reliability, and global-quality solutions for every need.</b></p>
+					<div class="social-media">
+					<p class="mb-0 d-flex justify-content-center justify-content-md-start">
+						<a href="https://www.facebook.com/share/1C9Ek4FTJW/" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-facebook"><i class="sr-only">Facebook</i></span></a>
+						<a href="https://youtube.com/@sapequipmentandtoolscoimbatore?si=0qKYIzJDYqfo82W8" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-youtube"><i class="sr-only">Youtube</i></span></a>
+						<a href="https://www.instagram.com/sapet.cbe?igsh=bTEzM3F1cW5hbXRm" class="d-flex align-items-center justify-content-center"><span style="background-color: transparent !important;" class="fab fa-instagram"><i class="sr-only">Instagram</i></span></a>
+					</p>
+					</div>
 				</div>
-			  </div>
-			</div>
-	  
-			<!-- Active Hours Column -->
-			<div class="col-12 col-md-4 col-lg-2">
-			  <div class="ftco-footer-widget text-left mx-auto" style="max-width: 300px;">
-				<h2 class="ftco-heading-2 mb-3">Active Hours</h2>
-				<div class="opening-hours">
-				  <h4 class="mb-2">Opening Days:</h4>
-				  <p class="text-left mb-3">
-					<span>Monday – Friday  9am - 20 pm</span><br>
-					<span>Saturday 9am - 17 pm</span>
-				  </p>
-				  <h4 class="mb-2">Holiday:</h4>
-				  <p class="text-left">
-					<span>All Sunday Days</span><br>
-					<span>All Official Holidays</span>
-				  </p>
 				</div>
-			  </div>
+		
+				<!-- Services Column -->
+				<div class="col-12 col-md-6 col-lg-3">
+				<div class="ftco-footer-widget text-left mx-auto" style="max-width: 300px;">
+					<h2 class="ftco-heading-2 mb-3">Our Services</h2>
+					<ul class="list-unstyled pl-0 ml-0">
+					{% for category in total_categories %}
+					<li class="mb-2 text-left">
+						<a href="#" class="py-1 d-block text-decoration-none">
+						<span class="fa fa-check mr-2"></span>{{ category.name }}
+						</a>
+					</li>
+					{% endfor %}
+					</ul>
+				</div>
+				</div>
+		
+				<!-- Contact Column -->
+				<div class="col-12 col-md-8 col-lg-4">
+				<div class="ftco-footer-widget text-left mx-auto" style="max-width: 300px;">
+					<h2 class="ftco-heading-2 mb-3">Contact</h2>
+					<div class="block-23">
+					<ul class="text-left pl-0 ml-0">
+						<li class="pb-2"><span class="icon fa fa-user"></span><span class="text">Rajagopal Radhakrishnan</span></li>
+						<li class="pb-2"><span class="icon fa fa-map-marker"></span><span class="text">APA Building, S.F. No. 65/2,Mahathmagandhi Road,Nethajipuram, Neelikonampalayam PostCoimbatore- 641033</span></li>
+						<li class="pb-2"><a href="#"><span class="icon fa fa-phone"></span><span class="text">+919940100506</span></a></li>
+						<li class="pb-2"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">sales@sapequipments.in</span></a></li>
+						<li class="pb-2"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">service@sapequipments.in</span></a></li>
+						<li class="pb-2"><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">admin@sapequipments.in</span></a></li>
+					</ul>
+					</div>
+				</div>
+				</div>
+		
+				<!-- Active Hours Column -->
+				<div class="col-12 col-md-4 col-lg-2">
+				<div class="ftco-footer-widget text-left mx-auto" style="max-width: 300px;">
+					<h2 class="ftco-heading-2 mb-3">Active Hours</h2>
+					<div class="opening-hours">
+					<h4 class="mb-2">Opening Days:</h4>
+					<p class="text-left mb-3">
+						<span>Monday – Friday  9am - 20 pm</span><br>
+						<span>Saturday 9am - 17 pm</span>
+					</p>
+					<h4 class="mb-2">Holiday:</h4>
+					<p class="text-left">
+						<span>All Sunday Days</span><br>
+						<span>All Official Holidays</span>
+					</p>
+					</div>
+				</div>
+				</div>
 			</div>
-		  </div>
-	  
-		  <!-- Copyright Row -->
-		  <div class="row">
-			<div class="col-md-12 text-center">
-			  <p class="mb-0">
-				Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | codespikestudio.in<i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://codespikestudio.onrender.com/" target="_blank">codespikestudio</a>
-			  </p>
+		
+			<!-- Copyright Row -->
+			<div class="row">
+				<div class="col-md-12 text-center">
+				<p class="mb-0">
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | codespikestudio.in<i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://codespikestudio.onrender.com/" target="_blank">codespikestudio</a>
+				</p>
+				</div>
 			</div>
-		  </div>
-		</div>
-	</footer>
+			</div>
+		</footer>
 
-  <!-- loader -->
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!-- loader -->
+	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
-  <script src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
-  <script src="{% static 'js/popper.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
-  <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
-  <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
-  <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
-  <script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
-  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-  <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-  <script src="{% static 'js/scrollax.min.js' %}"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="{% static 'js/google-map.js' %}"></script>
-  <script src="{% static 'js/main.js' %}"></script>
-    
-  </body>
-</html>
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+	<script src="{% static 'js/popper.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+	<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+	<script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+	<script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+	<script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+	<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+	<script src="{% static 'js/scrollax.min.js' %}"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+	<script src="{% static 'js/google-map.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+		
+	</body>
+	</html>
