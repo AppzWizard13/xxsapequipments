@@ -1,4 +1,6 @@
 {% extends 'admin_panel/index.html' %}
+{% load static %}
+
 {% block content %}
 
 <!-- Toast Messages -->
@@ -89,7 +91,7 @@
                 {% if product.images %}
                   <img src="{{ product.images.url }}" alt="Product Image" class="img-thumbnail" width="50">
                 {% else %}
-                  No Image
+                  <img src="{% static 'core/alt-image.png' %}" alt="Product image not available" class="img-thumbnail" width="50">
                 {% endif %}
               </td>
               <td>
