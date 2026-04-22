@@ -137,7 +137,7 @@
     }
 </script>
 <section class="hero-wrap hero-wrap-2" 
-    style="background-image: url('{% if product.images %}{{ product.images.url }}{% else %}/static/images/placeholder.jpg{% endif %}'); 
+    style="background-image: url('{% if product.images %}{{ product.images.url }}{% else %}{% static 'images/bg_1.jpg' %}{% endif %}');
            background-position: center; 
            background-size: cover; 
            background-repeat: no-repeat; 
@@ -178,7 +178,7 @@
                                     data-bs-target="#imageModal" 
                                     onclick="updateModalImage(this.src)">
                             {% else %}
-                                <img id="mainImage" src="/static/images/placeholder.jpg" alt="No Image Available" 
+                                <img id="mainImage" src="{% static 'core/alt-image.png' %}" alt="Product image not available" 
                                     class="img-fluid main-product-image" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#imageModal" 
@@ -664,7 +664,7 @@
                             {% if item.images %}
                                 <img src="{{ item.images.url }}" class="product-image" alt="{{ item.name }}">
                             {% else %}
-                                <img src="/static/images/placeholder.jpg" class="product-image" alt="No Image Available">
+                                <img src="{% static 'core/alt-image.png' %}" class="product-image" alt="Product image not available">
                             {% endif %}
                         </a>
                         <div class="text">
@@ -689,9 +689,11 @@
                     <div class="blog-entry">
                         <a href="{% url 'product_detail' item.id %}" class="block-20">
                             {% if item.images %}
+                                ppppppppppppppp
                                 <img src="{{ item.images.url }}" class="product-image" alt="{{ item.name }}">
                             {% else %}
-                                <img src="/static/images/placeholder.jpg" class="product-image" alt="No Image Available">
+                            qqqqqqqqqqqqqqq
+                                <img src="{% static 'core/alt-image.png' %}" class="product-image" alt="Product image not available">
                             {% endif %}
                         </a>
                         <div class="text">

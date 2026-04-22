@@ -66,7 +66,7 @@
               {% if product.images %}
                 <img src="{{ product.images.url }}" alt="{{ product.name }}" class="product-image">
               {% else %}
-                <img src="/static/images/placeholder.jpg" alt="No Image" class="product-image">
+                <img src="{% static 'core/alt-image.png' %}" alt="Product image not available" class="product-image">
               {% endif %}
             </a>
             <div class="text d-flex flex-column flex-grow-1 justify-content-between p-3">
