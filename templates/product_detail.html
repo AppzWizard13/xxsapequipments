@@ -689,10 +689,8 @@
                     <div class="blog-entry">
                         <a href="{% url 'product_detail' item.id %}" class="block-20">
                             {% if item.images %}
-                                ppppppppppppppp
                                 <img src="{{ item.images.url }}" class="product-image" alt="{{ item.name }}">
                             {% else %}
-                            qqqqqqqqqqqqqqq
                                 <img src="{% static 'core/alt-image.png' %}" class="product-image" alt="Product image not available">
                             {% endif %}
                         </a>
