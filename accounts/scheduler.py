@@ -14,6 +14,7 @@ PING_URLS = [
     'https://iron-board.onrender.com/',
     'https://iron-board-1zi5.onrender.com',
     'https://task-management-system-jhfi.onrender.com',
+    'https://bug-tracker-z4mi.onrender.com'
 ]
 
 def self_ping():
